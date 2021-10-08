@@ -11,7 +11,7 @@ import { ProfilerUI } from "./engine/ui/components/ProfilerUI";
 
 export const App = () => {
     useEffect(() => {
-        document.getElementById('root').appendChild(Renderer.domElement);
+        document.getElementById('root').appendChild(Renderer.canvas);
         Renderer.setSize(innerWidth, innerHeight);
 
         window.addEventListener('resize', () => {
@@ -42,6 +42,7 @@ export const App = () => {
 
         const animate = () => {
             requestAnimationFrame(animate);
+            Renderer.clearReact(new Vector2(0, 0), Renderer.getSize())
 
             systems.forEach(system => Profiler.profile(system.name, () => system.onUpdate()));
         };
