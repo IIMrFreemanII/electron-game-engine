@@ -1,32 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { Profiler, ProfileResult } from "../../Profiler";
-import './ProfileUI.css';
+import { round } from "../../../utils";
+
+import "./ProfileUI.css";
+
+const useProfile = () => {
+  const [data, setData] = useState<Record<string, number>>({});
+
+  const handleUpdate = (result: ProfileResult) => {
+    const { name, time } = result;
+    setData((prev) => ({
+      ...prev,
+      [name]: time,
+    }));
+  };
+
+  useEffect(() => {
+    Profiler.addListener(handleUpdate);
+
+    return () => Profiler.removeListener(handleUpdate);
+  });
+
+  return { data };
+};
 
 export const ProfilerUI = () => {
-    const [update, setUpdate] = useState(false);
+  const { data } = useProfile();
 
-    const handleUpdate = (result: ProfileResult) => {
-        // console.log(result);
-        setUpdate((prev) => !prev);
-    }
-
-    useEffect(() => {
-        Profiler.addListener(handleUpdate);
-
-        return () => Profiler.removeListener(handleUpdate);
-    });
-
-    const renderList = () => {
-        const list: React.ReactElement[] = [];
-
-        Profiler.data.forEach((value, key) => {
-            list.push(<div key={value} className="element">{`${key}: ${value.toFixed(4)}ms`}</div>)
-        })
-
-        return list;
-    };
-
-    return (
-        <div className="container">{renderList()}</div>
-    );
+  return (
+    <div className="container">
+      {Object.entries(data).map(([key, value]) => (
+        <div key={key} className="element">{`${key}: ${round(value, 4)}ms`}</div>
+      ))}
+    </div>
+  );
 };

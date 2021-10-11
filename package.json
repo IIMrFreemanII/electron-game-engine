@@ -9,7 +9,9 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "eslint --ext .ts,.tsx ."
+    "lint": "eslint --ext .ts,.tsx .",
+    "prettier": "prettier --ignore-path .gitignore \"**/*.+(mdx|js|json|ts|tsx)\"",
+    "prettier-format": "npm run prettier -- --write"
   },
   "keywords": [],
   "author": "mdiahovets",
@@ -82,6 +84,7 @@
     "eslint-plugin-import": "^2.20.0",
     "fork-ts-checker-webpack-plugin": "^6.0.1",
     "node-loader": "^2.0.0",
+    "prettier": "^2.4.1",
     "style-loader": "^3.0.0",
     "ts-loader": "^9.2.2",
     "typescript": "^4.0.2"

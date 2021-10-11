@@ -1,27 +1,22 @@
-import { ISystem } from "./ISystem";
+import { System } from "./System";
 import { EntityManager } from "../EntityManager";
 import { Transform } from "../components/transform";
 import { Circle } from "../components/circle";
 import { Renderer } from "../../renderer";
 
-export class RenderCircleSystem implements ISystem {
-    public name: string;
-    constructor() {
-        this.name = RenderCircleSystem.name;
-    }
+export class RenderCircleSystem extends System {
+  onUpdate() {
+    const entities = EntityManager.getAll();
+    entities.forEach((entity) => {
+      const transform = entity.getComponent(Transform);
+      const circle = entity.getComponent(Circle);
 
-    onUpdate() {
-        const entities = EntityManager.getAll();
-        entities.forEach((entity) => {
-            const transform = entity.getComponent(Transform.name);
-            const circle = entity.getComponent(Circle.name);
+      if (transform && circle) {
+        const { position } = transform;
+        const { radius } = circle;
 
-            if (transform && circle) {
-                const { position } = transform;
-                const { radius } = circle;
-
-                Renderer.drawCircle(position, radius)
-            }
-        });
-    }
+        Renderer.drawCircle(position, radius);
+      }
+    });
+  }
 }

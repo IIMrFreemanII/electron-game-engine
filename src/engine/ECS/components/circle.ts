@@ -1,10 +1,7 @@
-import { ComponentData } from "./component-data";
+export class Circle {
+  radius: number;
 
-export class Circle extends ComponentData {
-    radius: number;
-
-    constructor(radius: number) {
-        super(Circle);
-        this.radius = radius;
-    }
+  constructor(radius: number) {
+    this.radius = radius;
+  }
 }
