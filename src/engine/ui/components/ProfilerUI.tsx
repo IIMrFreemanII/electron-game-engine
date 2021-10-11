@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Profiler, ProfileResult } from "../../Profiler";
-import { round } from "../../../utils";
+import { round } from "utils";
 
 import "./ProfileUI.css";
 

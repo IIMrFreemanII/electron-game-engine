@@ -1,13 +1,12 @@
 import React, { useEffect } from "react";
-import { RenderSquareSystem } from "./engine/ECS/systems/RenderSquareSystem";
-import { EntityManager } from "./engine/ECS/EntityManager";
-import { Transform } from "./engine/ECS/components/transform";
 import { Vector2 } from "three";
-import { Square } from "./engine/ECS/components/square";
-import { RenderCircleSystem } from "./engine/ECS/systems/RenderCircleSystem";
-import { Renderer } from "./engine/renderer";
-import { Profiler } from "./engine/Profiler";
-import { ProfilerUI } from "./engine/ui/components/ProfilerUI";
+
+import { RenderSquareSystem } from "engine/ECS/systems/RenderSquareSystem";
+import { EntityManager } from "engine/ECS/EntityManager";
+import { Transform } from "engine/ECS/components/transform";
+import { Square } from "engine/ECS/components/square";
+import { RenderCircleSystem } from "engine/ECS/systems/RenderCircleSystem";
+import { Profiler, Renderer, ProfilerUI } from "engine";
 
 export const App = () => {
   useEffect(() => {

@@ -16,12 +16,12 @@
     "noEmit": true,
     "downlevelIteration": true,
     "jsx": "react-jsx",
-    "baseUrl": "src",
+    "baseUrl": "./src",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "noImplicitReturns": false,
     "strictPropertyInitialization": false,
     "noImplicitAny": false
   },
-  "include": ["src"]
+  "include": ["./src"]
 }
