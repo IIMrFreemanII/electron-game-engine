@@ -25,8 +25,6 @@ export const App = () => {
       const height = Math.random() * 10;
       const radius = Math.random() * 10;
 
-      // test
-
       EntityManager.create().addComponents([
         new Transform(new Vector2(x, y)),
         new Square(new Vector2(width, height)),
