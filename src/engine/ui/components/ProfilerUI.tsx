@@ -20,7 +20,7 @@ export const ProfilerUI = () => {
         const list: React.ReactElement[] = [];
 
         Profiler.data.forEach((value, key) => {
-            list.push(<div key={key} className="element">{`${key}: ${value.toFixed(4)}ms`}</div>)
+            list.push(<div key={value} className="element">{`${key}: ${value.toFixed(4)}ms`}</div>)
         })
 
         return list;
