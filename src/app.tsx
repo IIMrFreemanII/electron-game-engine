@@ -36,16 +36,22 @@ export const App = () => {
 
     const systems = [new RenderSquareSystem(), new RenderCircleSystem()];
 
-    const animate = () => {
-      requestAnimationFrame(animate);
+    let lastTime = 0;
+
+    const animate = (time) => {
+      const delta = time - lastTime;
+      lastTime = time;
+
       Renderer.clear();
 
       systems.forEach((system) =>
         Profiler.profile(system.constructor.name, () => system.onUpdate()),
       );
+
+      requestAnimationFrame(animate);
     };
 
-    animate();
+    animate(0);
   }, []);
 
   return <ProfilerUI />;
