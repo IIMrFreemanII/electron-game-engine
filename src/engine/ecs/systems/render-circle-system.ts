@@ -1,11 +1,11 @@
-import { System } from "./System";
-import { EntityManager } from "../EntityManager";
-import { Transform } from "../components/transform";
-import { Circle } from "../components/circle";
+import { System } from "./system";
+import { EntityManager } from "../entity-manager";
 import { Renderer } from "../../renderer";
+import { Circle } from "../components/circle";
+import { Transform } from "../components/transform";
 
 export class RenderCircleSystem extends System {
-  onUpdate() {
+  tick() {
     const entities = EntityManager.getAll();
     entities.forEach((entity) => {
       const transform = entity.getComponent(Transform);

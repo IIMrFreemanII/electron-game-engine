@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Profiler, ProfileResult } from "../../Profiler";
+import { Profiler, ProfileResult } from "../../../profiler";
 import { round } from "utils";
 
-import "./ProfileUI.css";
+import "./profiler-ui.css";
 
 const useProfile = () => {
   const [data, setData] = useState<Record<string, number>>({});
@@ -24,7 +24,7 @@ const useProfile = () => {
   return { data };
 };
 
-export const ProfilerUI = () => {
+export const ProfilerUi = () => {
   const { data } = useProfile();
 
   return (

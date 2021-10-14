@@ -1,10 +1,11 @@
 import { Constructor } from "../types";
+import { Component } from "./components/component";
 
 export class Entity {
   private static counter = 1;
 
   public id: number;
-  private components: any[] = [];
+  private components: Component[] = [];
 
   constructor() {
     this.id = Entity.counter;
@@ -19,7 +20,7 @@ export class Entity {
     this.components.push(...components);
   }
 
-  public getComponent<T>(type: Constructor<T>): T | undefined {
-    return this.components.find((component) => component.constructor.name === type.name);
+  public getComponent<T extends Component>(type: Constructor<T>): T | undefined {
+    return this.components.find((component) => component.type === type.name) as T;
   }
 }

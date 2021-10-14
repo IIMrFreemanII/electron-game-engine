@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { Vector2 } from "three";
-
-import { RenderSquareSystem } from "engine/ECS/systems/RenderSquareSystem";
-import { EntityManager } from "engine/ECS/EntityManager";
-import { Transform } from "engine/ECS/components/transform";
-import { Square } from "engine/ECS/components/square";
-import { RenderCircleSystem } from "engine/ECS/systems/RenderCircleSystem";
-import { Profiler, Renderer, ProfilerUI } from "engine";
+import { RenderSquareSystem } from "./engine/ecs/systems/render-square-system";
+import { EntityManager } from "./engine/ecs/entity-manager";
+import { RenderCircleSystem } from "./engine/ecs/systems/render-circle-system";
+import { Renderer } from "./engine/renderer";
+import { Transform } from "./engine/ecs/components/transform";
+import { Square } from "./engine/ecs/components/square";
+import { ProfilerUi } from "./engine/ui/components/profiler-ui";
+import { Profiler } from "./engine/profiler";
 
 export const App = () => {
   useEffect(() => {
@@ -17,7 +18,7 @@ export const App = () => {
       Renderer.setSize(innerWidth, innerHeight);
     });
 
-    for (let i = 0; i < 1000; i++) {
+    for (let i = 0; i < 100; i++) {
       const x = Math.random() * innerWidth;
       const y = Math.random() * innerHeight;
       const width = Math.random() * 10;
@@ -44,9 +45,7 @@ export const App = () => {
 
       Renderer.clear();
 
-      systems.forEach((system) =>
-        Profiler.profile(system.constructor.name, () => system.onUpdate()),
-      );
+      systems.forEach((system) => Profiler.profile(system.type, () => system.tick()));
 
       requestAnimationFrame(animate);
     };
@@ -54,5 +53,5 @@ export const App = () => {
     animate(0);
   }, []);
 
-  return <ProfilerUI />;
+  return <ProfilerUi />;
 };

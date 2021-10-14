@@ -1,8 +1,8 @@
-import { Entity } from "./ECS/Entity";
-import { System } from "./ECS/systems/System";
-import { Profiler } from "./Profiler";
+import { Profiler } from "../profiler";
+import { Entity } from "./entity";
+import { System } from "./systems/system";
 
-export class Scene {
+export class World {
   public entities: Entity[];
   public systems: System[];
 
@@ -13,9 +13,9 @@ export class Scene {
     this.systems.push(system);
   }
 
-  onUpdate() {
+  tick() {
     this.systems.forEach((system) =>
-      Profiler.profile(system.constructor.name, () => system.onUpdate()),
+      Profiler.profile(system.constructor.name, () => system.tick()),
     );
   }
 }

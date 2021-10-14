@@ -1,11 +1,11 @@
-import { System } from "./System";
-import { EntityManager } from "../EntityManager";
+import { Renderer } from "../../renderer";
+import { EntityManager } from "../entity-manager";
 import { Transform } from "../components/transform";
 import { Square } from "../components/square";
-import { Renderer } from "../../renderer";
+import { System } from "./system";
 
 export class RenderSquareSystem extends System {
-  onUpdate() {
+  tick() {
     const entities = EntityManager.getAll();
     entities.forEach((entity) => {
       const transform = entity.getComponent(Transform);
