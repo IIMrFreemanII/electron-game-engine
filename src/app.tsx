@@ -1,13 +1,11 @@
 import React, { useEffect } from "react";
-import { Vector2 } from "three";
 import { RenderSquareSystem } from "./engine/ecs/systems/render-square-system";
-import { EntityManager } from "./engine/ecs/entity-manager";
 import { RenderCircleSystem } from "./engine/ecs/systems/render-circle-system";
 import { Renderer } from "./engine/renderer";
-import { Transform } from "./engine/ecs/components/transform";
+import { Translation } from "./engine/ecs/components/translation";
 import { Square } from "./engine/ecs/components/square";
 import { ProfilerUi } from "./engine/ui/components/profiler-ui";
-import { Profiler } from "./engine/profiler";
+import { World } from "./engine/ecs/world";
 
 export const App = () => {
   useEffect(() => {
@@ -18,24 +16,33 @@ export const App = () => {
       Renderer.setSize(innerWidth, innerHeight);
     });
 
-    for (let i = 0; i < 100; i++) {
+    const world = new World();
+
+    for (let i = 0; i < 10; i++) {
       const x = Math.random() * innerWidth;
       const y = Math.random() * innerHeight;
       const width = Math.random() * 10;
       const height = Math.random() * 10;
-      const radius = Math.random() * 10;
+      // const radius = Math.random() * 10;
 
-      EntityManager.create().addComponents([
-        new Transform(new Vector2(x, y)),
-        new Square(new Vector2(width, height)),
-      ]);
-      // EntityManager.create().addComponents([
-      //     new Transform(new Vector2(x, y)),
-      //     new Circle(radius)
-      // ]);
+      const squareEntity = world.createEntity();
+      world.addComponent(squareEntity, Translation).value.set(x, y);
+      world.addComponent(squareEntity, Square).size.set(width, height);
+
+      // world.destroyEntity(squareEntity);
+      // world.destroyComponent(squareEntity, Translation);
+      // world.destroyComponent(squareEntity, Square);
+
+      // const squareEntity1 = world.createEntity();
+      // world.addComponent(squareEntity1, Translation).value.set(x, y);
+      // world.addComponent(squareEntity1, Square).size.set(width, height);
     }
 
-    const systems = [new RenderSquareSystem(), new RenderCircleSystem()];
+    world.addSystem(RenderSquareSystem);
+    world.addSystem(RenderCircleSystem);
+
+    console.log(world);
+    console.log(world.fromAll([Translation, Square]));
 
     let lastTime = 0;
 
@@ -43,9 +50,7 @@ export const App = () => {
       const delta = time - lastTime;
       lastTime = time;
 
-      Renderer.clear();
-
-      systems.forEach((system) => Profiler.profile(system.type, () => system.tick()));
+      world.tick();
 
       requestAnimationFrame(animate);
     };
@@ -53,5 +58,6 @@ export const App = () => {
     animate(0);
   }, []);
 
-  return <ProfilerUi />;
+  // return <ProfilerUi />;
+  return null;
 };
