@@ -1,47 +1,49 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { RenderSquareSystem } from "./engine/ecs/systems/render-square-system";
-import { RenderCircleSystem } from "./engine/ecs/systems/render-circle-system";
-import { Renderer } from "./engine/renderer";
 import { Translation } from "./engine/ecs/components/translation";
 import { Square } from "./engine/ecs/components/square";
 import { World } from "./engine/ecs/world";
-import { ProfilerUi } from "./engine/ui/components/profiler-ui";
+import { Vector2 } from "three";
+import { Editor } from "./engine/ui/components/editor";
+import { Renderer } from "./engine/renderer";
 
 export const App = () => {
+  const [worlds, setWorlds] = useState<World[]>([]);
+
   useEffect(() => {
-    document.getElementById("root")?.appendChild(Renderer.canvas);
-    Renderer.setSize(innerWidth, innerHeight);
-
-    window.addEventListener("resize", () => {
-      Renderer.setSize(innerWidth, innerHeight);
-    });
-
     const world = new World();
+    setWorlds((prev) => [...prev, world]);
+    const canvasSize = Renderer.getSize();
 
-    for (let i = 0; i < 100; i++) {
-      const x = Math.random() * innerWidth;
-      const y = Math.random() * innerHeight;
-      const width = Math.random() * 10;
-      const height = Math.random() * 10;
-      // const radius = Math.random() * 10;
+    const size = new Vector2(250, 250);
+    const squareEntity = world.createEntity();
+    world
+      .addComponent(squareEntity, Translation)
+      .value.set((canvasSize.width - size.x) * 0.5, (canvasSize.height - size.y) * 0.5);
+    world.addComponent(squareEntity, Square).size.copy(size);
 
-      const squareEntity = world.createEntity();
-      world.addComponent(squareEntity, Translation).value.set(x, y);
-      world.addComponent(squareEntity, Square).size.set(width, height);
-
-      // world.destroyEntity(squareEntity);
-      // world.destroyComponent(squareEntity, Translation);
-      // world.destroyComponent(squareEntity, Square);
-
-      // const squareEntity1 = world.createEntity();
-      // world.addComponent(squareEntity1, Translation).value.set(x, y);
-      // world.addComponent(squareEntity1, Square).size.set(width, height);
-    }
+    // for (let i = 0; i < 1; i++) {
+    //   const x = Math.random() * innerWidth;
+    //   const y = Math.random() * innerHeight;
+    //   const width = Math.random() * 500;
+    //   const height = Math.random() * 500;
+    //   // const radius = Math.random() * 10;
+    //
+    //   const squareEntity = world.createEntity();
+    //   world.addComponent(squareEntity, Translation).value.set(x, y);
+    //   world.addComponent(squareEntity, Square).size.set(width, height);
+    //
+    //   // world.destroyEntity(squareEntity);
+    //   // world.destroyComponent(squareEntity, Translation);
+    //   // world.destroyComponent(squareEntity, Square);
+    //
+    //   // const squareEntity1 = world.createEntity();
+    //   // world.addComponent(squareEntity1, Translation).value.set(x, y);
+    //   // world.addComponent(squareEntity1, Square).size.set(width, height);
+    // }
 
     world.addSystem(RenderSquareSystem);
     // world.addSystem(RenderCircleSystem);
-
-    console.log(world);
 
     let lastTime = 0;
 
@@ -57,6 +59,9 @@ export const App = () => {
     animate(0);
   }, []);
 
-  return <ProfilerUi enable={false} />;
-  // return null;
+  return (
+    <>
+      <Editor worlds={worlds} />
+    </>
+  );
 };
