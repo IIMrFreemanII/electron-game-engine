@@ -1,5 +1,4 @@
-import { Canvas } from "../canvas/canvas";
-import { ProfilerUi } from "../profiler-ui";
+import { Canvas } from "../canvas";
 import React, { FC } from "react";
 import { World } from "../../../ecs/world";
 
