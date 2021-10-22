@@ -5,16 +5,10 @@ import { System } from "../system";
 
 export class RenderSquareSystem extends System {
   tick() {
-    this.world.entities.forEach((entity) => {
-      const translation = this.world.getComponent(entity, Translation);
-      const square = this.world.getComponent(entity, Square);
+    this.world.fromAll(Translation, Square).forEach((value) => {
+      const [translation, square] = value as [Translation, Square];
 
-      if (translation && square) {
-        const { value: position } = translation;
-        const { size } = square;
-
-        Renderer.drawSquare(position, size);
-      }
+      Renderer.drawSquare(translation.value, square.size);
     });
   }
 }

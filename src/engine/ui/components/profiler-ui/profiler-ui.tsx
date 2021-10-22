@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Profiler, ProfileResult } from "../../../profiler";
 import { round } from "utils";
 
@@ -24,8 +24,12 @@ const useProfile = () => {
   return { data };
 };
 
-export const ProfilerUi = () => {
+export const ProfilerUi: FC<{ enable: boolean }> = ({ enable }) => {
   const { data } = useProfile();
+
+  if (!enable) {
+    return null;
+  }
 
   return (
     <div className="container">

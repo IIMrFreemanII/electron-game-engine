@@ -3,7 +3,7 @@ import { Entity } from "./entity";
 import { System } from "./system";
 import { Component } from "./component";
 import { Renderer } from "../renderer";
-import { ArrayElement, Constructor, ConstructorsTuple, TestConstructorsTuple } from "../types";
+import { Constructor } from "../types";
 
 export class World {
   public entities: Entity[] = [];
@@ -18,7 +18,8 @@ export class World {
   }
 
   addComponent<T extends Component>(entity: Entity, type: Constructor<T>): T {
-    const component = new type(entity);
+    const component = new type();
+    component.entity = entity;
 
     const components = this.components.get(type.name);
 
@@ -79,9 +80,16 @@ export class World {
 
   // [Transform, ...others]
   // (...arr) => {}
-  // fromAll<T extends Component[]>(...types: TestConstructorsTuple<T>): [[...T]] {
-  fromAll<T extends Component[]>(...types: ConstructorsTuple<T>): [[...T]] {
-    // fromAll<T extends Component[]>(...types: ConstructorsTuple<T>): [[...T]] {
+  fromAllCache: Map<string, Component[][]> = new Map<string, Component[][]>();
+
+  fromAll<T extends Component[]>(...types: Constructor<Component>[]): [[...T]] {
+    const typesSignature = JSON.stringify(types.map((type) => type.name));
+    const cached = this.fromAllCache.get(typesSignature);
+
+    if (cached) {
+      return cached as any;
+    }
+
     const componentsArr = types.map((type) => this.fromType(type));
 
     let smallest: Component[] = [];
@@ -112,6 +120,7 @@ export class World {
       });
     });
 
+    this.fromAllCache.set(typesSignature, final as any);
     return final as any;
   }
 
