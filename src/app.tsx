@@ -6,6 +6,7 @@ import { Translation } from "./engine/ecs/components/translation";
 import { Square } from "./engine/ecs/components/square";
 import { ProfilerUi } from "./engine/ui/components/profiler-ui";
 import { World } from "./engine/ecs/world";
+import { Entity } from "./engine/ecs/entity";
 
 export const App = () => {
   useEffect(() => {
@@ -42,7 +43,16 @@ export const App = () => {
     world.addSystem(RenderCircleSystem);
 
     console.log(world);
-    console.log(world.fromAll([Translation, Square]));
+    // console.log(world.fromAll(Translation, Square).forEach(([first, second]) => {}));
+    world
+      // .fromAll(new Square(new Entity()),new Translation(new Entity()), )
+      // .forEach(([translation, square]) => {
+      //   translation.value.set(1, 1);
+      // });
+      .fromAll(Translation, Square)
+      .forEach(([translation, square]) => {
+        console.log("");
+      });
 
     let lastTime = 0;
 

@@ -3,7 +3,7 @@ import { Entity } from "./entity";
 import { System } from "./system";
 import { Component } from "./component";
 import { Renderer } from "../renderer";
-import { Constructor } from "../types";
+import { ArrayElement, Constructor, ConstructorsTuple, TestConstructorsTuple } from "../types";
 
 export class World {
   public entities: Entity[] = [];
@@ -79,7 +79,9 @@ export class World {
 
   // [Transform, ...others]
   // (...arr) => {}
-  fromAll(types: Constructor<Component>[]) {
+  // fromAll<T extends Component[]>(...types: TestConstructorsTuple<T>): [[...T]] {
+  fromAll<T extends Component[]>(...types: ConstructorsTuple<T>): [[...T]] {
+    // fromAll<T extends Component[]>(...types: ConstructorsTuple<T>): [[...T]] {
     const componentsArr = types.map((type) => this.fromType(type));
 
     let smallest: Component[] = [];
@@ -110,7 +112,7 @@ export class World {
       });
     });
 
-    return final as Component[][];
+    return final as any;
   }
 
   tick() {
