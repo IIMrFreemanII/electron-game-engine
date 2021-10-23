@@ -1,6 +1,7 @@
 import { useDidMount, useResize } from "frontent/hooks";
 import { Renderer } from "../../../renderer";
 import { ProfilerUi } from "../profiler-ui";
+import { CANVAS_WRAPPER_ID } from "./canvas.constants";
 
 import styles from "./canvas.module.scss";
 
@@ -20,7 +21,7 @@ export const Canvas = () => {
   });
 
   return (
-    <div className={styles.container} ref={refCallback}>
+    <div id={CANVAS_WRAPPER_ID} className={styles.container} ref={refCallback}>
       <ProfilerUi enable={false} />
     </div>
   );

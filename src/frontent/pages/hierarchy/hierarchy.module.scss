@@ -1,0 +1,38 @@
+.container {
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  width: 30%;
+  min-width: 15%;
+  max-width: 50%;
+}
+
+.header {
+  padding: 8px 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.item {
+  padding: 6px 20px;
+  background-color: rgba(0, 0, 0, 0.4);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.item:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.dragZone {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 8px;
+  height: 100%;
+  transform: translateX(50%);
+}
+
+.dragZone:hover {
+  cursor: ew-resize;
+  background-color: #415A77;
+}

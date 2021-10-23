@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { Vector2 } from "three";
+
 import { RenderSquareSystem } from "./engine/ecs/systems/render-square-system";
 import { Translation } from "./engine/ecs/components/translation";
 import { Square } from "./engine/ecs/components/square";
 import { World } from "./engine/ecs/world";
-import { Vector2 } from "three";
 import { Editor } from "./engine/ui/components/editor";
 import { Renderer } from "./engine/renderer";
 

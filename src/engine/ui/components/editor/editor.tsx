@@ -1,9 +1,10 @@
 import React, { FC } from "react";
 
+import { Hierarchy } from "frontent/pages/hierarchy";
 import { Canvas } from "../canvas";
 import { World } from "../../../ecs/world";
 
-import "./index.css";
+import styles from "./editor.module.scss";
 
 type Props = {
   worlds: World[];
@@ -11,13 +12,8 @@ type Props = {
 
 export const Editor: FC<Props> = ({ worlds }) => {
   return (
-    <div className="editor">
-      <div className="hierarchy">
-        <div className="hierarchy-header">Hierarchy</div>
-        {worlds.map((world, i) => {
-          return <div key={i} className="hierarchy-item">{`World ${i + 1}`}</div>;
-        })}
-      </div>
+    <div className={styles.container}>
+      <Hierarchy worlds={worlds} />
       <Canvas />
     </div>
   );
