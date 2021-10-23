@@ -21,7 +21,6 @@ function useResolvedElement<T extends HTMLElement>(
 
   const callSubscriber = () => {
     let element: T | null = null;
-
     if (callbackRefElement.current) {
       element = callbackRefElement.current;
     } else if (refElement.current) {
@@ -60,7 +59,8 @@ function useResolvedElement<T extends HTMLElement>(
 type ResizeHandler<T extends HTMLElement> = (elementRect: ElementRect, element: T) => void;
 
 type HookResponse<T extends HTMLElement> = {
-  ref: RefCallback<T>;
+  ref: RefObject<T>;
+  refCallback: RefCallback<T>;
   elementRectRef: NonNullableKeys<RefObject<ElementRect>>;
 };
 
@@ -72,6 +72,8 @@ export const useResize = <T extends HTMLElement>(
   onResizeRef.current = onResize;
 
   const resizeObserverRef = useRef<ResizeObserver>();
+
+  const elementRef = useRef(ref);
 
   const elementRectRef = useRef(initialElementRect);
 
@@ -86,6 +88,7 @@ export const useResize = <T extends HTMLElement>(
         const newSize = element.getBoundingClientRect();
 
         onResizeRef.current && onResizeRef.current(newSize, element);
+        elementRef.current = element;
         elementRectRef.current = newSize;
       });
     }
@@ -99,7 +102,7 @@ export const useResize = <T extends HTMLElement>(
     };
   }, ref);
 
-  return { ref: refCallback, elementRectRef };
+  return { ref: elementRef as any, refCallback, elementRectRef };
 };
 
 export default useResize;
