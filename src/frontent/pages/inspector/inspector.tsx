@@ -4,6 +4,7 @@ import cn from "classnames";
 import { Entity } from "engine/ecs/entity";
 import { EntitySelection } from "engine/entity-selection";
 import { useDidMount } from "frontent/hooks";
+import { ComponentView } from "../../components/component-view";
 
 import styles from "./inspector.module.scss";
 
@@ -28,7 +29,14 @@ export const Inspector: React.FC<InspectorProps> = memo(({ className = "" }: Ins
   return (
     <div className={cn(styles.container, className)}>
       <div className={styles.header}>Inspector</div>
-      {inspectedEntity && <div>Entity: {inspectedEntity?.id}</div>}
+      {inspectedEntity && (
+        <div>
+          <div>Entity: {inspectedEntity?.id}</div>
+          {inspectedEntity.components.map((component, i) => (
+            <ComponentView key={i} component={component} />
+          ))}
+        </div>
+      )}
     </div>
   );
 });

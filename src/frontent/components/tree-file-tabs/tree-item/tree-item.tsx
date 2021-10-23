@@ -1,7 +1,7 @@
 import React, { memo, useRef } from "react";
 import cn from "classnames";
 
-import { CollapseSelfControlled } from "frontent/components";
+import { CollapseSelfControlled } from "frontent/components/index";
 import { Nullable } from "frontent/models";
 import { isEqual } from "frontent/utils";
 import { TreeItemType, TreeFolderItemContentType } from "../tree-file-tabs.types";
