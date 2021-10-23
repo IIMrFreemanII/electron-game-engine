@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useRef } from "react";
 
+import { useDidMount } from "frontent/hooks";
 import { Renderer } from "../../../renderer";
 import { ProfilerUi } from "../profiler-ui";
 
@@ -16,8 +17,9 @@ export const Canvas = () => {
     Renderer.setSize(rect.width, rect.height);
   }, []);
 
-  useEffect(() => {
+  useDidMount(() => {
     const { current } = containerRef;
+
     if (current) {
       const rect = current.getBoundingClientRect();
       Renderer.setSize(rect.width, rect.height);
@@ -26,10 +28,8 @@ export const Canvas = () => {
 
     window.addEventListener("resize", handleResize);
 
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+    return () => window.removeEventListener("resize", handleResize);
+  });
 
   return (
     <div className={styles.container} ref={containerRef}>

@@ -18,10 +18,27 @@ rules.push({
     "sass-loader",
   ],
 });
+
 rules.push({
   test: /\.s?[ac]ss$/i,
   use: ["style-loader", "css-loader", "sass-loader"],
   exclude: /\.module\.s?[ac]ss$/,
+});
+
+rules.push({
+  test: /\.(png|jpg|gif|woff(2)?|ttf|eot)$/,
+  use: ["file-loader"],
+});
+
+rules.push({
+  test: /\.svg$/,
+  use: [
+    {
+      loader: "@svgr/webpack",
+      options: { svgoConfig: { plugins: { removeViewBox: false } } },
+    },
+    "file-loader",
+  ],
 });
 
 module.exports = {

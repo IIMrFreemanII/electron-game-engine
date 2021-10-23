@@ -1,5 +1,6 @@
-import { Canvas } from "../canvas";
 import React, { FC } from "react";
+
+import { Canvas } from "../canvas";
 import { World } from "../../../ecs/world";
 
 import "./index.css";
