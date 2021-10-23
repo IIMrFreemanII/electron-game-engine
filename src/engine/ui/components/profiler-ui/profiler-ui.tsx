@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
+
+import { round } from "frontent/utils";
 import { Profiler, ProfileResult } from "../../../profiler";
-import { round } from "utils";
 
 import "./profiler-ui.css";
 
