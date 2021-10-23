@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useRef } from "react";
+
 import { Renderer } from "../../../renderer";
 import { ProfilerUi } from "../profiler-ui";
 
-// import styles from "./canvas.module.css";
+import styles from "./canvas.module.scss";
 
 export const Canvas = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -31,7 +32,7 @@ export const Canvas = () => {
   }, []);
 
   return (
-    <div className="canvas-container" ref={containerRef}>
+    <div className={styles.container} ref={containerRef}>
       <ProfilerUi enable={false} />
     </div>
   );

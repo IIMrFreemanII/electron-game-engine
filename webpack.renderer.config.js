@@ -5,7 +5,7 @@ const path = require("path");
 rules.push({
   test: /\.module\.s?[ac]ss$/,
   use: [
-    { loader: "style-loader" },
+    "style-loader",
     {
       loader: "css-loader",
       options: {
@@ -15,7 +15,7 @@ rules.push({
         },
       },
     },
-    { loader: "sass-loader" },
+    "sass-loader",
   ],
 });
 rules.push({
