@@ -1,30 +1,40 @@
-// import { Constructor } from "../types";
-// import { Component } from "./component";
+import { Component } from "./component";
+import { Constructor } from "../types";
+import { World } from "./world";
 
 export class Entity {
   private static counter = 0;
-  public id: number;
+  id: number;
+  components: Component[] = [];
+  world: World;
 
-  // private components: Component[] = [];
-
-  constructor() {
+  constructor(world: World) {
     this.id = Entity.counter;
+    this.world = world;
     Entity.counter++;
   }
 
-  // public addComponent<T extends Component>(component: Constructor<T>): T {
-  //   const instance = new component();
-  //
-  //   this.components.push(instance);
-  //
-  //   return instance as T;
-  // }
-  //
-  // public getComponent<T extends Component>(type: Constructor<T>): T | undefined {
-  //   return this.components.find((component) => component.type === type.name) as T;
-  // }
-  //
-  // public getComponents(): Component[] {
-  //   return this.components;
-  // }
+  addComponent<T extends Component>(type: Constructor<T>): T {
+    const component = new type();
+    component.entity = this;
+    this.components.push(component);
+    this.world.addComponent(component);
+
+    return component;
+  }
+
+  removeComponent(component: Component) {
+    this.components = this.components.filter((item) => item !== component);
+    this.world.removeComponent(component);
+  }
+
+  clearComponents() {
+    this.components.forEach((component) => {
+      this.removeComponent(component);
+    });
+  }
+
+  getComponent<T extends Component>(type: Constructor<T>): T | undefined {
+    return this.components.find((component) => component.type === type.name) as T;
+  }
 }

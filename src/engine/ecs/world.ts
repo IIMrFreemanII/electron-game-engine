@@ -7,67 +7,39 @@ import { Constructor } from "../types";
 
 export class World {
   public entities: Entity[] = [];
-  private mapEntityIdToComponents = new Map<number, Component[]>();
   public components = new Map<string, Component[]>();
   public systems: System[] = [];
 
   createEntity(): Entity {
-    const entity = new Entity();
+    const entity = new Entity(this);
     this.entities.push(entity);
     return entity;
   }
 
-  addComponent<T extends Component>(entity: Entity, type: Constructor<T>): T {
-    const component = new type();
-    component.entity = entity;
-
-    const components = this.components.get(type.name);
+  addComponent<T extends Component>(component: T) {
+    const components = this.components.get(component.type);
 
     if (components) {
       components.push(component);
     } else {
-      this.components.set(type.name, [component]);
+      this.components.set(component.type, [component]);
     }
-
-    const entityComponents = this.mapEntityIdToComponents.get(entity.id);
-    if (entityComponents) {
-      entityComponents.push(component);
-    } else {
-      this.mapEntityIdToComponents.set(entity.id, [component]);
-    }
-
-    return component as T;
   }
 
-  getComponent<T extends Component>(entity: Entity, type: Constructor<T>): T | undefined {
-    const components = this.mapEntityIdToComponents.get(entity.id);
-    return components?.find((component) => component.type === type.name) as T;
-  }
-
-  destroyComponent<T extends Component>(entity: Entity, component: T): boolean {
-    const entityComponents = this.mapEntityIdToComponents.get(entity.id);
+  removeComponent<T extends Component>(component: T) {
     const components = this.components.get(component.type);
 
-    if (entityComponents && components) {
-      const newEntityComponents = entityComponents.filter((item) => item !== component);
-      this.mapEntityIdToComponents.set(entity.id, newEntityComponents);
-
-      const newComponents = components.filter((item) => item !== component);
-      this.components.set(component.type, newComponents);
-
-      return true;
+    if (components) {
+      this.components.set(
+        component.type,
+        components.filter((item) => item !== component),
+      );
     }
-
-    return false;
   }
 
-  destroyEntity(entity: Entity) {
-    this.entities = this.entities.filter((ent) => ent.id !== entity.id);
-    const components = this.mapEntityIdToComponents.get(entity.id);
-    components?.forEach((component) => {
-      this.destroyComponent(entity, component);
-    });
-    this.mapEntityIdToComponents.delete(entity.id);
+  removeEntity(entity: Entity) {
+    entity.clearComponents();
+    this.entities = this.entities.filter((ent) => ent !== entity);
   }
 
   addSystem<T extends System>(type: Constructor<T>) {
@@ -106,17 +78,14 @@ export class World {
     });
 
     const result = smallest.filter((component) => {
-      const { entity } = component;
       return types.every((type) => {
-        return this.getComponent(entity, type);
+        return component.entity.getComponent(type);
       });
     });
 
     const final = result.map((component) => {
-      const { entity } = component;
-
       return types.map((type) => {
-        return this.getComponent(entity, type);
+        return component.entity.getComponent(type);
       });
     });
 

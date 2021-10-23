@@ -18,10 +18,10 @@ export const App = () => {
 
     const size = new Vector2(250, 250);
     const squareEntity = world.createEntity();
-    world
-      .addComponent(squareEntity, Translation)
+    squareEntity
+      .addComponent(Translation)
       .value.set((canvasSize.width - size.x) * 0.5, (canvasSize.height - size.y) * 0.5);
-    world.addComponent(squareEntity, Square).size.copy(size);
+    squareEntity.addComponent(Square).size.copy(size);
 
     // for (let i = 0; i < 1; i++) {
     //   const x = Math.random() * innerWidth;
