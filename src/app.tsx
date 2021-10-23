@@ -5,7 +5,7 @@ import { RenderSquareSystem } from "./engine/ecs/systems/render-square-system";
 import { Translation } from "./engine/ecs/components/translation";
 import { Square } from "./engine/ecs/components/square";
 import { World } from "./engine/ecs/world";
-import { Editor } from "./engine/ui/components/editor";
+import { Editor } from "frontent/pages";
 import { Renderer } from "./engine/renderer";
 
 export const App = () => {

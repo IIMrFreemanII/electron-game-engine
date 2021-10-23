@@ -1,8 +1,8 @@
 import React, { FC } from "react";
 
-import { Hierarchy } from "frontent/pages/hierarchy";
-import { Canvas } from "../canvas";
-import { World } from "../../../ecs/world";
+import { World } from "engine/ecs/world";
+import { Hierarchy, Inspector } from "frontent/pages";
+import { Canvas } from "./components/canvas";
 
 import styles from "./editor.module.scss";
 
@@ -15,6 +15,7 @@ export const Editor: FC<Props> = ({ worlds }) => {
     <div className={styles.container}>
       <Hierarchy worlds={worlds} />
       <Canvas />
+      <Inspector />
     </div>
   );
 };

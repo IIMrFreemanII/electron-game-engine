@@ -1,0 +1,34 @@
+:root {
+  /* Color Palette ↓ */
+  --palette-base: #fff;
+  --palette-base-opposite: #000;
+
+  /* Color Palette ↑ */
+
+  /* ------------------------------------------------------------------------------------------ */
+
+
+  /* Global Styles ↓ */
+  //--global-scroll-background-color: #dadada;
+  //--global-scroll-background-hover-color: #dadada;
+  //--global-scroll-background-active-color: #dadada;
+  //--global-scroll-track-color: var(--palette-base);
+
+  --global-scroll-background-color: var(--palette-base-oppositebase);
+  --global-scroll-background-hover-color: var(--palette-base-opposite);
+  --global-scroll-background-active-color: var(--palette-base-opposite);
+  --global-scroll-track-color: var(--palette-base-opposite);
+  /* Global ↑ */
+
+
+  /* ------ UI COMPONENTS ↓ ------ */
+
+  /* TreeFileTabs ↓ */
+  --tree-file-tree-item-non-clickable-name: grey;
+  --tree-file-tree-item-name: red;
+  --tree-file-tree-item-selected-name: orange;
+  /* TreeFileTabs  Unique Styles */
+  /* TreeFileTabs ↑ */
+
+  /* ------ UI COMPONENTS ↑ ------ */
+}

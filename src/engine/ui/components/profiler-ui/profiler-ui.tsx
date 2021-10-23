@@ -20,7 +20,7 @@ const useProfile = () => {
     Profiler.addListener(handleUpdate);
 
     return () => Profiler.removeListener(handleUpdate);
-  });
+  }, []);
 
   return { data };
 };

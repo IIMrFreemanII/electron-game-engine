@@ -26,7 +26,8 @@
  * ```
  */
 
-import "frontent/assets/styles/index.css";
+import "frontent/assets/styles/index.scss";
+import "frontent/assets/styles/light-theme.scss";
 import "./index.tsx";
 
 console.log('👋 This message is being logged by "renderer.js", included via webpack');

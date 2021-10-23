@@ -1,6 +1,6 @@
 import { useDidMount, useResize } from "frontent/hooks";
-import { Renderer } from "../../../renderer";
-import { ProfilerUi } from "../profiler-ui";
+import { Renderer } from "engine/renderer";
+import { ProfilerUi } from "engine/ui/components/profiler-ui";
 import { CANVAS_WRAPPER_ID } from "./canvas.constants";
 
 import styles from "./canvas.module.scss";

@@ -1,0 +1,84 @@
+/*  Scroll Styling ↓ */
+.addScrollStyles::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+}
+
+.addScrollStyles::-webkit-scrollbar-thumb {
+  background-color: var(--global-scroll-background-color);
+  border-radius: 15px;
+}
+
+.addScrollStyles::-webkit-scrollbar-thumb:hover {
+  background-color: var(--global-scroll-background-hover-color);
+}
+
+.addScrollStyles::-webkit-scrollbar-thumb:active {
+  background-color: var(--global-scroll-background-active-color);
+}
+
+.addScrollStyles::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
+
+.addScrollStyles::-webkit-scrollbar-track {
+  background-color: var(--global-scroll-track-color);
+  border-radius: 3px;
+}
+
+.hideScrollBar::-webkit-scrollbar {
+  height: 0;
+  width: 0;
+}
+
+.hideOverflow {
+  overflow: hidden;
+}
+
+/*  Scroll Styling ↑ */
+
+
+/*  Text-Overflowed Styling ↓ */
+.applySingleOverflow {
+  display: inline-block !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  min-width: initial;
+  max-width: 100%;
+}
+
+.applyMultiOverflow {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  word-break: break-word !important;
+  min-width: initial !important;
+}
+
+/*  Text-Overflowed Styling ↑ */
+
+
+/* Misc Styling ↓ */
+/* make element invisible but keep it's sizes, position and remove ability to interact with it */
+.hideElement {
+  pointer-events: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  cursor: initial !important;
+}
+
+/* make element invisible but leave the possibility of interaction */
+.maskElement {
+  position: absolute !important;
+  opacity: 0 !important;
+}
+
+/* make element disappear */
+.deleteElement {
+  display: none !important;
+}
+
+/* Misc Styling ↑ */

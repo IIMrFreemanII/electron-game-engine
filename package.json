@@ -96,6 +96,7 @@
   },
   "dependencies": {
     "classnames": "^2.3.1",
+    "cuid": "^2.1.8",
     "electron-squirrel-startup": "^1.0.0",
     "eventemitter3": "^4.0.7",
     "react": "^17.0.2",

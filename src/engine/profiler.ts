@@ -6,7 +6,7 @@ export type ProfileResult = {
 };
 
 export class Profiler {
-  static emitter = new EventEmitter();
+  private static emitter = new EventEmitter();
 
   public static profile(name: string, callback: () => void) {
     const start = performance.now();
