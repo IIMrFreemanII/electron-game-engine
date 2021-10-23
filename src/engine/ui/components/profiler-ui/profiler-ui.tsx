@@ -3,7 +3,7 @@ import React, { FC, useEffect, useState } from "react";
 import { round } from "frontent/utils";
 import { Profiler, ProfileResult } from "../../../profiler";
 
-import "./profiler-ui.css";
+import styles from "./profiler-ui.module.scss";
 
 const useProfile = () => {
   const [data, setData] = useState<Record<string, number>>({});
@@ -33,9 +33,9 @@ export const ProfilerUi: FC<{ enable: boolean }> = ({ enable }) => {
   }
 
   return (
-    <div className="container">
+    <div className={styles.container}>
       {Object.entries(data).map(([key, value]) => (
-        <div key={key} className="element">{`${key}: ${round(value, 4)}ms`}</div>
+        <div key={key} className={styles.element}>{`${key}: ${round(value, 4)}ms`}</div>
       ))}
     </div>
   );
