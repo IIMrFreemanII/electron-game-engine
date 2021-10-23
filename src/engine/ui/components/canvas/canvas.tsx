@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef } from "react";
 import { Renderer } from "../../../renderer";
-
-import "./index.css";
 import { ProfilerUi } from "../profiler-ui";
+
+// import styles from "./canvas.module.css";
 
 export const Canvas = () => {
   const containerRef = useRef<HTMLDivElement>(null);
