@@ -31,7 +31,7 @@ export const Inspector: React.FC<InspectorProps> = memo(({ className = "" }: Ins
       <div className={styles.header}>Inspector</div>
       {inspectedEntity && (
         <div>
-          <div>Entity: {inspectedEntity?.id}</div>
+          <div>Entity {inspectedEntity?.id}</div>
           {inspectedEntity.components.map((component, i) => (
             <ComponentView key={i} component={component} />
           ))}

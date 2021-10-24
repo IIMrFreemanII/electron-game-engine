@@ -7,6 +7,7 @@ import { Square } from "./engine/ecs/components/square";
 import { World } from "./engine/ecs/world";
 import { Editor } from "frontent/pages";
 import { Renderer } from "./engine/renderer";
+import { Player } from "./engine/ecs/components/player";
 
 export const App = () => {
   const [worlds, setWorlds] = useState<World[]>([]);
@@ -22,6 +23,7 @@ export const App = () => {
       .addComponent(Translation)
       .value.set((canvasSize.width - size.x) * 0.5, (canvasSize.height - size.y) * 0.5);
     squareEntity.addComponent(Square).size.copy(size);
+    squareEntity.addComponent(Player);
 
     // for (let i = 0; i < 1; i++) {
     //   const x = Math.random() * innerWidth;
