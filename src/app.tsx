@@ -17,13 +17,16 @@ export const App = () => {
     setWorlds((prev) => [...prev, world]);
     const canvasSize = Renderer.getSize();
 
-    const size = new Vector2(250, 250);
-    const squareEntity = world.createEntity();
-    squareEntity
-      .addComponent(Translation)
-      .value.set((canvasSize.width - size.x) * 0.5, (canvasSize.height - size.y) * 0.5);
-    squareEntity.addComponent(Square).size.copy(size);
-    squareEntity.addComponent(Player);
+    for (let i = 0; i < 2; i++) {
+      const size = new Vector2(250, 250);
+      const squareEntity = world.createEntity();
+      squareEntity
+        .addComponent(Translation)
+        .value.set((canvasSize.width - size.x) * 0.5, (canvasSize.height - size.y) * 0.5);
+      squareEntity.addComponent(Square).size.copy(size);
+
+      // squareEntity.addComponent(Player);
+    }
 
     // for (let i = 0; i < 1; i++) {
     //   const x = Math.random() * innerWidth;
@@ -47,6 +50,8 @@ export const App = () => {
 
     world.addSystem(RenderSquareSystem);
     // world.addSystem(RenderCircleSystem);
+
+    world.init();
 
     let lastTime = 0;
 

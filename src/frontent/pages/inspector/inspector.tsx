@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { memo, useEffect, useLayoutEffect, useState } from "react";
 import cn from "classnames";
 
 import { Entity } from "engine/ecs/entity";
@@ -15,9 +15,23 @@ export interface InspectorProps {
 const useInspect = () => {
   const [data, setData] = useState<Entity | null>(null);
 
+  useEffect(() => {
+    return () => {
+      data?.removeComponentsProxy();
+    };
+  }, [data]);
+
+  const handleSelect = (entity: Entity | null) => {
+    if (entity) {
+      entity.addComponentsProxy();
+    }
+
+    setData(entity);
+  };
+
   useDidMount(() => {
-    EntitySelection.addListener("select", setData);
-    return () => EntitySelection.removeListener("select", setData);
+    EntitySelection.addListener("select", handleSelect);
+    return () => EntitySelection.removeListener("select", handleSelect);
   });
 
   return data;
@@ -25,6 +39,11 @@ const useInspect = () => {
 
 export const Inspector: React.FC<InspectorProps> = memo(({ className = "" }: InspectorProps) => {
   const inspectedEntity = useInspect();
+
+  // inspectedEntity?.components.forEach((comp) => {
+  //   console.log(comp);
+  // });
+  console.log("inspector render");
 
   return (
     <div className={cn(styles.container, className)}>

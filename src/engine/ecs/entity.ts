@@ -1,4 +1,4 @@
-import { Component } from "./component";
+import { Component, proxyComponent, removeProxy } from "./component";
 import { Constructor } from "../types";
 import { World } from "./world";
 
@@ -20,7 +20,7 @@ export class Entity {
     this.components.push(component);
     this.world.addComponent(component);
 
-    return component;
+    return component as any;
   }
 
   removeComponent(component: Component) {
@@ -36,5 +36,17 @@ export class Entity {
 
   getComponent<T extends Component>(type: Constructor<T>): T | undefined {
     return this.components.find((component) => component.type === type.name) as T;
+  }
+
+  addComponentsProxy() {
+    for (let i = 0; i < this.components.length; i++) {
+      this.components[i] = this.world.replaceWithProxy(this.components[i]);
+    }
+  }
+
+  removeComponentsProxy() {
+    for (let i = 0; i < this.components.length; i++) {
+      this.components[i] = this.world.replaceProxyWithComponent(this.components[i]);
+    }
   }
 }

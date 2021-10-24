@@ -23,14 +23,14 @@ export const Hierarchy: React.FC<HierarchyProps> = memo(
     // const isInDragRef = useRef(false);
     // const widthPercentageRef = useRef(0);
 
-    useDidMount(() => {
-      const container = containerRef.current;
-      if (!container) return;
-      applyCSSToElement(container, {
-        minWidth: MIN_WIDTH_PERCENTAGE + "%",
-        maxWidth: MAX_WIDTH_PERCENTAGE + "%",
-      });
-    });
+    // useDidMount(() => {
+    //   const container = containerRef.current;
+    //   if (!container) return;
+    //   applyCSSToElement(container, {
+    //     minWidth: MIN_WIDTH_PERCENTAGE + "%",
+    //     maxWidth: MAX_WIDTH_PERCENTAGE + "%",
+    //   });
+    // });
 
     // const handleDragZoneDown = (e: React.MouseEvent) => {
     //   e.preventDefault();

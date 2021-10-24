@@ -1,27 +1,36 @@
-import { useDidMount, useResize } from "frontent/hooks";
+import { useDidMount } from "frontent/hooks";
 import { Renderer } from "engine/renderer";
 import { ProfilerUi } from "frontent/components/profiler-ui";
 import { CANVAS_WRAPPER_ID } from "./canvas.constants";
 
 import styles from "./canvas.module.scss";
+import { useCallback, useEffect, useRef } from "react";
 
 export const Canvas = () => {
-  const { ref, refCallback, elementRectRef } = useResize(null, (elementRect) => {
-    const { width, height } = elementRect;
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleResize = useCallback(() => {
+    const { current } = containerRef;
+    if (!current) return;
+    const { width, height } = current.getBoundingClientRect();
     Renderer.setSize(width, height);
-  });
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useDidMount(() => {
-    const current = ref.current;
+    const { current } = containerRef;
     if (!current) return;
-
-    const { width, height } = elementRectRef.current;
+    const { width, height } = current.getBoundingClientRect();
     Renderer.setSize(width, height);
     current.appendChild(Renderer.canvas);
   });
 
   return (
-    <div id={CANVAS_WRAPPER_ID} className={styles.container} ref={refCallback}>
+    <div id={CANVAS_WRAPPER_ID} className={styles.container} ref={containerRef}>
       <ProfilerUi enable={false} />
     </div>
   );

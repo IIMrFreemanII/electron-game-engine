@@ -5,6 +5,8 @@ export class System {
 
   tick(): void {}
 
+  init(): void {}
+
   get type() {
     return this.constructor.name;
   }

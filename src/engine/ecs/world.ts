@@ -1,7 +1,7 @@
 import { Profiler } from "../profiler";
 import { Entity } from "./entity";
 import { System } from "./system";
-import { Component } from "./component";
+import { Component, proxyComponent, removeProxy } from "./component";
 import { Renderer } from "../renderer";
 import { Constructor } from "../types";
 
@@ -9,6 +9,39 @@ export class World {
   public entities: Entity[] = [];
   public components = new Map<string, Component[]>();
   public systems: System[] = [];
+
+  getComponentIndex(component: Component) {
+    const arr = this.components.get(component.type);
+    return arr?.indexOf(component);
+  }
+
+  replaceWithProxy(component: Component) {
+    const index = this.getComponentIndex(component);
+    const proxy = proxyComponent(component);
+    const arr = this.components.get(component.type);
+
+    if (arr && index !== -1 && index !== undefined) {
+      arr[index] = proxy;
+    }
+
+    this.fromAllCache.clear();
+
+    return proxy;
+  }
+
+  replaceProxyWithComponent(proxyComponent: Component) {
+    const index = this.getComponentIndex(proxyComponent);
+    const component = removeProxy(proxyComponent);
+    const arr = this.components.get(component.type);
+
+    if (arr && index !== -1 && index !== undefined) {
+      arr[index] = component;
+    }
+
+    this.fromAllCache.clear();
+
+    return component;
+  }
 
   createEntity(): Entity {
     const entity = new Entity(this);
@@ -97,5 +130,9 @@ export class World {
     Renderer.clear();
 
     this.systems.forEach((system) => Profiler.profile(system.type, () => system.tick()));
+  }
+
+  init() {
+    this.systems.forEach((system) => system.init());
   }
 }
