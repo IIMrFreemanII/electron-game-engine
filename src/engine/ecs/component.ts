@@ -6,6 +6,10 @@ export const isProxy = (obj) => {
 };
 
 export const proxyComponent = (object: any) => {
+  if (isProxy(object)) {
+    return object;
+  }
+
   Object.entries(object).forEach(([key, value]) => {
     if (typeof value === "object" && key !== "entity") {
       object[key] = proxyComponent(value);
@@ -27,21 +31,11 @@ export const proxyComponent = (object: any) => {
       return target;
     },
   });
-  // Object.defineProperty(proxy, "getTarget", {
-  //   value: function () {
-  //     return object;
-  //   },
-  //   enumerable: false,
-  //   writable: false,
-  //   configurable: true,
-  // });
-  // return proxy;
 };
 
 export const removeProxy = (object: any) => {
   if (isProxy(object)) {
     const result = object.__target;
-    // delete result.getTarget;
 
     Object.entries(object).forEach(([key, value]) => {
       result[key] = removeProxy(value);
