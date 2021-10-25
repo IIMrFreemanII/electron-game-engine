@@ -2,7 +2,7 @@ import { Entity } from "./entity";
 import EventEmitter from "eventemitter3";
 
 export const isProxy = (obj) => {
-  return !!obj.getTarget;
+  return !!obj.__target;
 };
 
 export const proxyComponent = (object: any) => {
@@ -12,7 +12,7 @@ export const proxyComponent = (object: any) => {
     }
   });
 
-  const proxy = new Proxy(object, {
+  return new Proxy(object, {
     set(target, prop, value) {
       if (prop !== "entity") {
         Component.handleUpdate(target, prop, value);
@@ -20,22 +20,28 @@ export const proxyComponent = (object: any) => {
       target[prop] = value;
       return true;
     },
-  });
-  Object.defineProperty(proxy, "getTarget", {
-    value: function () {
-      return object;
+    get(target, prop) {
+      if (prop !== "__target") {
+        return target[prop];
+      }
+      return target;
     },
-    enumerable: false,
-    writable: false,
-    configurable: true,
   });
-  return proxy;
+  // Object.defineProperty(proxy, "getTarget", {
+  //   value: function () {
+  //     return object;
+  //   },
+  //   enumerable: false,
+  //   writable: false,
+  //   configurable: true,
+  // });
+  // return proxy;
 };
 
 export const removeProxy = (object: any) => {
   if (isProxy(object)) {
-    const result = object.getTarget();
-    delete result.getTarget;
+    const result = object.__target;
+    // delete result.getTarget;
 
     Object.entries(object).forEach(([key, value]) => {
       result[key] = removeProxy(value);

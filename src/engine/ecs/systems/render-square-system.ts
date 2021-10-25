@@ -7,6 +7,7 @@ import { Mouse } from "../../input/mouse";
 export class RenderSquareSystem extends System {
   tick() {
     this.world.fromAll(Translation, Square).forEach((value) => {
+      // const [translation] = value as [Translation];
       const [translation, square] = value as [Translation, Square];
 
       // console.log(translation);

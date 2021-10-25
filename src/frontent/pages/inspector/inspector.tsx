@@ -1,9 +1,8 @@
-import React, { memo, useEffect, useLayoutEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import cn from "classnames";
 
 import { Entity } from "engine/ecs/entity";
 import { EntitySelection } from "engine/entity-selection";
-import { useDidMount } from "frontent/hooks";
 import { ComponentView } from "../../components/component-view";
 
 import styles from "./inspector.module.scss";
@@ -15,24 +14,18 @@ export interface InspectorProps {
 const useInspect = () => {
   const [data, setData] = useState<Entity | null>(null);
 
-  useEffect(() => {
-    return () => {
-      data?.removeComponentsProxy();
-    };
-  }, [data]);
-
   const handleSelect = (entity: Entity | null) => {
-    if (entity) {
-      entity.addComponentsProxy();
-    }
-
-    setData(entity);
+    entity?.addComponentsProxy();
+    setData((prev) => {
+      prev?.removeComponentsProxy();
+      return entity;
+    });
   };
 
-  useDidMount(() => {
+  useEffect(() => {
     EntitySelection.addListener("select", handleSelect);
     return () => EntitySelection.removeListener("select", handleSelect);
-  });
+  }, []);
 
   return data;
 };
