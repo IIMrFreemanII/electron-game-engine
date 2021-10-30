@@ -3,7 +3,7 @@ import { Entity } from "./entity";
 import { System } from "./system";
 import { Component } from "./component";
 import { Renderer } from "../renderer";
-import { Constructor } from "../types";
+import { Constructor, Constructors } from "../types";
 
 export class World {
   public entities: Entity[] = [];
@@ -25,11 +25,12 @@ export class World {
   }
 
   fromAllCache: Map<string, Component[][]> = new Map<string, Component[][]>();
+
   clearCache() {
     this.fromAllCache.clear();
   }
 
-  fromAll<T extends Component[]>(...types: Constructor<Component>[]): [[...T]] {
+  fromAll<T extends Component[]>(...types: Constructors<T>): [[...T]] {
     const typesSignature = JSON.stringify(types.map((type) => type.name));
     const cached = this.fromAllCache.get(typesSignature);
 

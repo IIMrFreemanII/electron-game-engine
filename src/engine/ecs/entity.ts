@@ -1,5 +1,5 @@
 import { Component, proxyComponent, removeProxy } from "./component";
-import { Constructor } from "../types";
+import { Constructor, Constructors } from "../types";
 import { World } from "./world";
 
 export class Entity {
@@ -36,7 +36,7 @@ export class Entity {
     return this.components.find((component) => component.type === type.name) as T;
   }
 
-  getComponents<T extends Component[]>(...types: Constructor<Component>[]): [...T] | undefined {
+  getComponents<T extends Component[]>(...types: Constructors<T>): [...T] | undefined {
     const components: Component[] = [];
     for (let i = 0; i < types.length; i++) {
       const component = this.getComponent(types[i]);
