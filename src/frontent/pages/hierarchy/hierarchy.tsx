@@ -4,12 +4,13 @@ import cn from "classnames";
 import { World } from "engine/ecs/world";
 import { EntitySelection } from "engine/entity-selection";
 import { CANVAS_WRAPPER_ID } from "frontent/pages";
-import { TreeFileTabs, TreeTabsType } from "frontent/components";
+import { Button, TreeFileTabs, TreeTabsType } from "frontent/components";
 import { clamp, normalize, applyCSSToElement } from "frontent/utils";
-import { useWindowEvent, useDidMount } from "frontent/hooks";
+import { useWindowEvent, useDidMount, useTheme } from "frontent/hooks";
+import { MIN_WIDTH_PERCENTAGE, MAX_WIDTH_PERCENTAGE } from "./hierarchy.constants";
 
 import styles from "./hierarchy.module.scss";
-import { MIN_WIDTH_PERCENTAGE, MAX_WIDTH_PERCENTAGE } from "./hierarchy.constants";
+import { ReactComponent as LightBulbIcon } from "frontent/assets/images/light-bulb-grey.svg";
 
 export interface HierarchyProps {
   worlds: World[];
@@ -18,6 +19,8 @@ export interface HierarchyProps {
 
 export const Hierarchy: React.FC<HierarchyProps> = memo(
   ({ worlds, className = "" }: HierarchyProps) => {
+    const { theme, setRandomTheme } = useTheme();
+
     const containerRef = useRef<HTMLDivElement>(null);
 
     // const isInDragRef = useRef(false);
@@ -91,7 +94,16 @@ export const Hierarchy: React.FC<HierarchyProps> = memo(
 
     return (
       <div className={cn(styles.container, className)} ref={containerRef}>
-        <div className={styles.header}>Hierarchy</div>
+        <div className={styles.header}>
+          <span>Current Theme: </span>
+          <span>{theme.name}</span>
+        </div>
+        <div className={styles.header}>
+          <span>Hierarchy</span>
+          <Button onClick={setRandomTheme} imageBtn>
+            <LightBulbIcon />
+          </Button>
+        </div>
         <TreeFileTabs treeTabs={tabs} onUncheckItem={handleOnUncheck} />
         {/*<div className={styles.dragZone} onMouseDown={handleDragZoneDown} />*/}
       </div>

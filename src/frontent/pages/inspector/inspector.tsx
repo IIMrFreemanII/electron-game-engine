@@ -3,7 +3,7 @@ import cn from "classnames";
 
 import { Entity } from "engine/ecs/entity";
 import { EntitySelection } from "engine/entity-selection";
-import { ComponentView } from "../../components/component-view";
+import { ComponentView } from "frontent/components";
 
 import styles from "./inspector.module.scss";
 

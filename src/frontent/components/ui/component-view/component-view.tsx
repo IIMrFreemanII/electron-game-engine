@@ -1,8 +1,9 @@
 import React, { FC, useEffect, useState } from "react";
-import { Component } from "../../../engine/ecs/component";
+import cuid from "cuid";
+
+import { Component } from "engine/ecs/component";
 import { StringField } from "./components/string-field";
 import { NumberField } from "./components/number-field";
-import cuid from "cuid";
 
 export const useFieldUpdate = (target, prop, value) => {
   const [data, setData] = useState({ target, prop, value });
