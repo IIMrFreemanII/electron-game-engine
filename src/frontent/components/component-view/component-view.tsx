@@ -7,12 +7,8 @@ import cuid from "cuid";
 export const useFieldUpdate = (target, prop, value) => {
   const [data, setData] = useState({ target, prop, value });
   const handleUpdate = (target1, prop1, value1) => {
-    // console.log("useFieldUpdate");
-    // todo: fix bug with switching
     if (target.__target === target1 && prop === prop1) {
-      console.log("field", target.__target);
       setData((prev) => {
-        // console.log(prev);
         return { ...prev, value: value1 };
       });
     }
