@@ -4,7 +4,7 @@ import { useFieldUpdate, ValueFieldProps } from "../../component-view";
 export const NumberField: FC<ValueFieldProps> = ({ target, prop, value }) => {
   const data = useFieldUpdate(target, prop, value);
 
-  console.log("number field render", data.prop, data.value);
+  // console.log("number field render", data.prop, data.value);
 
   return (
     <div>
