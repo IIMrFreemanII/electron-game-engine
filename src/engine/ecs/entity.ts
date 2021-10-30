@@ -1,5 +1,5 @@
 import { Component, proxyComponent, removeProxy } from "./component";
-import { Constructor } from "../types";
+import { Constructor, Constructors } from "../types";
 import { World } from "./world";
 
 export class Entity {
@@ -18,14 +18,12 @@ export class Entity {
     const component = new type();
     component.entity = this;
     this.components.push(component);
-    this.world.addComponent(component);
 
     return component as any;
   }
 
   removeComponent(component: Component) {
     this.components = this.components.filter((item) => item !== component);
-    this.world.removeComponent(component);
   }
 
   clearComponents() {
@@ -38,15 +36,27 @@ export class Entity {
     return this.components.find((component) => component.type === type.name) as T;
   }
 
+  getComponents<T extends Component[]>(...types: Constructors<T>): [...T] | undefined {
+    const components: Component[] = [];
+    for (let i = 0; i < types.length; i++) {
+      const component = this.getComponent(types[i]);
+      if (!component) return undefined;
+      components.push(component);
+    }
+    return components as any;
+  }
+
   addComponentsProxy() {
     for (let i = 0; i < this.components.length; i++) {
-      this.components[i] = this.world.replaceWithProxy(this.components[i]);
+      this.components[i] = proxyComponent(this.components[i]);
     }
+    this.world.clearCache();
   }
 
   removeComponentsProxy() {
     for (let i = 0; i < this.components.length; i++) {
-      this.components[i] = this.world.replaceProxyWithComponent(this.components[i]);
+      this.components[i] = removeProxy(this.components[i]);
     }
+    this.world.clearCache();
   }
 }
