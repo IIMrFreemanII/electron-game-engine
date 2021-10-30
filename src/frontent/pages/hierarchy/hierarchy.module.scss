@@ -10,8 +10,16 @@
 }
 
 .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 8px 10px;
   background-color: rgba(0, 0, 0, 0.6);
+}
+
+.header svg {
+  width: 24px;
+  height: 24px;
 }
 
 .item {
