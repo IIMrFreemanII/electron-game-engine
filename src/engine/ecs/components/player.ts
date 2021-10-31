@@ -8,6 +8,9 @@ export class Player extends Component {
   mesh1 = null;
   mesh2 = undefined;
 
+  booleanTrue = true;
+  booleanFalse = false;
+
   nums = [1, 2, 3, 4, 5];
   strings = ["item1", "item2", "item3", "1", "23", "4"];
   objects = [{}, null];

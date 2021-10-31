@@ -35,6 +35,19 @@
 
   /* ------ FORM COMPONENTS ↓ ------ */
 
+  /* Checkbox ↓ */
+  --checkbox-label-checked-color: var(--palette-text-secondary);
+
+  --checkbox-wrapper-background: var(--palette-base);
+  --checkbox-icon-wrapper-checked-background: var(--palette-primary);
+
+  /* Checkbox Unique Styles ↓ */
+  --checkbox-border: #A7ADC4;
+  --checkbox-border-hover: #00CAC4;
+  --checkbox-border-focus: #00CAC4;
+  --checkbox-wrapper-checked-border-background: #00CAC4;
+  /* Checkbox ↑ */
+
   /* Input Styles ↓ */
   --input-border-radius: var(--palette-border-radius-small);
   --input-color: var(--palette-text-tertiary);

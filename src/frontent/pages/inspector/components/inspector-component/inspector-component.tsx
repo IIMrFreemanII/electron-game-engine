@@ -3,7 +3,13 @@ import { Vector2, Vector3, Vector4 } from "three";
 import cuid from "cuid";
 import cn from "classnames";
 
-import { CollapseSelfControlled, Button, Input, InputLineStatuses } from "frontent/components";
+import {
+  CollapseSelfControlled,
+  Button,
+  Input,
+  Checkbox,
+  InputLineStatuses,
+} from "frontent/components";
 import { ObservableObject } from "engine/observable";
 import { ObjectType } from "frontent/models";
 import { useDidMount, useRerender } from "frontent/hooks";
@@ -48,6 +54,10 @@ const FieldByType = <T extends ObservableObject>({
     target.addObserve(prop, handleUpdate);
     return () => target.removeObserve?.(prop);
   });
+
+  const handleCheckboxChange = (_, checked) => {
+    data.target[data.prop] = checked;
+  };
 
   const handleChange = (value) => {
     data.target[data.prop] = value;
@@ -121,6 +131,7 @@ const FieldByType = <T extends ObservableObject>({
           )}
           openDuration={150}
           hideDuration={150}
+          removeCollapseByCondition={!value.length}
           removeFromDOMOnClosed
         >
           {entries.map(([prop1, value1], index) => (
@@ -135,6 +146,19 @@ const FieldByType = <T extends ObservableObject>({
           ))}
         </CollapseSelfControlled>
       </>
+    );
+  }
+
+  if (typeof value === "boolean") {
+    return (
+      <Checkbox
+        label={label}
+        value={label}
+        placement="left"
+        checked={data.value}
+        onChange={handleCheckboxChange}
+        disableError
+      />
     );
   }
 
