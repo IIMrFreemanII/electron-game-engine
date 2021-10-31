@@ -14,12 +14,12 @@ export type ObservableObject<T extends ObjectType = ObjectType> = T & {
   removeObserve(key: keyof T): void;
 };
 
-export const isObservable = (obj): obj is ObservableObject => !!obj.__original;
+export const isObservable = (obj): obj is ObservableObject => !!obj?.__original;
 
 export function makeObservable<T extends ObjectType>(target: T): ObservableObject<T> {
-  if (isObservable(target)) {
-    return target;
-  }
+  if (!target) return target;
+
+  if (isObservable(target)) return target;
 
   Object.entries(target).forEach(([key, value]: [keyof T, T[keyof T]]) => {
     if (typeof value === "object") {

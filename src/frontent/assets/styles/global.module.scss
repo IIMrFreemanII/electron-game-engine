@@ -88,6 +88,10 @@
   fill: #000;
 }
 
+.primaryFillSVG *, .primaryBothSVG * {
+  fill: var(--palette-primary);
+}
+
 .successFillSVG *, .successBothSVG * {
   fill: var(--palette-success);
 }
@@ -110,6 +114,10 @@
 
 .blackStrokeSVG *, .blackBothSVG * {
   stroke: #000;
+}
+
+.primaryStrokeSVG *, .primaryBothSVG * {
+  stroke: var(--palette-primary);
 }
 
 .successStrokeSVG *, .successBothSVG * {
@@ -136,6 +144,10 @@
   background-color: #000 !important;
 }
 
+.primaryBackground {
+  background-color: var(--palette-primary) !important;
+}
+
 .successBackground {
   background-color: var(--palette-success) !important;
 }
@@ -160,6 +172,10 @@
   border-color: #000 !important;
 }
 
+.primaryBorder {
+  border-color: var(--palette-primary) !important;
+}
+
 .successBorder {
   border-color: var(--palette-success) !important;
 }
@@ -181,6 +197,10 @@
 
 .blackText {
   color: #000 !important;
+}
+
+.primaryText {
+  color: var(--palette-primary) !important;
 }
 
 .successText {

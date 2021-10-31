@@ -1,9 +1,8 @@
 .label {
   user-select: none;
-  font-weight: bold;
   letter-spacing: 0.01em;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  text-transform: uppercase;
+  text-transform: capitalize;
 }
 
 .label.filled {

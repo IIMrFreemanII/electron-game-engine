@@ -7,6 +7,7 @@ import globalStyles from "frontent/assets/styles/global.module.scss";
 export const statusColorTypes = {
   white: "",
   black: "",
+  primary: "",
   success: "",
   warning: "",
   error: "",
