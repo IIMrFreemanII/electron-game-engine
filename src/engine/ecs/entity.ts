@@ -16,7 +16,6 @@ export class Entity {
 
   addComponent<T extends Component>(type: Constructor<T>): T {
     const component = new type();
-    component.entity = this;
     this.components.push(component);
 
     return component as any;

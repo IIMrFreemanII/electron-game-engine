@@ -8,7 +8,7 @@ import { NumberField } from "./components/number-field";
 export const useFieldUpdate = (target, prop, value) => {
   const [data, setData] = useState({ target, prop, value });
   const handleUpdate = (target1, prop1, value1) => {
-    if (target.__target === target1 && prop === prop1) {
+    if (target.__original === target1 && prop === prop1) {
       setData((prev) => {
         return { ...prev, value: value1 };
       });
@@ -83,15 +83,14 @@ const getFieldByType = (prop, value, target) => {
 
 export const ComponentView: FC<ComponentViewProps> = ({ component }) => {
   // useComponentUpdate(component);
-  const { entity, ...rest } = component;
-  const fields = Object.entries(rest);
+  const fields = Object.entries(component);
 
   console.log(component.type, "render");
 
   return (
     <div>
       <div>{component.type}</div>
-      {fields.map(([prop, value], i) => {
+      {fields.map(([prop, value]) => {
         return <div key={cuid()}>{getFieldByType(prop, value, component)}</div>;
       })}
     </div>

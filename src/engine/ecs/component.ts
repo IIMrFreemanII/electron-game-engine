@@ -2,7 +2,7 @@ import { Entity } from "./entity";
 import EventEmitter from "eventemitter3";
 
 export const isProxy = (obj) => {
-  return !!obj.__target;
+  return !!obj.__original;
 };
 
 export const proxyComponent = (object: any) => {
@@ -11,7 +11,7 @@ export const proxyComponent = (object: any) => {
   }
 
   Object.entries(object).forEach(([key, value]) => {
-    if (typeof value === "object" && key !== "entity") {
+    if (typeof value === "object") {
       object[key] = proxyComponent(value);
     }
   });
@@ -25,7 +25,7 @@ export const proxyComponent = (object: any) => {
       return true;
     },
     get(target, prop) {
-      if (prop !== "__target") {
+      if (prop !== "__original") {
         return target[prop];
       }
       return target;
@@ -35,7 +35,7 @@ export const proxyComponent = (object: any) => {
 
 export const removeProxy = (object: any) => {
   if (isProxy(object)) {
-    const result = object.__target;
+    const result = object.__original;
 
     Object.entries(object).forEach(([key, value]) => {
       result[key] = removeProxy(value);
@@ -64,8 +64,6 @@ export class Component {
   public static removeListener(event: EventTypes, callback: (target, prop, value) => void) {
     this.emitter.removeListener(event, callback);
   }
-
-  entity: Entity;
 
   get type() {
     return this.constructor.name;
