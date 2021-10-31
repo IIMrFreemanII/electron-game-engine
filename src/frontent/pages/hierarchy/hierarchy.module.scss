@@ -1,9 +1,9 @@
 .container {
   position: relative;
-  background-color: rgba(0, 0, 0, 0.8);
-  color: white;
   width: 200px;
   overflow: hidden;
+  border-radius: var(--palette-border-radius-medium);
+  background-color: var(--palette-background-primary);
   //width: 25%;
   //min-width: 15%;
   //max-width: 50%;
@@ -14,23 +14,12 @@
   align-items: center;
   justify-content: space-between;
   padding: 8px 10px;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: var(--palette-background-tertiary);
 }
 
 .header svg {
   width: 24px;
   height: 24px;
-}
-
-.item {
-  padding: 6px 20px;
-  background-color: rgba(0, 0, 0, 0.4);
-  font-size: 12px;
-  cursor: pointer;
-}
-
-.item:hover {
-  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .dragZone {

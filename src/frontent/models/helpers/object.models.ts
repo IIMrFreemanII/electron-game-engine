@@ -1,8 +1,6 @@
-export type PropertyName = string | number | symbol;
+export type ObjectType<T = any, P extends PropertyKey = PropertyKey> = Record<P, T>;
 
-export type ObjectType<T = unknown> = Record<PropertyName, T>;
-
-export type EmptyObjectType = Record<PropertyName, never>;
+export type EmptyObjectType = Record<PropertyKey, never>;
 
 export type PartialBy<T extends ObjectType, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
@@ -17,3 +15,11 @@ export type NonNullableKeys<T> = {
 export type OmitKeysByType<T extends ObjectType, N> = {
   [K in keyof T as T[K] extends N ? never : K]: T[K];
 };
+
+export type ObjectKeys<T> = T extends ObjectType
+  ? (keyof T)[]
+  : T extends number
+  ? []
+  : T extends Array<any> | string
+  ? string[]
+  : never;

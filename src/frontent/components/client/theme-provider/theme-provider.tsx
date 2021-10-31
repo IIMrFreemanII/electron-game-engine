@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useState } from "react";
 
-import { useDidMount, useLocalStorage } from "frontent/hooks";
+import { useLocalStorage } from "frontent/hooks";
 import { addClassesToElement, removeClassesFromElement } from "frontent/utils";
 import { ThemeContext, themeLocalStorageKey } from "./theme-provider.constants";
 import { ThemeType } from "./theme-provider.types";
@@ -13,9 +13,6 @@ export interface ThemeProviderProps {
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = memo(
   ({ children, themes, initialTheme }: ThemeProviderProps) => {
-    const [theme, setTheme] = useState(initialTheme);
-    const { value, setValue } = useLocalStorage(themeLocalStorageKey);
-
     const setClassName = useCallback(
       (newClassName: string) => {
         removeClassesFromElement(document.body, ...themes.map((theme) => theme.className));
@@ -23,6 +20,17 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = memo(
       },
       [themes],
     );
+
+    const { value, setValue } = useLocalStorage(themeLocalStorageKey);
+
+    const [theme, setTheme] = useState(() => {
+      const theme = themes.find((theme) => theme.name === value) || initialTheme;
+
+      theme.importCallback();
+      setClassName(theme.className);
+      setValue(theme.name);
+      return theme;
+    });
 
     const handleThemeChange = useCallback(
       async (themeName: string, defaultTheme?: ThemeType) => {
@@ -45,8 +53,6 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = memo(
       },
       [handleThemeChange],
     );
-
-    useDidMount(() => handleThemeChange(value, theme));
 
     return (
       <ThemeContext.Provider value={{ theme, themes, setTheme: handleSetTheme }}>

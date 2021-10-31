@@ -7,8 +7,13 @@ import { applyCSSToElement, removeCSSFromElement } from "frontent/utils";
 
 import styles from "./collapse-self-controlled.module.scss";
 
+type TriggerProps = {
+  isOpened: boolean;
+  triggerOpening: VoidFunction;
+};
+
 export interface CollapseSelfControlledProps {
-  triggerElement: React.ComponentType<any> | React.ReactNode;
+  triggerElement: React.ReactNode | React.FC<TriggerProps>;
   children: React.ReactNode;
   triggerClassName?: string;
   contentClassName?: string;
@@ -113,11 +118,15 @@ export const CollapseSelfControlled = memo(
       handleRerender();
     }, [handleOpening, handleClosing]);
 
-    const handleTriggerClick = useCallback(() => {
-      isTriggerClickable && handleTrigger();
-    }, [isTriggerClickable, handleTrigger]);
+    const handleTriggerClick = useCallback(
+      (e?: React.MouseEvent) => {
+        e?.stopPropagation();
+        isTriggerClickable && handleTrigger();
+      },
+      [isTriggerClickable, handleTrigger],
+    );
 
-    useDidUpdate(handleTriggerClick, [triggerOpening]);
+    useDidUpdate(() => handleTriggerClick(), [triggerOpening]);
 
     const opening = isOpenRef.current && !isFinallyOpenedRef.current;
     const closing = !isOpenRef.current && !isFinallyClosedRef.current;
@@ -153,12 +162,19 @@ export const CollapseSelfControlled = memo(
 
     const inlineStyles: React.CSSProperties = isOpenRef.current ? openStyles : closeStyles;
 
+    const isOpened = !(
+      removeCollapseByCondition ||
+      (removeFromDOMOnClosed && isFinallyClosedRef.current)
+    );
+
     return (
       <Fragment>
         <div className={containerStyles} onClick={handleTriggerClick}>
-          {triggerElement}
+          {typeof triggerElement === "function"
+            ? triggerElement({ isOpened, triggerOpening: handleTriggerClick })
+            : triggerElement}
         </div>
-        {!(removeCollapseByCondition || (removeFromDOMOnClosed && isFinallyClosedRef.current)) && (
+        {isOpened && (
           <div
             id={cuidRef.current}
             className={contentObserverStyles}

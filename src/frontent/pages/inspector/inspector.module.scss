@@ -1,9 +1,11 @@
 .container {
   position: relative;
-  background-color: rgba(0, 0, 0, 0.8);
-  color: white;
   width: 300px;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
+  border-radius: var(--palette-border-radius-medium);
+  background-color: var(--palette-background-primary);
   //width: 25%;
   //min-width: 15%;
   //max-width: 50%;
@@ -11,5 +13,13 @@
 
 .header {
   padding: 8px 10px;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: var(--palette-background-tertiary);
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 4px;
+  row-gap: 4px;
 }
