@@ -1,28 +1,30 @@
 import React, { memo, useCallback, useState } from "react";
+import cuid from "cuid";
 import cn from "classnames";
 
-import { Component } from "engine/ecs/component";
 import { CollapseSelfControlled, Button, Input, InputLineStatuses } from "frontent/components";
+import { ObservableObject } from "engine/observable";
 import { ObjectType } from "frontent/models";
 import { useDidMount } from "frontent/hooks";
 
 import styles from "./inspector-component.module.scss";
 import { ReactComponent as CollapseIconSVG } from "frontent/assets/images/rounded-arrow-right-grey.svg";
-import cuid from "cuid";
+import { Vector2, Vector3, Vector4 } from "three";
 
-const statusMap: ObjectType<InputLineStatuses, "x" | "y" | "z"> = {
+const statusMap: ObjectType<InputLineStatuses> = {
   x: "error",
   y: "success",
   z: "warning",
+  w: "white",
 };
 
-export interface ValueFieldProps {
-  target: any;
-  prop: any;
+export interface ValueFieldProps<T extends ObservableObject> {
+  target: T;
+  prop: keyof T;
   value: any;
 }
 
-const FieldByType: React.FC<ValueFieldProps> = ({ prop, value, target }) => {
+const FieldByType = <T extends ObservableObject>({ prop, value, target }: ValueFieldProps<T>) => {
   const [data, setData] = useState({ target, prop, value });
 
   const handleUpdate = useCallback((target1, prop1, value1) => {
@@ -34,39 +36,44 @@ const FieldByType: React.FC<ValueFieldProps> = ({ prop, value, target }) => {
     return () => target.removeObserve?.(prop);
   });
 
-  const handleChange = (value: string) => {
+  const handleChange = (value) => {
     data.target[data.prop] = value;
   };
 
   const label = data.prop + ":";
 
-  if (typeof value === "object" && !Array.isArray(value)) {
+  if (value instanceof Vector2 || value instanceof Vector3 || value instanceof Vector4) {
     const entries = Object.entries(value);
     return (
-      <>
-        {entries.map(([key1, value1]) => (
-          <FieldByType key={cuid()} prop={key1} value={value1} target={value} />
-        ))}
-      </>
+      <div className={styles.vectorWrapper}>
+        <div>{prop}</div>
+        <div className={styles.inputsWrapper}>
+          {entries.map(([key1, value1]) => (
+            <FieldByType key={cuid()} prop={key1} value={value1} target={value as any} />
+          ))}
+        </div>
+      </div>
     );
   }
 
-  if (typeof value === "object" && Array.isArray(value)) {
-    const entries = Object.entries(value);
-    return (
-      <>
-        <div>{prop}</div>
-        {entries.map(([key1, value1]) => (
-          <FieldByType key={cuid()} prop={key1} value={value1} target={value} />
-        ))}
-      </>
-    );
-  }
+  // if (Array.isArray(value)) {
+  //   const entries = Object.entries(value);
+  //   return (
+  //     <>
+  //       <div>{prop}</div>
+  //       {entries.map(([key1, value1]) => (
+  //         <FieldByType key={cuid()} prop={key1} value={value1} target={value} />
+  //       ))}
+  //     </>
+  //   );
+  // }
 
   if (typeof value === "number") {
     return (
       <Input
         type="number"
+        inputWrapperClassName={styles.inputWrapper}
+        className={styles.inputContainer}
         statusLine={statusMap[data.prop]}
         label={label}
         value={data.value}
@@ -84,11 +91,19 @@ const FieldByType: React.FC<ValueFieldProps> = ({ prop, value, target }) => {
     return <Input label={label} value={data.value} onChange={handleChange} disableError />;
   }
 
-  return <div>Unsupported field</div>;
+  return (
+    <Input
+      label={label}
+      value={`None (${value.constructor.name})`}
+      onChange={handleChange}
+      disableError
+      disableTextEdition
+    />
+  );
 };
 
 export interface InspectorComponentProps {
-  component: Component;
+  component: ObservableObject;
 }
 
 export const InspectorComponent: React.FC<InspectorComponentProps> = memo(({ component }) => {

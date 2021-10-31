@@ -36,7 +36,7 @@ export const Inspector: React.FC<InspectorProps> = memo(({ className = "" }: Ins
         <div className={cn(styles.contentWrapper, globalStyles.addScrollStyles)}>
           <div>Entity {inspectedEntity.id}</div>
           {inspectedEntity.components.map((component, i) => (
-            <InspectorComponent key={i} component={component} />
+            <InspectorComponent key={i} component={component as any} />
           ))}
         </div>
       )}

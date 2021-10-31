@@ -7,7 +7,4 @@ export type InputTypeKeys = keyof typeof inputType;
 
 export type InputDOMElement = HTMLInputElement & HTMLTextAreaElement;
 
-export type InputLineStatuses = Extract<
-  StatusColorKeys,
-  "error" | "primary" | "success" | "warning"
->;
+export type InputLineStatuses = Extract<StatusColorKeys, "error" | "white" | "success" | "warning">;

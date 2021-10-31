@@ -1,29 +1,39 @@
+import { ObjectType } from "../frontent/models";
+
 const handlers = Symbol("handlers");
 
-export type ObservableObject<T> = T & {
+export type ObserveCallback<T extends ObjectType> = (
+  target: T,
+  prop: keyof T,
+  value: T[keyof T],
+) => void;
+export type ObservableObject<T extends ObjectType = ObjectType> = T & {
   __original: T;
-  [handlers]: (prop, value) => void[];
-  addObserve(handler: (prop, value) => void): void;
-  removeObserve(handler: (prop, value) => void): void;
+  [handlers]: Map<keyof T, ObserveCallback<T>>;
+  addObserve(key: keyof T, handler: ObserveCallback<T>): void;
+  removeObserve(key: keyof T): void;
 };
 
-export const isObservable = (obj) => {
-  return !!obj.__original;
-};
+export const isObservable = (obj): obj is ObservableObject => !!obj.__original;
 
-export function makeObservable(target) {
+export function makeObservable<T extends ObjectType>(target: T): ObservableObject<T> {
   if (isObservable(target)) {
     return target;
   }
 
-  Object.entries(target).forEach(([key, value]) => {
+  Object.entries(target).forEach(([key, value]: [keyof T, T[keyof T]]) => {
     if (typeof value === "object") {
       target[key] = makeObservable(value);
     }
   });
 
   // 1. Initialize handlers store
-  target[handlers] = new Map<PropertyKey, (target, prop, value) => void>();
+  Object.defineProperty(target, handlers, {
+    value: new Map<keyof T, ObserveCallback<T>>(),
+    configurable: true,
+    writable: false,
+    enumerable: false,
+  });
 
   // Store the handler function in array for future calls
   Object.defineProperty(target, "addObserve", {
@@ -60,10 +70,12 @@ export function makeObservable(target) {
       }
       return target;
     },
-  });
+  }) as any;
 }
 
-export const removeObservable = (object: any) => {
+export const removeObservable = <T extends ObservableObject<any>>(
+  object: T,
+): T extends ObservableObject<infer X> ? X : never => {
   if (isObservable(object)) {
     const result = object.__original;
     delete result[handlers];
@@ -77,5 +89,5 @@ export const removeObservable = (object: any) => {
     return result;
   }
 
-  return object;
+  return object as any;
 };

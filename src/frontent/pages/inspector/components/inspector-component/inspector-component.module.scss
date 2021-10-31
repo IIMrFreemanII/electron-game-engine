@@ -26,3 +26,20 @@
   border-radius: var(--palette-border-radius-small);
   background-color: var(--palette-background-tertiary);
 }
+
+.vectorWrapper {
+  display: flex;
+  flex-direction: column;
+  column-gap: 8px;
+
+  .inputContainer {
+    //width: 60px;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 2px;
+  }
+}
+
+.inputsWrapper {
+  display: flex;
+}
