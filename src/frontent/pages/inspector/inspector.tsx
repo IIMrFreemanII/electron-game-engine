@@ -17,9 +17,9 @@ export const Inspector: React.FC<InspectorProps> = memo(({ className = "" }: Ins
   const [inspectedEntity, setInspectedEntity] = useState<Entity | null>(null);
 
   const handleSelect = useCallback((entity: Entity | null) => {
-    entity?.addComponentsProxy();
+    entity?.addObserveComponents();
     setInspectedEntity((prev) => {
-      prev?.removeComponentsProxy();
+      prev?.removeObserveComponents();
       return entity;
     });
   }, []);

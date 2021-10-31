@@ -25,7 +25,7 @@ export const App = () => {
         .value.set((canvasSize.width - size.x) * 0.5, (canvasSize.height - size.y) * 0.5);
       squareEntity.addComponent(Square).size.copy(size);
 
-      // squareEntity.addComponent(Player);
+      squareEntity.addComponent(Player);
     }
 
     // for (let i = 0; i < 1; i++) {

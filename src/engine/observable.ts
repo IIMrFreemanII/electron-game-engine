@@ -1,5 +1,12 @@
 const handlers = Symbol("handlers");
 
+export type ObservableObject<T> = T & {
+  __original: T;
+  [handlers]: (prop, value) => void[];
+  addObserve(handler: (prop, value) => void): void;
+  removeObserve(handler: (prop, value) => void): void;
+};
+
 export const isObservable = (obj) => {
   return !!obj.__original;
 };
@@ -9,22 +16,32 @@ export function makeObservable(target) {
     return target;
   }
 
-  // Object.entries(target).forEach(([key, value]) => {
-  //   if (typeof value === "object") {
-  //     target[key] = makeObservable(value);
-  //   }
-  // });
+  Object.entries(target).forEach(([key, value]) => {
+    if (typeof value === "object") {
+      target[key] = makeObservable(value);
+    }
+  });
 
   // 1. Initialize handlers store
-  target[handlers] = [];
+  target[handlers] = new Map<PropertyKey, (target, prop, value) => void>();
 
   // Store the handler function in array for future calls
-  target.addObserve = function (handler) {
-    this[handlers].push(handler);
-  };
-  target.removeObserve = function (handler) {
-    this[handlers] = this[handlers].filter((item) => item !== handler);
-  };
+  Object.defineProperty(target, "addObserve", {
+    value: function (prop, handler) {
+      this[handlers].set(prop, handler);
+    },
+    configurable: true,
+    writable: false,
+    enumerable: false,
+  });
+  Object.defineProperty(target, "removeObserve", {
+    value: function (prop) {
+      this[handlers].delete(prop);
+    },
+    configurable: true,
+    writable: false,
+    enumerable: false,
+  });
 
   // 2. Create a proxy to handle changes
   return new Proxy(target, {
@@ -33,7 +50,7 @@ export function makeObservable(target) {
       if (success) {
         // if there were no error while setting the property
         // call all handlers
-        target[handlers].forEach((handler) => handler(property, value));
+        target[handlers].get(property)?.(target, property, value);
       }
       return success;
     },
@@ -48,11 +65,14 @@ export function makeObservable(target) {
 
 export const removeObservable = (object: any) => {
   if (isObservable(object)) {
-    const result = object.__target;
+    const result = object.__original;
+    delete result[handlers];
+    delete result.addObserve;
+    delete result.removeObserve;
 
-    // Object.entries(object).forEach(([key, value]) => {
-    //   result[key] = removeObservable(value);
-    // });
+    Object.entries(object).forEach(([key, value]) => {
+      result[key] = removeObservable(value);
+    });
 
     return result;
   }

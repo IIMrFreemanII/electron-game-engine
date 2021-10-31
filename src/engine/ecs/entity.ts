@@ -1,6 +1,7 @@
-import { Component, proxyComponent, removeProxy } from "./component";
+import { Component } from "./component";
 import { Constructor, Constructors } from "../types";
 import { World } from "./world";
+import { makeObservable, removeObservable } from "../observable";
 
 export class Entity {
   private static counter = 0;
@@ -45,16 +46,16 @@ export class Entity {
     return components as any;
   }
 
-  addComponentsProxy() {
+  addObserveComponents() {
     for (let i = 0; i < this.components.length; i++) {
-      this.components[i] = proxyComponent(this.components[i]);
+      this.components[i] = makeObservable(this.components[i]);
     }
     this.world.clearCache();
   }
 
-  removeComponentsProxy() {
+  removeObserveComponents() {
     for (let i = 0; i < this.components.length; i++) {
-      this.components[i] = removeProxy(this.components[i]);
+      this.components[i] = removeObservable(this.components[i]);
     }
     this.world.clearCache();
   }
