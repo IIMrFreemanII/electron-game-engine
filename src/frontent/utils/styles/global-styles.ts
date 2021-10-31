@@ -6,12 +6,10 @@ import globalStyles from "frontent/assets/styles/global.module.scss";
 
 export const statusColorTypes = {
   white: "",
-  primary: "",
+  black: "",
+  success: "",
+  warning: "",
   error: "",
-  textPrimary: "",
-  textSecondary: "",
-  textTertiary: "",
-  textQuaternary: "",
 };
 
 export type StatusColorKeys = keyof typeof statusColorTypes;

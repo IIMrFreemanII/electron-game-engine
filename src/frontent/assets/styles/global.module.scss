@@ -84,28 +84,20 @@
   fill: #fff;
 }
 
-.primaryFillSVG *, .primaryBothSVG * {
-  fill: var(--palette-primary);
+.blackFillSVG *, .blackBothSVG * {
+  fill: #000;
+}
+
+.successFillSVG *, .successBothSVG * {
+  fill: var(--palette-success);
+}
+
+.warningFillSVG *, .warningBothSVG * {
+  fill: var(--palette-warning);
 }
 
 .errorFillSVG *, .errorBothSVG * {
   fill: var(--palette-error);
-}
-
-.textPrimaryFillSVG *, .textPrimaryBothSVG * {
-  fill: var(--palette-text-primary) ;
-}
-
-.textSecondaryFillSVG *, .textQuaternaryBothSVG * {
-  fill: var(--palette-text-secondary);
-}
-
-.textTertiaryFillSVG *, .textQuaternaryBothSVG * {
-  fill: var(--palette-text-tertiary);
-}
-
-.textQuaternaryFillSVG *, .textQuaternaryBothSVG * {
-  fill: var(--palette-text-quaternary);
 }
 
 /* SVG fill status Styling ↑ */
@@ -113,31 +105,23 @@
 
 /* SVG stroke status Styling ↓ */
 .whiteStrokeSVG *, .whiteBothSVG * {
-  stroke: #fff ;
+  stroke: #fff;
 }
 
-.primaryStrokeSVG *, .primaryBothSVG * {
-  stroke: var(--palette-primary);
+.blackStrokeSVG *, .blackBothSVG * {
+  stroke: #000;
+}
+
+.successStrokeSVG *, .successBothSVG * {
+  stroke: var(--palette-success);
+}
+
+.warningStrokeSVG *, .warningBothSVG * {
+  stroke: var(--palette-warning);
 }
 
 .errorStrokeSVG *, .errorBothSVG * {
   stroke: var(--palette-error);
-}
-
-.textPrimaryStrokeSVG *, .textPrimaryBothSVG * {
-  stroke: var(--palette-text-primary) ;
-}
-
-.textSecondaryStrokeSVG *, .textQuaternaryBothSVG * {
-  stroke: var(--palette-text-secondary);
-}
-
-.textTertiaryStrokeSVG *, .textQuaternaryBothSVG * {
-  stroke: var(--palette-text-tertiary);
-}
-
-.textQuaternaryStrokeSVG *, .textQuaternaryBothSVG * {
-  stroke: var(--palette-text-quaternary);
 }
 
 /* SVG fill status Styling ↑ */
@@ -148,28 +132,20 @@
   background-color: #fff !important;
 }
 
-.primaryBackground {
-  background-color: var(--palette-primary) !important;
+.blackBackground {
+  background-color: #000 !important;
+}
+
+.successBackground {
+  background-color: var(--palette-success) !important;
+}
+
+.warningBackground {
+  background-color: var(--palette-warning) !important;
 }
 
 .errorBackground {
   background-color: var(--palette-error) !important;
-}
-
-.textPrimaryBackground {
-  background-color: var(--palette-text-primary) !important;
-}
-
-.textSecondaryBackground {
-  background-color: var(--palette-text-secondary) !important;
-}
-
-.textTertiaryBackground {
-  background-color: var(--palette-text-tertiary) !important;
-}
-
-.textQuaternaryBackground {
-  background-color: var(--palette-text-quaternary) !important;
 }
 
 /* Background status Styling ↑ */
@@ -180,69 +156,43 @@
   border-color: #fff !important;
 }
 
-.primaryBorder {
-  border-color: var(--palette-primary) !important;
+.blackBorder {
+  border-color: #000 !important;
+}
+
+.successBorder {
+  border-color: var(--palette-success) !important;
+}
+
+.warningBorder {
+  border-color: var(--palette-warning) !important;
 }
 
 .errorBorder {
   border-color: var(--palette-error) !important;
 }
 
-.textPrimaryBorder {
-  border-color: var(--palette-text-primary) !important;
-}
-
-.textSecondaryBorder {
-  border-color: var(--palette-text-secondary) !important;
-}
-
-.textTertiaryBorder {
-  border-color: var(--palette-text-tertiary) !important;
-}
-
-.textQuaternaryBorder {
-  border-color: var(--palette-text-quaternary) !important;
-}
-
 /* Border status Styling ↑ */
 
 /* Text status Styling ↓ */
-.defaultText, .primaryText, .errorText {
-  font-family: "Montserrat", sans-serif;
-  font-weight: 500;
-  font-size: 14px;
-}
-
-.defaultText {
-  color: var(--palette-text-secondary);
-}
-
 .whiteText {
   color: #fff !important;
 }
 
-.primaryText {
-  color: var(--palette-primary) !important;
+.blackText {
+  color: #000 !important;
+}
+
+.successText {
+  color: var(--palette-success) !important;
+}
+
+.warningText {
+  color: var(--palette-warning) !important;
 }
 
 .errorText {
   color: var(--palette-error) !important;
-}
-
-.textPrimaryText {
-  color: var(--palette-text-primary) !important;
-}
-
-.textSecondaryText {
-  color: var(--palette-text-secondary) !important;
-}
-
-.textTertiaryText {
-  color: var(--palette-text-tertiary) !important;
-}
-
-.textQuaternaryText {
-  color: var(--palette-text-quaternary) !important;
 }
 
 /* Text status Styling ↑ */

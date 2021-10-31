@@ -3,6 +3,22 @@
   --palette-base: #000;
   --palette-base-opposite: #fff;
 
+  --palette-background-primary: #171917;
+  --palette-background-secondary: #383838;
+  --palette-background-tertiary: #1e1e1e;
+
+  --palette-text-base: var(--palette-base-opposite);
+
+  --palette-success: #087f5b;
+
+  --palette-warning: #e9a100;
+
+  --palette-error: #d40320;
+
+  --palette-border-radius-small: 4px;
+  --palette-border-radius-medium: 8px;
+  --palette-border-radius-big: 12px;
+
   /* Color Palette ↑ */
 
   /* ------------------------------------------------------------------------------------------ */
@@ -13,6 +29,20 @@
   --global-scroll-background-hover-color: #152D35;
   --global-scroll-background-active-color: #112031;
   /* Global ↑ */
+
+
+  /* ------ FORM COMPONENTS ↓ ------ */
+
+  /* Input Styles ↓ */
+  --input-border-radius: var(--palette-border-radius-small);
+  --input-color: var(--palette-text-tertiary);
+  --input-background: var(--palette-background-primary);
+  --input-border: #444444;
+  --input-caret: var(--palette-text-secondary);
+  --input-filled-border-color: var(--palette-primary);
+  /* Input ↑ */
+
+  /* ------ FORM COMPONENTS ↑ ------ */
 
 
   /* ------ UI COMPONENTS ↓ ------ */

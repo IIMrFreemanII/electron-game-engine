@@ -1,6 +1,6 @@
-import { Nullable, ObjectType, PropertyName } from "frontent/models";
+import { Nullable, ObjectType } from "frontent/models";
 
-type ValueIteratee<T> = ((value: T) => unknown) | (T extends ObjectType ? keyof T : PropertyName);
+type ValueIteratee<T> = ((value: T) => unknown) | (T extends ObjectType ? keyof T : PropertyKey);
 
 export const uniqBy = <T>(array: Nullable<T[]>, iteratee: ValueIteratee<T>): T[] => {
   if (!array || !array.length) return [] as any;
