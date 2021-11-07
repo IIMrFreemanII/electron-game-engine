@@ -46,7 +46,6 @@ const FieldByType = <T extends ObservableObject>({
   const [data, setData] = useState({ target, prop, value });
 
   const handleUpdate = useCallback((target1, prop1, value1) => {
-    console.log("??");
     setData((prev) => ({ ...prev, value: value1 }));
   }, []);
 
@@ -117,9 +116,7 @@ const FieldByType = <T extends ObservableObject>({
                 <Button onClick={triggerOpening} imageBtn>
                   <CollapseSVG className={cn(styles.icon, { [styles.opened]: isOpened })} />
                 </Button>
-                <span>
-                  {capitalize(`${prop}`)} {value.constructor.name}
-                </span>
+                <span>{capitalize(`${prop}`)}</span>
               </div>
               <div className={styles.triggerLength}>
                 <span>{value.length} items</span>
