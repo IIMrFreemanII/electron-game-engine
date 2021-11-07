@@ -79,6 +79,58 @@
 /* Misc Styling ↑ */
 
 
+/* SVG smart status Styling ↓ */
+.whiteSmartSVG path[stroke] {
+  stroke: #fff;
+}
+
+.whiteSmartSVG path[fill] {
+  fill: #fff;
+}
+
+.blackSmartSVG path[stroke] {
+  stroke: #000;
+}
+
+.blackSmartSVG path[fill] {
+  fill: #000;
+}
+
+.primarySmartSVG path[stroke] {
+  stroke: var(--palette-primary);
+}
+
+.primarySmartSVG path[fill] {
+  fill: var(--palette-primary);
+}
+
+.successSmartSVG path[stroke] {
+  stroke: var(--palette-success);
+}
+
+.successSmartSVG path[fill] {
+  fill: var(--palette-success);
+}
+
+.warningSmartSVG path[stroke] {
+  stroke: var(--palette-warning);
+}
+
+.warningSmartSVG path[fill] {
+  fill: var(--palette-warning);
+}
+
+.errorSmartSVG path[stroke] {
+  stroke: var(--palette-error);
+}
+
+.errorSmartSVG path[fill] {
+  fill: var(--palette-error);
+}
+
+/* SVG smart status Styling ↑ */
+
+
 /* SVG fill status Styling ↓ */
 .whiteFillSVG *, .whiteBothSVG * {
   fill: #fff;

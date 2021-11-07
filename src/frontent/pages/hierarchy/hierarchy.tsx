@@ -1,8 +1,7 @@
 import React, { memo, useRef, useCallback } from "react";
 import cn from "classnames";
 
-import { World } from "engine/ecs/world";
-import { EntitySelection } from "engine/entity-selection";
+import { World, EntitySelection } from "engine";
 import { CANVAS_WRAPPER_ID } from "frontent/pages";
 import { Button, TreeFileTabs, TreeTabsType } from "frontent/components";
 import { clamp, normalize, applyCSSToElement } from "frontent/utils";
@@ -10,7 +9,7 @@ import { useWindowEvent, useDidMount, useTheme } from "frontent/hooks";
 import { MIN_WIDTH_PERCENTAGE, MAX_WIDTH_PERCENTAGE } from "./hierarchy.constants";
 
 import styles from "./hierarchy.module.scss";
-import { ReactComponent as LightBulbIcon } from "frontent/assets/images/light-bulb-grey.svg";
+import { ReactComponent as LightBulbSVG } from "frontent/assets/images/light-bulb-grey.svg";
 
 export interface HierarchyProps {
   worlds: World[];
@@ -101,7 +100,7 @@ export const Hierarchy: React.FC<HierarchyProps> = memo(
         <div className={styles.header}>
           <span>Hierarchy</span>
           <Button onClick={setRandomTheme} imageBtn>
-            <LightBulbIcon />
+            <LightBulbSVG />
           </Button>
         </div>
         <TreeFileTabs treeTabs={tabs} onUncheckItem={handleOnUncheck} />

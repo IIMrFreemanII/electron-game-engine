@@ -1,21 +1,31 @@
-import React, { FC } from "react";
+import React, { memo } from "react";
 
-import { World } from "engine/ecs/world";
+import { World } from "engine";
 import { Hierarchy, Inspector } from "frontent/pages";
 import { Canvas } from "./components/canvas";
 
 import styles from "./editor.module.scss";
 
-type Props = {
+export interface EditorProps {
   worlds: World[];
-};
+}
 
-export const Editor: FC<Props> = ({ worlds }) => {
+export const Editor: React.FC<EditorProps> = memo(({ worlds }: EditorProps) => {
   return (
-    <div className={styles.container}>
-      <Hierarchy worlds={worlds} />
-      <Canvas />
-      <Inspector />
+    <div className="col p1">
+      <div className="row gapCol1">
+        <div className="col2">
+          <Hierarchy worlds={worlds} />
+        </div>
+        <div className="col">
+          <Canvas />
+        </div>
+        <div className="col3">
+          <Inspector />
+        </div>
+      </div>
     </div>
   );
-};
+});
+
+export default Editor;

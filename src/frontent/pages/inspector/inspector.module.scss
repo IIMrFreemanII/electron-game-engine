@@ -1,19 +1,16 @@
 .container {
+  flex: 1;
   position: relative;
-  width: 300px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border-radius: var(--palette-border-radius-medium);
-  background-color: var(--palette-background-primary);
-  //width: 25%;
-  //min-width: 15%;
-  //max-width: 50%;
+  border-radius: var(--palette-border-radius-2);
+  background-color: var(--pallete-background-darker);
 }
 
 .header {
   padding: 8px 10px;
-  background-color: var(--palette-background-tertiary);
+  background-color: var(--pallete-background-darker);
 }
 
 .contentWrapper {

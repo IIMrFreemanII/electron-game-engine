@@ -1,27 +1,31 @@
-html,
-body,
+body {
+  min-width: 320px;
+  width: 100%;
+  max-width: 100%;
+  min-height: 100vh;
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: "Nunito Sans", -apple-system, ".SFNSText-Regular", "San Francisco", BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: var(--palette-text-base);
+  background-color: var(--pallete-background-lighter);
+}
+
 #root {
   width: 100%;
   height: 100%;
 }
 
-body {
-  min-width: 320px;
-  margin: 0;
-  padding: 4px;
-  overflow: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  color: var(--palette-text-base);
-  background-color: var(--palette-background-secondary);
-}
-
 * {
   box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   -webkit-user-drag: none;
-  transition: background-color 150ms ease-in-out;
+}
+
+svg * {
+  pointer-events: none;
 }
 
 img,
@@ -31,6 +35,4 @@ svg * {
   user-select: none;
 }
 
-svg * {
-  pointer-events: none;
-}
+@import "./layout";

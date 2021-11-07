@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { Vector2 } from "three";
 
-import { RenderSquareSystem } from "./engine/ecs/systems/render-square-system";
-import { Translation } from "./engine/ecs/components/translation";
-import { Square } from "./engine/ecs/components/square";
-import { World } from "./engine/ecs/world";
+import { RenderSquareSystem, Translation, Square, Player, World, Renderer } from "engine";
 import { Editor } from "frontent/pages";
-import { Renderer } from "./engine/renderer";
-import { Player } from "./engine/ecs/components/player";
 
-export const App = () => {
+import styles from "frontent/assets/styles/app.module.scss";
+
+export const App = memo(() => {
   const [worlds, setWorlds] = useState<World[]>([]);
 
   useEffect(() => {
@@ -17,7 +14,7 @@ export const App = () => {
     setWorlds((prev) => [...prev, world]);
     const canvasSize = Renderer.getSize();
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 55; i++) {
       const size = new Vector2(250, 250);
       const squareEntity = world.createEntity();
       squareEntity
@@ -68,8 +65,8 @@ export const App = () => {
   }, []);
 
   return (
-    <>
+    <div className={styles.app}>
       <Editor worlds={worlds} />
-    </>
+    </div>
   );
-};
+});

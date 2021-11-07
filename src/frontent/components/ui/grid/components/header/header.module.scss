@@ -1,0 +1,6 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  row-gap: var(--pallete-gap-3);
+  padding: var(--pallete-padding-1);
+}

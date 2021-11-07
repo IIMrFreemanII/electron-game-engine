@@ -15,9 +15,9 @@ export const statusColorTypes = {
 
 export type StatusColorKeys = keyof typeof statusColorTypes;
 
-export type SVGStatusType = "fill" | "stroke" | "both";
+export type SVGStatusType = "smart" | "fill" | "stroke" | "both";
 
-export const getSVGStatus = (status?: StatusColorKeys, type: SVGStatusType = "stroke") =>
+export const getSVGStatus = (status?: StatusColorKeys, type: SVGStatusType = "smart") =>
   cn(globalStyles[status + capitalize(type + "SVG")]);
 
 export const getBackgroundStatus = (status?: StatusColorKeys) =>

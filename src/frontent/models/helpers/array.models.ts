@@ -4,6 +4,8 @@ export type ArrayElement<A> = A extends readonly (infer T)[] ? T : never;
 
 export type FirstElement<T extends any[]> = T extends [infer U, ...any[]] ? U : never;
 
+export type MaybeArray<T> = T | Array<T>;
+
 export type LastElement<T extends any[]> = {
   0: LastElement<Tail<T>>;
   1: FirstElement<T>;

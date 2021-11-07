@@ -3,9 +3,9 @@
   --palette-base: #000;
   --palette-base-opposite: #fff;
 
-  --palette-background-primary: #171917;
-  --palette-background-secondary: #383838;
-  --palette-background-tertiary: #1e1e1e;
+  --pallete-background-default: #2F2F2F;
+  --pallete-background-lighter: #333333;
+  --pallete-background-darker: #272727;
 
   --palette-text-base: var(--palette-base-opposite);
 
@@ -17,9 +17,34 @@
 
   --palette-error: #d40320;
 
-  --palette-border-radius-small: 4px;
-  --palette-border-radius-medium: 8px;
-  --palette-border-radius-big: 12px;
+  --palette-border-radius-1: 4px;
+  --palette-border-radius-2: 8px;
+  --palette-border-radius-3: 12px;
+
+  --pallete-font-weight-1: 400;
+  --pallete-font-weight-2: 600;
+  --pallete-font-weight-3: 800;
+
+  --pallete-margin-0: 0;
+  --pallete-margin-1: 4px;
+  --pallete-margin-2: 8px;
+  --pallete-margin-3: 12px;
+  --pallete-margin-4: 16px;
+  --pallete-margin-5: 20px;
+
+  --pallete-padding-0: 0;
+  --pallete-padding-1: 4px;
+  --pallete-padding-2: 8px;
+  --pallete-padding-3: 12px;
+  --pallete-padding-4: 16px;
+  --pallete-padding-5: 20px;
+
+  --pallete-gap-0: 0;
+  --pallete-gap-1: 4px;
+  --pallete-gap-2: 8px;
+  --pallete-gap-3: 12px;
+  --pallete-gap-4: 16px;
+  --pallete-gap-5: 20px;
 
   /* Color Palette ↑ */
 
@@ -49,9 +74,9 @@
   /* Checkbox ↑ */
 
   /* Input Styles ↓ */
-  --input-border-radius: var(--palette-border-radius-small);
+  --input-border-radius: var(--palette-border-radius-1);
   --input-color: var(--palette-text-tertiary);
-  --input-background: var(--palette-background-primary);
+  --input-background: var(--pallete-background-default);
   --input-border: #444444;
   --input-caret: var(--palette-text-secondary);
   --input-filled-border-color: var(--palette-primary);
