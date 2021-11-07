@@ -7,6 +7,8 @@ export class System {
 
   init(): void {}
 
+  destroy(): void {}
+
   get type() {
     return this.constructor.name;
   }

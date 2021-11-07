@@ -2,9 +2,10 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Button } from "../button/button";
 
 import styles from "./play-button.module.scss";
-import { GameState, GameStateManager } from "../../../../engine/game-state";
+import { GameState, GameStateManager } from "engine/game-state";
+import { GameLoop } from "../../../../renderer";
 
-const useGameState = () => {
+export const useGameState = () => {
   const [state, setState] = useState<GameState>("stop");
 
   useEffect(() => {
@@ -13,7 +14,8 @@ const useGameState = () => {
   }, []);
 
   const handleStateChange = useCallback((state: GameState) => {
-    console.log(state);
+    state === "play" ? GameLoop.start() : GameLoop.stop();
+
     setState(state);
   }, []);
 

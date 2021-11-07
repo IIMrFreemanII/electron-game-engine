@@ -1,16 +1,32 @@
-import React, { memo } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
-import { World } from "engine";
 import { Hierarchy, Inspector } from "frontent/pages";
 import { Canvas } from "./components/canvas";
 
 import styles from "./editor.module.scss";
+import { WorldsManager } from "../../../engine/ecs/worlds-manager";
+import { World } from "../../../engine";
 
-export interface EditorProps {
-  worlds: World[];
-}
+export const useWorlds = () => {
+  const [worlds, setWorlds] = useState<World[]>([]);
 
-export const Editor: React.FC<EditorProps> = memo(({ worlds }: EditorProps) => {
+  const handleWorldUpdate = useCallback((worlds: World[]) => {
+    setWorlds([...worlds]);
+  }, []);
+
+  useEffect(() => {
+    WorldsManager.addListener("onWorldsUpdate", handleWorldUpdate);
+    return () => WorldsManager.removeListener("onWorldsUpdate", handleWorldUpdate);
+  }, []);
+
+  return worlds;
+};
+
+export interface EditorProps {}
+
+export const Editor: React.FC<EditorProps> = () => {
+  const worlds = useWorlds();
+
   return (
     <div className="col p1">
       <div className="row gapCol1">
@@ -26,6 +42,6 @@ export const Editor: React.FC<EditorProps> = memo(({ worlds }: EditorProps) => {
       </div>
     </div>
   );
-});
+};
 
 export default Editor;

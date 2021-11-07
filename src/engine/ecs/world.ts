@@ -58,4 +58,8 @@ export class World {
   init() {
     this.systems.forEach((system) => system.init());
   }
+
+  destroy() {
+    this.systems.forEach((system) => system.destroy());
+  }
 }

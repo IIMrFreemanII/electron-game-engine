@@ -20,6 +20,7 @@ import styles from "./inspector-component.module.scss";
 import { ReactComponent as CollapseSVG } from "frontent/assets/images/rounded-arrow-right-grey.svg";
 import { ReactComponent as PlusSVG } from "frontent/assets/images/plus-sign-grey.svg";
 import { ReactComponent as CrossSVG } from "frontent/assets/images/x-cross-rounded-grey.svg";
+import { GameLoop } from "../../../../../renderer";
 
 const statusMap: ObjectType<InputLineStatuses> = {
   x: "error",
@@ -48,6 +49,7 @@ const FieldByType = <T extends ObservableObject>({
 
   const handleUpdate = useCallback((target1, prop1, value1) => {
     setData((prev) => ({ ...prev, value: value1 }));
+    GameLoop.once();
   }, []);
 
   useDidMount(() => {
