@@ -1,10 +1,11 @@
+import { useCallback, useEffect, useRef } from "react";
+
 import { useDidMount } from "frontent/hooks";
 import { Renderer } from "engine/renderer";
-import { ProfilerUi } from "frontent/components";
+import { ProfilerUi, PlayButton } from "frontent/components";
 import { CANVAS_WRAPPER_ID } from "./canvas.constants";
 
 import styles from "./canvas.module.scss";
-import { useCallback, useEffect, useRef } from "react";
 
 export const Canvas = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -31,6 +32,7 @@ export const Canvas = () => {
 
   return (
     <div id={CANVAS_WRAPPER_ID} className={styles.container} ref={containerRef}>
+      <PlayButton />
       <ProfilerUi enable={false} />
     </div>
   );
