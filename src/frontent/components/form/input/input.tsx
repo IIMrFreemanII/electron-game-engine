@@ -89,6 +89,8 @@ export const Input: React.FC<InputProps> = memo(
     onFocus,
     ...rest
   }: InputProps) => {
+    const isDisabled = disabled;
+
     maxLength = isFinitePositive(maxLength) ? maxLength : 0;
 
     const inputValue = value ?? "";
@@ -141,8 +143,10 @@ export const Input: React.FC<InputProps> = memo(
       styles.inputWrapper,
       inputSizeType[inputSize],
       { [styles.textarea]: isTextarea },
-      { [styles.filled]: hasValue },
+      // TODO: add filled style
+      // { [styles.filled]: hasValue },
       { [styles.hasStatusLine]: hasStatusLine },
+      { [styles.disabled]: isDisabled },
       getBorderStatus(inputStatus),
       inputWrapperClassName,
     );

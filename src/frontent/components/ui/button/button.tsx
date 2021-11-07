@@ -33,17 +33,6 @@ export const Button: React.FC<ButtonProps> = memo(
   }: ButtonProps) => {
     const isDisabled = disabled || loading;
 
-    // If button is has imageBtn it means that we want button to be\have only svg child.
-    // Thus we remove any children that isn't a svg and pick 1st one
-    if (imageBtn) {
-      children = React.Children.map(children, (child) => {
-        if (React.isValidElement(child) && typeof child.type === "function") {
-          const called = (child as any).type();
-          if (React.isValidElement(called) && called.type === "svg") return child;
-        }
-      })?.filter(Boolean)[0];
-    }
-
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => !isDisabled && onClick?.(e);
 
     const buttonStyles = cn(

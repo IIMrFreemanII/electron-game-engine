@@ -8,6 +8,7 @@ import {
   Button,
   Input,
   Checkbox,
+  SvgIcon,
   InputLineStatuses,
 } from "frontent/components";
 import { ObservableObject } from "engine/observable";
@@ -114,14 +115,18 @@ const FieldByType = <T extends ObservableObject>({
             <>
               <div className={styles.triggerArrayWrapper}>
                 <Button onClick={triggerOpening} imageBtn>
-                  <CollapseSVG className={cn(styles.icon, { [styles.opened]: isOpened })} />
+                  <SvgIcon
+                    className={cn(styles.icon, { [styles.opened]: isOpened })}
+                    icon={CollapseSVG}
+                    size={20}
+                  />
                 </Button>
                 <span>{capitalize(`${prop}`)}</span>
               </div>
               <div className={styles.triggerLength}>
                 <span>{value.length} items</span>
                 <Button onClick={handleAddItem(value)} imageBtn>
-                  <PlusSVG />
+                  <SvgIcon icon={PlusSVG} size={12} />
                 </Button>
               </div>
             </>
@@ -177,7 +182,7 @@ const FieldByType = <T extends ObservableObject>({
       >
         {canDelete && (
           <Button className={styles.deleteIcon} onClick={onDelete} imageBtn>
-            <CrossSVG />
+            <SvgIcon icon={CrossSVG} size={12} />
           </Button>
         )}
       </Input>
@@ -195,7 +200,7 @@ const FieldByType = <T extends ObservableObject>({
       >
         {canDelete && (
           <Button className={styles.deleteIcon} onClick={onDelete} imageBtn>
-            <CrossSVG />
+            <SvgIcon icon={CrossSVG} size={12} />
           </Button>
         )}
       </Input>
@@ -210,10 +215,11 @@ const FieldByType = <T extends ObservableObject>({
       onChange={handleChange}
       disableError
       disableTextEdition
+      disabled
     >
       {canDelete && (
         <Button className={styles.deleteIcon} onClick={onDelete} imageBtn>
-          <CrossSVG />
+          <SvgIcon icon={CrossSVG} size={12} />
         </Button>
       )}
     </Input>
@@ -237,7 +243,10 @@ export const InspectorComponent: React.FC<InspectorComponentProps> = memo(({ com
         triggerElement={({ isOpened, triggerOpening }) => (
           <>
             <Button onClick={triggerOpening} imageBtn>
-              <CollapseSVG className={cn(styles.icon, { [styles.opened]: isOpened })} />
+              <SvgIcon
+                className={cn(styles.icon, { [styles.opened]: isOpened })}
+                icon={CollapseSVG}
+              />
             </Button>
             <span>{component.type}</span>
           </>

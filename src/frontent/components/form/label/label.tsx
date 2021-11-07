@@ -35,7 +35,8 @@ export const Label: React.FC<Props> = memo(
       styles.label,
       labelSizeType[size],
       labelAlignType[align],
-      { [styles.filled]: isFilled },
+      // TODO: add filled style
+      // { [styles.filled]: isFilled },
       getTextStatus(status),
       className,
     );

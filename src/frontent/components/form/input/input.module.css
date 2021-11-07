@@ -30,6 +30,11 @@
   padding-left: 8px;
 }
 
+/* TODO: add disable styles for input */
+.inputWrapper.disabled {
+  opacity: 0.5;
+}
+
 .input {
   width: 100%;
   margin: 0;
