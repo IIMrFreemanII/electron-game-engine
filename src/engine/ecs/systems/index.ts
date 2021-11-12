@@ -1,2 +1,3 @@
-export * from "./render-circle-system";
-export * from "./render-square-system";
+export * from "./render-system";
+export * from "./main-system";
+export * from "./physics-system";

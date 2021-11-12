@@ -29,14 +29,14 @@ export const Editor: React.FC<EditorProps> = () => {
 
   return (
     <div className="col p1">
-      <div className="row gapCol1">
+      <div className="row">
         <div className="col2">
           <Hierarchy worlds={worlds} />
         </div>
-        <div className="col">
+        <div className="col8">
           <Canvas />
         </div>
-        <div className="col3">
+        <div className="col2">
           <Inspector />
         </div>
       </div>

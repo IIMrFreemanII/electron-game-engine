@@ -28,14 +28,19 @@
 
 import "./index.tsx";
 
-import { Player, Renderer, RenderSquareSystem, Square, Translation, World } from "./engine";
-import { Vector2 } from "three";
+import { MainSystem, PhysicsSystem, RenderSystem } from "./engine";
 import { GameStateManager } from "./engine/game-state";
 import { WorldsManager } from "./engine/ecs/worlds-manager";
 import { sleep } from "./frontent/utils";
 
+export class Time {
+  // time elapsed since start in ms
+  public static time = 0;
+  // time between frames in ms
+  public static delta = 0;
+}
+
 export class GameLoop {
-  public static lastTime = 0;
   private static requestId: number;
   private static shouldUpdate = true;
 
@@ -44,23 +49,12 @@ export class GameLoop {
     await sleep(0);
 
     const world = WorldsManager.addWorld();
-    const canvasSize = Renderer.getSize();
 
-    for (let i = 0; i < 5; i++) {
-      const size = new Vector2(250, 250);
-      const squareEntity = world.createEntity();
-      squareEntity
-        .addComponent(Translation)
-        .value.set((canvasSize.width - size.x) * 0.5, (canvasSize.height - size.y) * 0.5);
-      squareEntity.addComponent(Square).size.copy(size);
+    world.addSystem(MainSystem);
+    world.addSystem(RenderSystem);
+    world.addSystem(PhysicsSystem);
 
-      squareEntity.addComponent(Player);
-    }
-
-    world.addSystem(RenderSquareSystem);
-    // world.addSystem(RenderCircleSystem);
-
-    WorldsManager.initWorlds();
+    WorldsManager.startWorlds();
   }
 
   public static async start() {
@@ -81,8 +75,8 @@ export class GameLoop {
   }
 
   public static animateLoop(time: number) {
-    const delta = time - GameLoop.lastTime;
-    GameLoop.lastTime = time;
+    Time.delta = time - Time.time;
+    Time.time = time;
 
     WorldsManager.tickWorlds();
 
