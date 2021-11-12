@@ -1,17 +1,33 @@
-import React, { memo, useState, useCallback } from "react";
+import React, { memo, useState,useEffect, useCallback } from "react";
 
 import { World } from "engine";
+import { WorldsManager } from "../../../engine/ecs/worlds-manager";
 import { Grid } from "frontent/components";
 import { Hierarchy, Inspector } from "frontent/pages";
 import { Canvas } from "./components/canvas";
 
 import styles from "./editor.module.scss";
 
-export interface EditorProps {
-  worlds: World[];
-}
+export const useWorlds = () => {
+  const [worlds, setWorlds] = useState<World[]>([]);
 
-export const Editor: React.FC<EditorProps> = memo(({ worlds }: EditorProps) => {
+  const handleWorldUpdate = useCallback((worlds: World[]) => {
+    setWorlds([...worlds]);
+  }, []);
+
+  useEffect(() => {
+    WorldsManager.addListener("onWorldsUpdate", handleWorldUpdate);
+    return () => WorldsManager.removeListener("onWorldsUpdate", handleWorldUpdate);
+  }, []);
+
+  return worlds;
+};
+
+export interface EditorProps {}
+
+export const Editor: React.FC<EditorProps> = memo(() => {
+  const worlds = useWorlds();
+
   const [gridData, setGridData] = useState([
     { x: 0, y: 0, w: 12, h: 1 },
     { x: 0, y: 1, w: 6, h: 1 },

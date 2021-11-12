@@ -12,5 +12,6 @@ export * from "./ui/collapse-self-controlled";
 export * from "./ui/grid";
 export * from "./ui/message-field";
 export * from "./ui/profiler-ui";
+export * from "./ui/play-button";
 export * from "./ui/svg-icon";
 export * from "./ui/tree-file-tabs";
