@@ -3,7 +3,7 @@ import cuid from "cuid";
 import cn from "classnames";
 
 import { useDebounce, useDidUpdate } from "frontent/hooks";
-import { applyCSSToElement, removeCSSFromElement } from "frontent/utils";
+import { applyCSSToNode, removeCSSFromNode } from "frontent/utils";
 
 import styles from "./collapse-self-controlled.module.scss";
 
@@ -76,7 +76,7 @@ export const CollapseSelfControlled = memo(
       setTimeout(() => {
         const observerEl = document.getElementById(cuidRef.current);
 
-        applyCSSToElement(observerEl, {
+        applyCSSToNode(observerEl, {
           maxHeight: observerEl?.scrollHeight + "px",
         });
       }, 0);
@@ -84,7 +84,7 @@ export const CollapseSelfControlled = memo(
       openDebounce.debounce(() => {
         isFinallyOpenedRef.current = true;
 
-        removeCSSFromElement(contentObserverRef.current, ["maxHeight"]);
+        removeCSSFromNode(contentObserverRef.current, "maxHeight");
 
         onFinalOpened?.();
 
@@ -95,11 +95,11 @@ export const CollapseSelfControlled = memo(
     const handleClosing = useCallback(() => {
       reset();
 
-      applyCSSToElement(contentObserverRef.current, {
+      applyCSSToNode(contentObserverRef.current, {
         maxHeight: contentObserverRef.current?.scrollHeight + "px",
       });
 
-      setTimeout(() => removeCSSFromElement(contentObserverRef.current, ["maxHeight"]), 0);
+      setTimeout(() => removeCSSFromNode(contentObserverRef.current, "maxHeight"), 0);
 
       hideDebounce.debounce(() => {
         isFinallyClosedRef.current = true;

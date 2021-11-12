@@ -3,7 +3,7 @@ import cn from "classnames";
 
 import { SvgIcon } from "frontent/components";
 import { useWindowEvent } from "frontent/hooks";
-import { isWithinRect, addClassesToElement, removeClassesFromElement } from "frontent/utils";
+import { isWithinRect, addClassesToNode, removeClassesFromNode } from "frontent/utils";
 import { dragZonePosTypes } from "./drag-zone.constants";
 import { DragZonePosTypesKeys } from "./drag-zone.types";
 
@@ -29,14 +29,14 @@ export const DragZone: React.FC<DragZoneProps> = memo(
 
         if (!isWithinRect(wrapper, e)) {
           isWithinRectRef.current = false;
-          addClassesToElement(wrapper, globalStyles.hideElement);
+          addClassesToNode(wrapper, globalStyles.hideElement);
           return;
         }
 
         if (isWithinRectRef.current) return;
 
         isWithinRectRef.current = true;
-        removeClassesFromElement(wrapper, globalStyles.hideElement);
+        removeClassesFromNode(wrapper, globalStyles.hideElement);
 
         console.log("e");
         console.log(e);

@@ -4,7 +4,7 @@ import cn from "classnames";
 import { World, EntitySelection } from "engine";
 import { CANVAS_WRAPPER_ID } from "frontent/pages";
 import { Button, TreeFileTabs, TreeTabsType } from "frontent/components";
-import { clamp, normalize, applyCSSToElement } from "frontent/utils";
+import { clamp, normalize, applyCSSToNode } from "frontent/utils";
 import { useWindowEvent, useDidMount, useTheme } from "frontent/hooks";
 import { MIN_WIDTH_PERCENTAGE, MAX_WIDTH_PERCENTAGE } from "./hierarchy.constants";
 

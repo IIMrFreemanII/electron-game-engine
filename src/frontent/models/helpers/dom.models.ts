@@ -12,5 +12,3 @@ export const initialElementRect: ElementRect = {
   left: 0,
   right: 0,
 };
-
-export type RefModel<T extends any> = { current: T | null } | React.Dispatch<T | null>;

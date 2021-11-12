@@ -3,6 +3,7 @@ export * from "./clone";
 export * from "./find-key-by-value";
 export * from "./get-key";
 export * from "./get-value";
+export * from "./handle-set-ref";
 export * from "./is-deep-empty";
 export * from "./is-empty";
 export * from "./is-equal";

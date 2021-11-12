@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useState } from "react";
 
 import { useLocalStorage } from "frontent/hooks";
-import { addClassesToElement, removeClassesFromElement } from "frontent/utils";
+import { addClassesToNode, removeClassesFromNode } from "frontent/utils";
 import { ThemeContext, themeLocalStorageKey } from "./theme-provider.constants";
 import { ThemeType } from "./theme-provider.types";
 
@@ -15,8 +15,8 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = memo(
   ({ children, themes, initialTheme }: ThemeProviderProps) => {
     const setClassName = useCallback(
       (newClassName: string) => {
-        removeClassesFromElement(document.body, ...themes.map((theme) => theme.className));
-        addClassesToElement(document.body, newClassName);
+        removeClassesFromNode(document.body, ...themes.map((theme) => theme.className));
+        addClassesToNode(document.body, newClassName);
       },
       [themes],
     );
