@@ -1,9 +1,8 @@
 import { useCallback, useMemo, useState } from "react";
 
-import { Button } from "../../../../components/ui/button/button";
-import { GameState, GameStateManager } from "engine/game-state";
-import { GameLoop } from "../../../../../renderer";
+import { GameState, GameStateManager, GameLoop } from "engine";
 import { useDidMount } from "frontent/hooks";
+import { Button } from "frontent/components/ui/button/button";
 
 import styles from "./play-button.module.scss";
 
