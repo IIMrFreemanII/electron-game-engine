@@ -3,6 +3,7 @@ import { Vector2, Vector3, Vector4 } from "three";
 import cuid from "cuid";
 import cn from "classnames";
 
+import { ObservableObject, GameLoop } from "engine";
 import {
   CollapseSelfControlled,
   Button,
@@ -11,7 +12,6 @@ import {
   SvgIcon,
   InputLineStatuses,
 } from "frontent/components";
-import { ObservableObject } from "engine/observable";
 import { ObjectType } from "frontent/models";
 import { useDidMount, useRerender } from "frontent/hooks";
 import { capitalize } from "frontent/utils";
@@ -20,7 +20,6 @@ import styles from "./inspector-component.module.scss";
 import { ReactComponent as CollapseSVG } from "frontent/assets/images/rounded-arrow-right-grey.svg";
 import { ReactComponent as PlusSVG } from "frontent/assets/images/plus-sign-grey.svg";
 import { ReactComponent as CrossSVG } from "frontent/assets/images/x-cross-rounded-grey.svg";
-import { GameLoop } from "../../../../../renderer";
 
 const statusMap: ObjectType<InputLineStatuses> = {
   x: "error",

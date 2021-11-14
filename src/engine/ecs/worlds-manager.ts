@@ -17,21 +17,15 @@ export class WorldsManager {
   // }
 
   public static startWorlds() {
-    this.worlds.forEach((world) => {
-      world.start();
-    });
+    this.worlds.forEach((world) => world.start());
   }
 
   public static tickWorlds() {
-    this.worlds.forEach((world) => {
-      world.tick();
-    });
+    this.worlds.forEach((world) => world.tick());
   }
 
   public static stopWorlds() {
-    this.worlds.forEach((world) => {
-      world.stop();
-    });
+    this.worlds.forEach((world) => world.stop());
     this.worlds = [];
   }
 
