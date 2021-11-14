@@ -1,10 +1,9 @@
 import { Vector2 } from "three";
+import { Engine, Render } from "matter-js";
 
 export class Renderer {
   public static canvas: HTMLCanvasElement = document.createElement("canvas");
-  public static ctx: CanvasRenderingContext2D = Renderer.canvas.getContext(
-    "2d",
-  ) as CanvasRenderingContext2D;
+  public static matterRender: Render;
 
   public static setSize(width: number, height: number) {
     this.canvas.width = width;
@@ -15,17 +14,21 @@ export class Renderer {
     return new Vector2(this.canvas.width, this.canvas.height);
   }
 
-  public static clear() {
-    Renderer.ctx.clearRect(0, 0, ...this.getSize().toArray());
+  public static init(engine: Engine) {
+    if (!this.matterRender) {
+      const { width, height } = this.canvas;
+      this.matterRender = Render.create({
+        canvas: Renderer.canvas,
+        options: {
+          width,
+          height,
+        },
+        engine,
+      });
+    }
   }
 
-  public static drawSquare(position: Vector2, size: Vector2) {
-    this.ctx.fillRect(position.x, position.y, size.width, size.height);
-  }
-
-  public static drawCircle(position: Vector2, radius: number) {
-    this.ctx.beginPath();
-    this.ctx.arc(position.x, position.y, radius, 0, Math.PI * 2);
-    this.ctx.fill();
+  public static render() {
+    Render.world(this.matterRender);
   }
 }

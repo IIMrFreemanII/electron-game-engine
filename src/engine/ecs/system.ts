@@ -1,13 +1,13 @@
 import { World } from "./world";
 
 export class System {
-  constructor(public world: World) {}
+  public world: World;
 
   tick(): void {}
 
-  init(): void {}
+  start(): void {}
 
-  destroy(): void {}
+  stop(): void {}
 
   get type() {
     return this.constructor.name;

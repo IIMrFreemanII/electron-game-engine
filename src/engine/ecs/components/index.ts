@@ -1,4 +1,3 @@
-export * from "./circle";
 export * from "./player";
-export * from "./square";
+export * from "./size";
 export * from "./translation";

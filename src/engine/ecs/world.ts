@@ -1,11 +1,13 @@
-import { Profiler } from "../profiler";
 import { Entity } from "./entity";
 import { System } from "./system";
 import { Component } from "./component";
-import { Renderer } from "../renderer";
 import { Constructor, Constructors } from "../types";
+import { Engine } from "matter-js";
 
 export class World {
+  // matter-js engine, holds world with data
+  public engine: Engine;
+
   public entities: Entity[] = [];
   public systems: System[] = [];
 
@@ -21,7 +23,10 @@ export class World {
   }
 
   addSystem<T extends System>(type: Constructor<T>) {
-    this.systems.push(new type(this));
+    const system = new type();
+    system.world = this;
+
+    this.systems.push(system);
   }
 
   fromAllCache: Map<string, Component[][]> = new Map<string, Component[][]>();
@@ -50,16 +55,14 @@ export class World {
   }
 
   tick() {
-    Renderer.clear();
-
-    this.systems.forEach((system) => Profiler.profile(system.type, () => system.tick()));
+    this.systems.forEach((system) => system.tick());
   }
 
-  init() {
-    this.systems.forEach((system) => system.init());
+  start() {
+    this.systems.forEach((system) => system.start());
   }
 
-  destroy() {
-    this.systems.forEach((system) => system.destroy());
+  stop() {
+    this.systems.forEach((system) => system.stop());
   }
 }
