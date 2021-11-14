@@ -6,7 +6,7 @@ import { Hierarchy, Inspector } from "frontent/pages";
 import { Canvas } from "./components/canvas";
 
 export const useWorlds = () => {
-  const [worlds, setWorlds] = useState<World[]>([]);
+  const [worlds, setWorlds] = useState<World[]>([WorldsManager.defaultWorld]);
 
   const handleWorldUpdate = useCallback((worlds: World[]) => {
     setWorlds([...worlds]);

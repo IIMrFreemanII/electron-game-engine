@@ -28,10 +28,8 @@
 
 import "./index.tsx";
 
-import { MainSystem, PhysicsSystem, RenderSystem } from "./engine";
+import { MainSystem, PhysicsSystem, RenderSystem, WorldsManager } from "./engine";
 import { GameStateManager } from "./engine/game-state";
-import { WorldsManager } from "./engine/ecs/worlds-manager";
-import { sleep } from "./frontent/utils";
 
 export class Time {
   // time elapsed since start in ms
@@ -42,25 +40,20 @@ export class Time {
 
 export class GameLoop {
   private static requestId: number;
-  private static shouldUpdate = true;
 
-  public static async init() {
+  public static init() {
     // hack to wait till react is initialized
-    await sleep(0);
 
-    const world = WorldsManager.addWorld();
+    const { defaultWorld } = WorldsManager;
 
-    world.addSystem(MainSystem);
-    world.addSystem(RenderSystem);
-    world.addSystem(PhysicsSystem);
+    defaultWorld.addSystem(MainSystem);
+    defaultWorld.addSystem(RenderSystem);
+    defaultWorld.addSystem(PhysicsSystem);
 
     WorldsManager.startWorlds();
   }
 
-  public static async start() {
-    // hack to wait till react is initialized
-    await sleep(0);
-
+  public static start() {
     GameLoop.requestId = requestAnimationFrame(GameLoop.animateLoop);
   }
 

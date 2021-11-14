@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef } from "react";
-import cn from "classnames";
 
 import { useDidMount } from "frontent/hooks";
 import { Renderer } from "engine/renderer";

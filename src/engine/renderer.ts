@@ -1,34 +1,24 @@
-import { Vector2 } from "three";
-import { Engine, Render } from "matter-js";
+import { Camera, Object3D, Vector2, WebGLRenderer } from "three";
+import { WorldsManager } from "./ecs";
 
 export class Renderer {
-  public static canvas: HTMLCanvasElement = document.createElement("canvas");
-  public static matterRender: Render;
+  public static threeRenderer = new WebGLRenderer();
+  public static canvas = this.threeRenderer.domElement;
 
   public static setSize(width: number, height: number) {
-    this.canvas.width = width;
-    this.canvas.height = height;
+    this.threeRenderer.setSize(width, height);
+    const { camera, scene } = WorldsManager.defaultWorld;
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+
+    this.render(scene, camera);
   }
 
   public static getSize(): Vector2 {
     return new Vector2(this.canvas.width, this.canvas.height);
   }
 
-  public static init(engine: Engine) {
-    if (!this.matterRender) {
-      const { width, height } = this.canvas;
-      this.matterRender = Render.create({
-        canvas: Renderer.canvas,
-        options: {
-          width,
-          height,
-        },
-        engine,
-      });
-    }
-  }
-
-  public static render() {
-    Render.world(this.matterRender);
+  public static render(scene: Object3D, camera: Camera) {
+    this.threeRenderer.render(scene, camera);
   }
 }

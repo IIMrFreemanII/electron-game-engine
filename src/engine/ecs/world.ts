@@ -2,11 +2,17 @@ import { Entity } from "./entity";
 import { System } from "./system";
 import { Component } from "./component";
 import { Constructor, Constructors } from "../types";
-import { Engine } from "matter-js";
+import { PerspectiveCamera, Scene } from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 export class World {
-  // matter-js engine, holds world with data
-  public engine: Engine;
+  // three-js scene
+  // todo: needs better solution
+  public scene = new Scene();
+  public camera: PerspectiveCamera;
+  public controls: OrbitControls;
+  // public transformControls = new TransformControls(this.camera, Renderer.canvas);
+  //==============================
 
   public entities: Entity[] = [];
   public systems: System[] = [];
