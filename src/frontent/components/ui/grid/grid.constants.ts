@@ -1,3 +1,5 @@
 export const initialGridCols = 12;
 
-export const initialGridGap = 8;
+export const initialOuterGridGap = 4;
+
+export const initialInnerGridGap = 4;

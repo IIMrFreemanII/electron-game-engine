@@ -12,7 +12,9 @@ export type GridData = GridItemData[];
 export type GridCalculatedInfo = {
   colWidth: number;
   colHeight: number;
-  gap: number;
+  outerGap: number;
+  innerGap: number;
+  cols: number;
 };
 
 export type GridItemRenderCallback = (index: number) => React.ReactNode;

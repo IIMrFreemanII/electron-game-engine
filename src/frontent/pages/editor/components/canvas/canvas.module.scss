@@ -1,4 +1,5 @@
 .container {
+    display: flex;
     position: relative;
     flex-grow: 1;
     background-color: var(--palette-background-primary);

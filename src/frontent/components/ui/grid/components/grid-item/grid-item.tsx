@@ -1,12 +1,13 @@
 import React, { memo } from "react";
 import cn from "classnames";
 
+import { lerp } from "frontent/utils";
 import { GridItemData, GridCalculatedInfo } from "../../grid.types";
 
+import globalStyles from "frontent/assets/styles/global.module.scss";
 import styles from "./grid-item.module.scss";
 
 export interface HeaderProps {
-  index: number;
   itemData: GridItemData;
   calculatedInfo: GridCalculatedInfo;
   className?: string;
@@ -14,33 +15,21 @@ export interface HeaderProps {
 }
 
 export const GridItem: React.FC<HeaderProps> = memo(
-  ({ index, itemData, calculatedInfo, className = "", children }: HeaderProps) => {
-    console.log("itemData + ", index);
-    console.log(itemData);
-
+  ({ itemData, calculatedInfo, className = "", children }: HeaderProps) => {
     const { x, y, w, h } = itemData;
-    const { colWidth, colHeight, gap } = calculatedInfo;
+    const { colWidth, colHeight, outerGap, innerGap, cols } = calculatedInfo;
 
-    const halfW = w / 2;
-    const halfH = h / 2;
+    const gapDiffW = lerp(innerGap, 0, w / cols);
+    const gapDiffH = lerp(innerGap, 0, h / cols);
 
-    // const width = w * colWidth + (Math.floor(halfW) ? Math.ceil(halfW) * gap : 0);
-    // const height = h * colHeight + (Math.floor(halfH) ? Math.ceil(halfH) * gap : 0);
-    const width = w * colWidth;
-    const height = h * colHeight;
+    const width = w * colWidth - gapDiffW;
+    const height = h * colHeight - gapDiffH;
 
-    // const gapX = x ? (x - 1) * gap : gap;
-    // const gapY = y ? (y - 1) * gap : gap;
-    // const gapX = x ? gap + gap : gap;
-    // const gapY = y ? gap + gap : gap;
-    const gapX = gap;
-    const gapY = gap;
+    const gapDiffX = lerp(0, innerGap, x / cols);
+    const gapDiffY = lerp(0, innerGap, y / cols);
 
-    // const gapX = x * gap + gap;
-    // const gapY = y * gap + gap;
-
-    const dx = x * colWidth + gapX;
-    const dy = y * colHeight + gapY;
+    const dx = x * colWidth + outerGap + gapDiffX;
+    const dy = y * colHeight + outerGap + gapDiffY;
 
     const gridItemInlineStyles: React.CSSProperties = {
       width,
@@ -50,9 +39,15 @@ export const GridItem: React.FC<HeaderProps> = memo(
 
     const gridItemStyles = cn(styles.gridItem, "dFlex flexDirCol posAbs br1 p1", className);
 
+    const gridItemContentStyles = cn(
+      styles.gridItemContent,
+      globalStyles.addScrollStyles,
+      "dFlex flex11 flexDirCol",
+    );
+
     return (
       <div className={gridItemStyles} style={gridItemInlineStyles}>
-        {children}
+        <div className={gridItemContentStyles}>{children}</div>
       </div>
     );
   },
