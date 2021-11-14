@@ -5,6 +5,8 @@ export class System {
 
   tick(): void {}
 
+  editorTick(): void {}
+
   start(): void {}
 
   stop(): void {}

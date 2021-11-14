@@ -24,6 +24,10 @@ export class WorldsManager {
     this.worlds.forEach((world) => world.tick());
   }
 
+  public static tickEditorWorlds() {
+    this.worlds.forEach((world) => world.editorTick());
+  }
+
   public static stopWorlds() {
     this.worlds.forEach((world) => world.stop());
     this.worlds = [];

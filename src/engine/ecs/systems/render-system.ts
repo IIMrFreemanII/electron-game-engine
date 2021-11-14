@@ -9,18 +9,19 @@ import {
   PerspectiveCamera,
 } from "three";
 import { Camera } from "../components/camera";
-import { Translation } from "../components";
+import { Transform } from "../components";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { RenderData } from "../components/render-data";
 
 export class RenderSystem extends System {
   init() {
     const cameraEnt = this.world.createEntity();
     cameraEnt.addComponent(Camera);
-    cameraEnt.addComponent(Translation).value.set(0, 2, 10);
+    cameraEnt.addComponent(Transform).position.set(0, 2, 10);
 
-    this.world.fromAll(Camera, Translation).forEach(([camera, translation]) => {
+    this.world.fromAll(Camera, Transform).forEach(([camera, translation]) => {
       const cam = new PerspectiveCamera(camera.fow, camera.aspect, camera.near, camera.far);
-      cam.position.copy(translation.value);
+      cam.position.copy(translation.position);
       cam.updateProjectionMatrix();
 
       this.world.camera = cam;
@@ -63,6 +64,10 @@ export class RenderSystem extends System {
 
   start() {
     this.init();
+  }
+
+  editorTick() {
+    Renderer.render(this.world.scene, this.world.camera);
   }
 
   tick() {
