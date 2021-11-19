@@ -7,9 +7,9 @@ export class System {
 
   editorTick(): void {}
 
-  start(): void {}
+  onCreate(): void {}
 
-  stop(): void {}
+  onDestroy(): void {}
 
   get type() {
     return this.constructor.name;

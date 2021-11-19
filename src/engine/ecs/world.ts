@@ -68,11 +68,11 @@ export class World {
     this.systems.forEach((system) => system.editorTick());
   }
 
-  start() {
-    this.systems.forEach((system) => system.start());
+  onCreate() {
+    this.systems.forEach((system) => system.onCreate());
   }
 
-  stop() {
-    this.systems.forEach((system) => system.stop());
+  onDestroy() {
+    this.systems.forEach((system) => system.onDestroy());
   }
 }

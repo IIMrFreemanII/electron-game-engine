@@ -5,7 +5,7 @@ import { Transform } from "../components";
 import { Time } from "../../game-loop";
 
 export class MainSystem extends System {
-  start() {
+  onCreate() {
     const cube = this.world.createEntity();
     cube.addComponent(Transform);
     cube.addComponent(RenderData);

@@ -17,7 +17,7 @@ export class GameLoop {
     defaultWorld.addSystem(RenderSystem);
     defaultWorld.addSystem(PhysicsSystem);
 
-    WorldsManager.startWorlds();
+    WorldsManager.onCreate();
   }
 
   public static start() {
@@ -41,10 +41,10 @@ export class GameLoop {
     Time.time = timeInSeconds;
 
     if (GameStateManager.state === "play") {
-      WorldsManager.tickWorlds();
+      WorldsManager.tick();
       GameLoop.requestId = requestAnimationFrame(GameLoop.animateLoop);
     } else {
-      WorldsManager.tickEditorWorlds();
+      WorldsManager.editorTick();
     }
   }
 }

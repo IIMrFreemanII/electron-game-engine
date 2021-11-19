@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from "react";
 
 import { useDidMount } from "frontent/hooks";
-import { Renderer } from "engine/renderer";
+import { mainRenderer } from "../../../../../engine";
 import { ProfilerUi, PlayButton } from "frontent/components";
 import { CANVAS_WRAPPER_ID } from "./canvas.constants";
 
@@ -14,7 +14,7 @@ export const Canvas = () => {
     const { current } = containerRef;
     if (!current) return;
     const { width, height } = current.getBoundingClientRect();
-    Renderer.setSize(width, height);
+    mainRenderer.setSize(width, height);
   }, []);
 
   useEffect(() => {
@@ -26,8 +26,8 @@ export const Canvas = () => {
     const { current } = containerRef;
     if (!current) return;
     const { width, height } = current.getBoundingClientRect();
-    Renderer.setSize(width, height);
-    current.appendChild(Renderer.canvas);
+    mainRenderer.setSize(width, height);
+    current.appendChild(mainRenderer.canvas);
   });
 
   return (
