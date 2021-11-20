@@ -1,11 +1,11 @@
 export class Shader {
   public readonly name: string;
 
-  private readonly gl: WebGLRenderingContext | WebGL2RenderingContext;
+  private readonly gl: WebGL2RenderingContext;
   private readonly program: WebGLProgram;
 
   constructor(
-    gl: WebGLRenderingContext | WebGL2RenderingContext,
+    gl: WebGL2RenderingContext,
     name: string,
     vertSrc: string,
     fragScr: string,
