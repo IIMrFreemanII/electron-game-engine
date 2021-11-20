@@ -50,4 +50,5 @@ module.exports = {
     modules: [path.resolve(__dirname, "src"), "node_modules"],
     extensions: [".js", ".ts", ".jsx", ".tsx", ".css", ".scss", ".sass"],
   },
+  target: "electron-renderer",
 };

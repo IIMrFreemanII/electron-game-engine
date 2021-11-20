@@ -29,11 +29,11 @@ export const Editor: React.FC<EditorProps> = memo(() => {
   const [gridData, _setGridData] = useState([
     { x: 0, y: 0, w: 12, h: 0.5 }, // header
 
-    { x: 0, y: 0.5, w: 3, h: 11 }, // hierarchy
-    { x: 3, y: 0.5, w: 6, h: 11 }, // canvas
-    { x: 9, y: 0.5, w: 3, h: 11 }, // inspector
+    { x: 0, y: 0.5, w: 3, h: 8.5 }, // hierarchy
+    { x: 3, y: 0.5, w: 6, h: 8.5 }, // canvas
+    { x: 9, y: 0.5, w: 3, h: 8.5 }, // inspector
 
-    { x: 0, y: 11.5, w: 12, h: 0.5 }, // footer
+    { x: 0, y: 9, w: 12, h: 3 }, // footer
   ]);
 
   const gridContentMap = [

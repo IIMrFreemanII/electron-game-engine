@@ -1,4 +1,4 @@
-import { ObjectKeys, ObjectType } from "frontent/models";
+import { ObjectKeysArr, ObjectType } from "frontent/models";
 
-export const objectKeys = <T extends ObjectType>(o: T): ObjectKeys<T> =>
-  Object.keys(o) as ObjectKeys<T>;
+export const objectKeys = <T extends ObjectType>(o: T): ObjectKeysArr<T> =>
+  Object.keys(o) as ObjectKeysArr<T>;

@@ -1,8 +1,8 @@
-import { ObjectType } from "frontent/models";
+import { ObjectType, Mutable, SwappedObject } from "frontent/models";
 
 export const swapObject = <T extends ObjectType<string, string>>(
   obj: T,
-): { [K in keyof T as T[K]]: K } =>
+): Mutable<SwappedObject<T>> =>
   Object.entries(obj).reduce(
     (acc, [key, value]) => Object.assign(acc, { [value]: key }),
     {},

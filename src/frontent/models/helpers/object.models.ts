@@ -2,6 +2,12 @@ export type ObjectType<T = any, P extends PropertyKey = PropertyKey> = Record<P,
 
 export type EmptyObjectType = ObjectType<never>;
 
+export type ObjectKeys<T extends ObjectType> = keyof T;
+
+export type ObjectValues<T extends ObjectType> = T[ObjectKeys<T>];
+
+export type SwappedObject<T extends ObjectType<string, string>> = { [K in keyof T as T[K]]: K };
+
 export type PartialBy<T extends ObjectType, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 export type PartialKeys<T extends ObjectType> = {
@@ -28,7 +34,7 @@ export type OmitUnion<T extends string, K extends keyof UnionToObject<T>> = keyo
   K
 >;
 
-export type ObjectKeys<T> = T extends ObjectType
+export type ObjectKeysArr<T> = T extends ObjectType
   ? (keyof T)[]
   : T extends number
   ? []

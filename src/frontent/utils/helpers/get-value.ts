@@ -1,3 +1,4 @@
-import { ObjectType } from "frontent/models";
+import { ObjectType, ObjectKeys } from "frontent/models";
 
-export const getValue = <T extends ObjectType, K extends keyof T>(obj: T, key: K): T[K] => obj[key];
+export const getValue = <T extends ObjectType, K extends ObjectKeys<T>>(obj: T, key: K): T[K] =>
+  obj[key];

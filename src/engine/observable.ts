@@ -86,7 +86,7 @@ export const removeObservable = <T extends ObservableObject<any>>(
       result[key] = removeObservable(value);
     });
 
-    return result;
+    return result as any;
   }
 
   return object as any;
