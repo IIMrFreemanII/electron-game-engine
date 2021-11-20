@@ -88,6 +88,7 @@
     "node-loader": "^2.0.0",
     "node-sass": "^6.0.1",
     "prettier": "^2.4.1",
+    "raw-loader": "^4.0.2",
     "sass-loader": "^12.2.0",
     "style-loader": "^3.0.0",
     "ts-loader": "^9.2.6",

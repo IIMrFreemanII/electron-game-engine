@@ -41,6 +41,11 @@ rules.push({
   ],
 });
 
+rules.push({
+  test: /\.(txt|csv|xls|xlsx|glsl|vert|frag)$/,
+  use: ["raw-loader"],
+});
+
 module.exports = {
   module: {
     rules,
