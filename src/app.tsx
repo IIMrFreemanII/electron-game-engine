@@ -7,7 +7,6 @@ import { useDidMount } from "frontent/hooks";
 import styles from "frontent/assets/styles/app.module.scss";
 
 export const App = memo(() => {
-
   useDidMount(() => {
     GameLoop.init();
     GameLoop.start();
