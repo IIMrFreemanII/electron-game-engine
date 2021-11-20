@@ -59,6 +59,10 @@ export class Shader {
       throw "program failed to link:" + this.gl.getProgramInfoLog(program);
     }
 
+    // delete shaders when program is linked
+    this.gl.deleteShader(vertexShader);
+    this.gl.deleteShader(fragmentShader);
+
     return program;
   }
 
@@ -77,6 +81,10 @@ export class Shader {
 
   public unbind() {
     this.gl.useProgram(null);
+  }
+
+  public destroy() {
+    this.gl.deleteProgram(this.program);
   }
 }
 
