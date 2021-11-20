@@ -1,26 +1,20 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useRef } from "react";
 
-import { useDidMount } from "frontent/hooks";
-import { mainRenderer } from "../../../../../engine";
+import { mainRenderer } from "engine";
+import { useDidMount, useResize, useDebounce } from "frontent/hooks";
 import { ProfilerUi, PlayButton } from "frontent/components";
 import { CANVAS_WRAPPER_ID } from "./canvas.constants";
 
 import styles from "./canvas.module.scss";
 
 export const Canvas = () => {
+  const { debounce } = useDebounce(50);
+
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const handleResize = useCallback(() => {
-    const { current } = containerRef;
-    if (!current) return;
-    const { width, height } = current.getBoundingClientRect();
-    mainRenderer.setSize(width, height);
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  useResize(containerRef, ({ width, height }) => {
+    debounce(() => mainRenderer.setSize(width, height));
+  });
 
   useDidMount(() => {
     const { current } = containerRef;

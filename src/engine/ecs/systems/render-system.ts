@@ -1,6 +1,6 @@
+import { sleep } from "frontent/utils";
 import { System } from "../system";
 import { Renderer } from "../../renderer";
-import { sleep } from "../../../frontent/utils";
 
 export const mainRenderer = new Renderer();
 
