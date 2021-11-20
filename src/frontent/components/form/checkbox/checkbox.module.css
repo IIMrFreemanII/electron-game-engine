@@ -115,11 +115,11 @@
 
 /* Checked */
 .checkboxWrap.checked {
-  border-color: var(--checkbox-wrapper-checked-border-background)
+  border-color: var(--checkbox-wrapper-checked-border-background);
 }
 
 .checkboxImageWrapper.checked {
-  background-color: var(--checkbox-icon-wrapper-checked-background)
+  background-color: var(--checkbox-icon-wrapper-checked-background);
 }
 
 .label.checked {

@@ -32,7 +32,6 @@
 
 /*  Scroll Styling ↑ */
 
-
 /*  Text-Overflowed Styling ↓ */
 .applySingleOverflow {
   display: inline-block !important;
@@ -55,7 +54,6 @@
 
 /*  Text-Overflowed Styling ↑ */
 
-
 /* Misc Styling ↓ */
 /* make element invisible but keep it's sizes, position and remove ability to interact with it */
 .hideElement {
@@ -77,7 +75,6 @@
 }
 
 /* Misc Styling ↑ */
-
 
 /* SVG smart status Styling ↓ */
 .whiteSmartSVG path[stroke] {
@@ -130,62 +127,71 @@
 
 /* SVG smart status Styling ↑ */
 
-
 /* SVG fill status Styling ↓ */
-.whiteFillSVG *, .whiteBothSVG * {
+.whiteFillSVG *,
+.whiteBothSVG * {
   fill: #fff;
 }
 
-.blackFillSVG *, .blackBothSVG * {
+.blackFillSVG *,
+.blackBothSVG * {
   fill: #000;
 }
 
-.primaryFillSVG *, .primaryBothSVG * {
+.primaryFillSVG *,
+.primaryBothSVG * {
   fill: var(--palette-primary);
 }
 
-.successFillSVG *, .successBothSVG * {
+.successFillSVG *,
+.successBothSVG * {
   fill: var(--palette-success);
 }
 
-.warningFillSVG *, .warningBothSVG * {
+.warningFillSVG *,
+.warningBothSVG * {
   fill: var(--palette-warning);
 }
 
-.errorFillSVG *, .errorBothSVG * {
+.errorFillSVG *,
+.errorBothSVG * {
   fill: var(--palette-error);
 }
 
 /* SVG fill status Styling ↑ */
 
-
 /* SVG stroke status Styling ↓ */
-.whiteStrokeSVG *, .whiteBothSVG * {
+.whiteStrokeSVG *,
+.whiteBothSVG * {
   stroke: #fff;
 }
 
-.blackStrokeSVG *, .blackBothSVG * {
+.blackStrokeSVG *,
+.blackBothSVG * {
   stroke: #000;
 }
 
-.primaryStrokeSVG *, .primaryBothSVG * {
+.primaryStrokeSVG *,
+.primaryBothSVG * {
   stroke: var(--palette-primary);
 }
 
-.successStrokeSVG *, .successBothSVG * {
+.successStrokeSVG *,
+.successBothSVG * {
   stroke: var(--palette-success);
 }
 
-.warningStrokeSVG *, .warningBothSVG * {
+.warningStrokeSVG *,
+.warningBothSVG * {
   stroke: var(--palette-warning);
 }
 
-.errorStrokeSVG *, .errorBothSVG * {
+.errorStrokeSVG *,
+.errorBothSVG * {
   stroke: var(--palette-error);
 }
 
 /* SVG fill status Styling ↑ */
-
 
 /* Background status Styling ↓ */
 .whiteBackground {
@@ -213,7 +219,6 @@
 }
 
 /* Background status Styling ↑ */
-
 
 /* Border status Styling ↓ */
 .whiteBorder {

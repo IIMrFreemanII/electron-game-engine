@@ -10,7 +10,7 @@
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "eslint --ext .ts,.tsx .",
-    "prettier": "prettier --ignore-path .gitignore \"**/*.+(mdx|js|json|ts|tsx)\"",
+    "prettier": "prettier --ignore-path .gitignore \"**/*.+(mdx|js|json|ts|tsx|scss|css)\"",
     "prettier-format": "npm run prettier -- --write"
   },
   "keywords": [],

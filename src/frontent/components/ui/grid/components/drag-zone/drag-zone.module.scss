@@ -21,11 +21,13 @@
   width: 85%;
 }
 
-.top, .bottom {
+.top,
+.bottom {
   cursor: ns-resize;
 }
 
-.top .icon, .bottom .icon {
+.top .icon,
+.bottom .icon {
   transform: rotateZ(90deg);
 }
 
@@ -47,6 +49,7 @@
   height: 85%;
 }
 
-.right, .left {
+.right,
+.left {
   cursor: ew-resize;
 }
