@@ -1,37 +1,10 @@
 import { Vector2 } from "three";
 
 import { getRandomRgb } from "frontent/utils";
+import { Shader } from "./shader";
+
 import vertShader from "assets/shaders/default.vert";
 import fragShader from "assets/shaders/default.frag";
-
-function createShader(gl, type, source): WebGLShader | undefined {
-  const shader = gl.createShader(type);
-  gl.shaderSource(shader, source);
-  gl.compileShader(shader);
-  const success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
-  if (success) {
-    return shader;
-  }
-
-  console.log(gl.getShaderInfoLog(shader));
-  gl.deleteShader(shader);
-  return undefined;
-}
-
-function createProgram(gl, vertexShader, fragmentShader) {
-  const program = gl.createProgram();
-  gl.attachShader(program, vertexShader);
-  gl.attachShader(program, fragmentShader);
-  gl.linkProgram(program);
-  const success = gl.getProgramParameter(program, gl.LINK_STATUS);
-  if (success) {
-    return program;
-  }
-
-  console.log(gl.getProgramInfoLog(program));
-  gl.deleteProgram(program);
-  return undefined;
-}
 
 export class Renderer {
   canvas = document.createElement("canvas");
@@ -57,16 +30,11 @@ export class Renderer {
   }
 
   start() {
-    // create GLSL shaders, upload the GLSL source, compile the shaders
-    const vertexShader = createShader(this.gl, this.gl.VERTEX_SHADER, vertShader);
-    const fragmentShader = createShader(this.gl, this.gl.FRAGMENT_SHADER, fragShader);
-
-    // Link the two shaders into a program
-    const program = createProgram(this.gl, vertexShader, fragmentShader);
+    const shader = new Shader(this.gl, "default", vertShader, fragShader);
 
     // look up where the vertex data needs to go.
-    const positionAttributeLocation = this.gl.getAttribLocation(program, "a_position");
-    const rgbAttributeLocation = this.gl.getAttribLocation(program, "in_rgb");
+    const positionAttributeLocation = shader.getAttribLocation("a_position");
+    const rgbAttributeLocation = shader.getAttribLocation("in_rgb");
 
     // Create a buffer and put three 2d clip space points in it
     const positionBuffer = this.gl.createBuffer();
@@ -120,10 +88,9 @@ export class Renderer {
 
     const animate = () => {
       // Clear the canvas
-      this.clearWebglCanvas();
+      this.clear();
 
-      // Tell it to use our program (pair of shaders)
-      this.gl.useProgram(program);
+      shader.bind();
 
       // Bind the attribute/buffer set we want.
       this.gl.bindVertexArray(vao);
@@ -140,7 +107,7 @@ export class Renderer {
     animate();
   }
 
-  private clearWebglCanvas() {
+  private clear() {
     this.gl.clearColor(0, 0, 0, 0);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
   }

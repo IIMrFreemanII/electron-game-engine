@@ -8,7 +8,7 @@ export class RenderSystem extends System {
   async onCreate() {
     await sleep(0);
 
-    setInterval(() => mainRenderer.start(), 100);
+    mainRenderer.start();
   }
 
   editorTick() {
