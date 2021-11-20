@@ -5,9 +5,11 @@ export class System {
 
   tick(): void {}
 
-  start(): void {}
+  editorTick(): void {}
 
-  stop(): void {}
+  onCreate(): void {}
+
+  onDestroy(): void {}
 
   get type() {
     return this.constructor.name;

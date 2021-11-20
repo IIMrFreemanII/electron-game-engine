@@ -1,9 +1,9 @@
 import { MainSystem, PhysicsSystem, RenderSystem, WorldsManager, GameStateManager } from "engine";
 
 export class Time {
-  // time elapsed since start in ms
+  // time elapsed since start in seconds
   public static time = 0;
-  // time between frames in ms
+  // time between frames in seconds
   public static delta = 0;
 }
 
@@ -17,10 +17,11 @@ export class GameLoop {
     defaultWorld.addSystem(RenderSystem);
     defaultWorld.addSystem(PhysicsSystem);
 
-    WorldsManager.startWorlds();
+    WorldsManager.onCreate();
   }
 
   public static start() {
+    Time.time = performance.now() / 1000;
     GameLoop.requestId = requestAnimationFrame(GameLoop.animateLoop);
   }
 
@@ -34,14 +35,16 @@ export class GameLoop {
     cancelAnimationFrame(GameLoop.requestId);
   }
 
-  public static animateLoop(time: number) {
-    Time.delta = time - Time.time;
-    Time.time = time;
-
-    WorldsManager.tickWorlds();
+  public static animateLoop() {
+    const timeInSeconds = performance.now() / 1000;
+    Time.delta = timeInSeconds - Time.time;
+    Time.time = timeInSeconds;
 
     if (GameStateManager.state === "play") {
+      WorldsManager.tick();
       GameLoop.requestId = requestAnimationFrame(GameLoop.animateLoop);
+    } else {
+      WorldsManager.editorTick();
     }
   }
 }

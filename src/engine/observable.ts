@@ -1,6 +1,18 @@
 import { ObjectType } from "../frontent/models";
+import { Component } from "./ecs";
+import { Vector2, Vector3, Vector4 } from "three";
 
 const handlers = Symbol("handlers");
+
+const typesToObserve = [Component, Vector2, Vector3, Vector4];
+const observableType = (value: any): boolean => {
+  for (const type of typesToObserve) {
+    if (value instanceof type) {
+      return true;
+    }
+  }
+  return false;
+};
 
 export type ObserveCallback<T extends ObjectType> = (
   target: T,
@@ -17,7 +29,7 @@ export type ObservableObject<T extends ObjectType = ObjectType> = T & {
 export const isObservable = (obj): obj is ObservableObject => !!obj?.__original;
 
 export function makeObservable<T extends ObjectType>(target: T): ObservableObject<T> {
-  if (!target) return target;
+  if (!observableType(target)) return target as any;
 
   if (isObservable(target)) return target;
 

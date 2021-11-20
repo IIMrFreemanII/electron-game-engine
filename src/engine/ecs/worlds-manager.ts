@@ -16,16 +16,20 @@ export class WorldsManager {
   //   return world;
   // }
 
-  public static startWorlds() {
-    this.worlds.forEach((world) => world.start());
+  public static onCreate() {
+    this.worlds.forEach((world) => world.onCreate());
   }
 
-  public static tickWorlds() {
+  public static tick() {
     this.worlds.forEach((world) => world.tick());
   }
 
-  public static stopWorlds() {
-    this.worlds.forEach((world) => world.stop());
+  public static editorTick() {
+    this.worlds.forEach((world) => world.editorTick());
+  }
+
+  public static onDestroy() {
+    this.worlds.forEach((world) => world.onDestroy());
     this.worlds = [];
   }
 

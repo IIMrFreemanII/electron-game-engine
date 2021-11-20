@@ -64,11 +64,15 @@ export class World {
     this.systems.forEach((system) => system.tick());
   }
 
-  start() {
-    this.systems.forEach((system) => system.start());
+  editorTick() {
+    this.systems.forEach((system) => system.editorTick());
   }
 
-  stop() {
-    this.systems.forEach((system) => system.stop());
+  onCreate() {
+    this.systems.forEach((system) => system.onCreate());
+  }
+
+  onDestroy() {
+    this.systems.forEach((system) => system.onDestroy());
   }
 }
