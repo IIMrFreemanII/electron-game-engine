@@ -1,6 +1,6 @@
 import { Vector2 } from "three";
 
-import { getRandomRgb, createProgramFromSources } from "frontent/utils";
+import { getRandomRgb, createProgramFromSources, arrayOf } from "frontent/utils";
 import vertShader from "assets/shaders/default.vert";
 import fragShader from "assets/shaders/default.frag";
 
@@ -49,8 +49,10 @@ export class Renderer {
       [
         [-0.5, 0.5, 0.5, 0.5, -0.5, -0.5],
         [0.5, 0.5, 0.5, -0.5, -0.5, -0.5],
-        // [-0.5, -0.5, 0.5, -0.5, -0.5, 0.5],
-        // [0.5, -0.5, -0.5, 0.5, 0.5, 0.5],
+        [-1, 1, 1, 1, -1, 0.5],
+        [-1, 0.5, 1, 1, 1, 0.5],
+        [-1, -0.5, 1, -0.5, -1, -1],
+        [-1, -1, 1, -1, 1, -0.5],
       ].flat(),
     );
 
@@ -76,16 +78,8 @@ export class Renderer {
     const rgbBuffer = this.gl.createBuffer();
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, rgbBuffer);
 
-    const rgbBufferData = new Float32Array(
-      [
-        getRandomRgb(true),
-        getRandomRgb(true),
-        getRandomRgb(true),
-        getRandomRgb(true),
-        getRandomRgb(true),
-        getRandomRgb(true),
-      ].flat(),
-    );
+    const color = getRandomRgb(true);
+    const rgbBufferData = new Float32Array(arrayOf(posBufferData.length / 2, () => color).flat());
 
     this.gl.bufferData(this.gl.ARRAY_BUFFER, rgbBufferData, this.gl.STATIC_DRAW);
 
@@ -111,7 +105,7 @@ export class Renderer {
       // draw
       const primitiveType = this.gl.TRIANGLES;
       const offset = 0;
-      const count = 6;
+      const count = posBufferData.length / posSize;
       this.gl.drawArrays(primitiveType, offset, count);
 
       // requestAnimationFrame(animate);
