@@ -32,7 +32,7 @@ export const createProgram = (
   shaders.forEach((shader) => gl.attachShader(program, shader));
 
   opt_attribs?.forEach((attrib, i) => {
-    gl.bindAttribLocation(program, opt_locations ? opt_locations[i] : i, attrib);
+    gl.bindAttribLocation(program, opt_locations?.[i] || i, attrib);
   });
 
   gl.linkProgram(program);

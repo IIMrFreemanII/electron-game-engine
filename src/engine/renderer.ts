@@ -30,12 +30,15 @@ export class Renderer {
   start() {
     // create GLSL shaders, upload the GLSL source, compile the shaders
     // Link the two shaders into a program
-    const program = createProgramFromSources(this.gl, [vertShader, fragShader]);
-    if (!program) return;
+    // Link attributes with location
+    const attributes = ["a_position", "in_rgb"];
+    const [posAttr, rgbAttr] = [0, 1];
 
-    // look up where the vertex data needs to go.
-    const positionAttributeLocation = this.gl.getAttribLocation(program, "a_position");
-    const rgbAttributeLocation = this.gl.getAttribLocation(program, "in_rgb");
+    const program = createProgramFromSources(this.gl, [vertShader, fragShader], attributes, [
+      posAttr,
+      rgbAttr,
+    ]);
+    if (!program) return;
 
     // Create a buffer and put three 2d clip space points in it
     const positionBuffer = this.gl.createBuffer();
@@ -59,7 +62,7 @@ export class Renderer {
     this.gl.bindVertexArray(vao);
 
     // Turn on the position attribute
-    this.gl.enableVertexAttribArray(positionAttributeLocation);
+    this.gl.enableVertexAttribArray(posAttr);
 
     // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
     const size = 2; // 2 components per iteration
@@ -67,10 +70,10 @@ export class Renderer {
     const normalize = false; // don't normalize the data
     const stride = 5 * 4; // 0 = move forward size * sizeof(type) each iteration to get the next position
     const offset = 0; // start at the beginning of the buffer
-    this.gl.vertexAttribPointer(positionAttributeLocation, size, type, normalize, stride, offset);
+    this.gl.vertexAttribPointer(posAttr, size, type, normalize, stride, offset);
 
     // Turn on the rgb attribute
-    this.gl.enableVertexAttribArray(rgbAttributeLocation);
+    this.gl.enableVertexAttribArray(rgbAttr);
 
     // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
     const rgbSize = 3; // 3 components per iteration
@@ -78,14 +81,7 @@ export class Renderer {
     const rgbNormalize = false; // don't normalize the data
     const rgbStride = 5 * 4; // 0 = move forward size * sizeof(type) each iteration to get the next position
     const rgbOffset = 2 * 4; // start at the beginning of the buffer
-    this.gl.vertexAttribPointer(
-      rgbAttributeLocation,
-      rgbSize,
-      rgbType,
-      rgbNormalize,
-      rgbStride,
-      rgbOffset,
-    );
+    this.gl.vertexAttribPointer(rgbAttr, rgbSize, rgbType, rgbNormalize, rgbStride, rgbOffset);
 
     const animate = () => {
       // Clear the canvas
