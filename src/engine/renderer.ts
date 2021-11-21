@@ -10,10 +10,7 @@ export class Renderer {
 
   constructor() {
     const context = this.canvas.getContext("webgl2");
-    if (!context) {
-      throw new Error("webgl2 not available");
-    }
-
+    if (!context) throw new Error("webgl2 not available");
     this.gl = context;
   }
 
@@ -32,56 +29,74 @@ export class Renderer {
     // Link the two shaders into a program
     // Link attributes with location
     const attributes = ["a_position", "in_rgb"];
-    const [posAttr, rgbAttr] = [0, 1];
+    const [positionLocation, rgbLocation] = [0, 1];
 
     const program = createProgramFromSources(this.gl, [vertShader, fragShader], attributes, [
-      posAttr,
-      rgbAttr,
+      positionLocation,
+      rgbLocation,
     ]);
     if (!program) return;
 
-    // Create a buffer and put three 2d clip space points in it
-    const positionBuffer = this.gl.createBuffer();
-
-    // Bind it to ARRAY_BUFFER (think of it as ARRAY_BUFFER = positionBuffer)
-    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, positionBuffer);
-
-    const buffer = new Float32Array(
-      [
-        [-0.5, -0.5, getRandomRgb(true)],
-        [0, 0.5, getRandomRgb(true)],
-        [0.5, -0.5, getRandomRgb(true)],
-      ].flat(2),
-    );
-    this.gl.bufferData(this.gl.ARRAY_BUFFER, buffer, this.gl.STATIC_DRAW);
-
     // Create a vertex array object (attribute state)
-    const vao = this.gl.createVertexArray();
-
     // and make it the one we're currently working with
+    const vao = this.gl.createVertexArray();
     this.gl.bindVertexArray(vao);
 
-    // Turn on the position attribute
-    this.gl.enableVertexAttribArray(posAttr);
+    // Create a buffer for the positions.
+    const posBuffer = this.gl.createBuffer();
+    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, posBuffer);
+    const posBufferData = new Float32Array(
+      [
+        [-0.5, 0.5, 0.5, 0.5, -0.5, -0.5],
+        [0.5, 0.5, 0.5, -0.5, -0.5, -0.5],
+        // [-0.5, -0.5, 0.5, -0.5, -0.5, 0.5],
+        // [0.5, -0.5, -0.5, 0.5, 0.5, 0.5],
+      ].flat(),
+    );
 
-    // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
-    const size = 2; // 2 components per iteration
-    const type = this.gl.FLOAT; // the data is 32bit floats
-    const normalize = false; // don't normalize the data
-    const stride = 5 * 4; // 0 = move forward size * sizeof(type) each iteration to get the next position
-    const offset = 0; // start at the beginning of the buffer
-    this.gl.vertexAttribPointer(posAttr, size, type, normalize, stride, offset);
+    this.gl.bufferData(this.gl.ARRAY_BUFFER, posBufferData, this.gl.STATIC_DRAW);
 
-    // Turn on the rgb attribute
-    this.gl.enableVertexAttribArray(rgbAttr);
+    // tell the position attribute how to pull data out of the current ARRAY_BUFFER
+    this.gl.enableVertexAttribArray(positionLocation);
+    const posSize = 2;
+    const posType = this.gl.FLOAT;
+    const posNormalize = false;
+    const posStride = 0;
+    const posOffset = 0;
+    this.gl.vertexAttribPointer(
+      positionLocation,
+      posSize,
+      posType,
+      posNormalize,
+      posStride,
+      posOffset,
+    );
 
-    // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
-    const rgbSize = 3; // 3 components per iteration
-    const rgbType = this.gl.FLOAT; // the data is 32bit floats
-    const rgbNormalize = false; // don't normalize the data
-    const rgbStride = 5 * 4; // 0 = move forward size * sizeof(type) each iteration to get the next position
-    const rgbOffset = 2 * 4; // start at the beginning of the buffer
-    this.gl.vertexAttribPointer(rgbAttr, rgbSize, rgbType, rgbNormalize, rgbStride, rgbOffset);
+    // Create a buffer for the colors.
+    const rgbBuffer = this.gl.createBuffer();
+    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, rgbBuffer);
+
+    const rgbBufferData = new Float32Array(
+      [
+        getRandomRgb(true),
+        getRandomRgb(true),
+        getRandomRgb(true),
+        getRandomRgb(true),
+        getRandomRgb(true),
+        getRandomRgb(true),
+      ].flat(),
+    );
+
+    this.gl.bufferData(this.gl.ARRAY_BUFFER, rgbBufferData, this.gl.STATIC_DRAW);
+
+    // tell the position attribute how to pull data out of the current ARRAY_BUFFER
+    this.gl.enableVertexAttribArray(rgbLocation);
+    const rgbSize = 3;
+    const rgbType = this.gl.FLOAT;
+    const rgbNormalize = false;
+    const rgbStride = 3 * 4;
+    const rgbOffset = 0;
+    this.gl.vertexAttribPointer(rgbLocation, rgbSize, rgbType, rgbNormalize, rgbStride, rgbOffset);
 
     const animate = () => {
       // Clear the canvas
@@ -91,12 +106,12 @@ export class Renderer {
       this.gl.useProgram(program);
 
       // Bind the attribute/buffer set we want.
-      // this.gl.bindVertexArray(vao);
+      this.gl.bindVertexArray(vao);
 
       // draw
       const primitiveType = this.gl.TRIANGLES;
       const offset = 0;
-      const count = 3;
+      const count = 6;
       this.gl.drawArrays(primitiveType, offset, count);
 
       // requestAnimationFrame(animate);

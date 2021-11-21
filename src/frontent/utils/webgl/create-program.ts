@@ -2,12 +2,11 @@ import { Nullable } from "frontent/models";
 import { addLineNumbersWithError } from "frontent/utils";
 
 /**
- * Creates a program, attaches shaders, binds attrib locations, links the
- * program and calls useProgram.
+ * Creates a program, attaches shaders, binds attrib locations, links the program.
  * @param {WebGL2RenderingContext} gl
  * @param {WebGLShader[]} shaders The shaders to attach
  * @param {string[]} [opt_attribs] An array of attribs names. Locations will be assigned by index if not passed in
- * @param {number[]} [opt_locations] The locations for the. A parallel array to opt_attribs letting you assign locations.
+ * @param {number[]} [opt_locations] The locations for the attribs. A parallel array to opt_attribs letting you assign locations.
  * @param {(error: string) => void} opt_errorCallback callback for errors. By default it just prints an error to the console
  *        on error. If you want something else pass an callback. It's passed an error message.
  * @return {Nullable<WebGLProgram>} The created program.

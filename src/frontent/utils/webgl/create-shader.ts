@@ -6,7 +6,8 @@ import { addLineNumbersWithError, getWebglShaderType, WebglShadersType } from "f
  * @param {WebGLRenderingContext} gl The WebGLRenderingContext to use.
  * @param {string} shaderSource The shader source.
  * @param {WebglShadersType} shaderType The type of shader.
- * @param {(error: string) => void} opt_errorCallback callback for errors.
+ * @param {(error: string) => void} opt_errorCallback callback for errors. By default it just prints an error to the console
+ *        on error. If you want something else pass an callback. It's passed an error message.
  * @return {Nullable<WebGLShader>} The created shader.
  */
 export const createShader = (

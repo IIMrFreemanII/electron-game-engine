@@ -5,14 +5,14 @@ const defaultShaderType: [WebglShadersType, WebglShadersType] = ["vertex", "frag
 
 /**
  * Creates a program from 2 sources.
- *
  * @param {WebGLRenderingContext} gl The WebGLRenderingContext to use.
  * @param {string[]} shaderSources Array of sources for the
  *        shaders. The first is assumed to be the vertex shader,
  *        the second the fragment shader.
  * @param {string[]} [opt_attribs] An array of attribs names. Locations will be assigned by index if not passed in
- * @param {number[]} [opt_locations] The locations for the. A parallel array to opt_attribs letting you assign locations.
- * @param {(error: string) => void} opt_errorCallback callback for errors.
+ * @param {number[]} [opt_locations] The locations for the attribs. A parallel array to opt_attribs letting you assign locations.
+ * @param {(error: string) => void} opt_errorCallback callback for errors. By default it just prints an error to the console
+ *        on error. If you want something else pass an callback. It's passed an error message.
  * @return {Nullable<WebGLShader>} The created shader.
  */
 export const createProgramFromSources = (
