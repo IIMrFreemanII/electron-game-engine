@@ -1,37 +1,8 @@
 import { Vector2 } from "three";
 
-import { getRandomRgb } from "frontent/utils";
+import { getRandomRgb, createProgramFromSources } from "frontent/utils";
 import vertShader from "assets/shaders/default.vert";
 import fragShader from "assets/shaders/default.frag";
-
-function createShader(gl, type, source): WebGLShader | undefined {
-  const shader = gl.createShader(type);
-  gl.shaderSource(shader, source);
-  gl.compileShader(shader);
-  const success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
-  if (success) {
-    return shader;
-  }
-
-  console.log(gl.getShaderInfoLog(shader));
-  gl.deleteShader(shader);
-  return undefined;
-}
-
-function createProgram(gl, vertexShader, fragmentShader) {
-  const program = gl.createProgram();
-  gl.attachShader(program, vertexShader);
-  gl.attachShader(program, fragmentShader);
-  gl.linkProgram(program);
-  const success = gl.getProgramParameter(program, gl.LINK_STATUS);
-  if (success) {
-    return program;
-  }
-
-  console.log(gl.getProgramInfoLog(program));
-  gl.deleteProgram(program);
-  return undefined;
-}
 
 export class Renderer {
   canvas = document.createElement("canvas");
@@ -58,11 +29,9 @@ export class Renderer {
 
   start() {
     // create GLSL shaders, upload the GLSL source, compile the shaders
-    const vertexShader = createShader(this.gl, this.gl.VERTEX_SHADER, vertShader);
-    const fragmentShader = createShader(this.gl, this.gl.FRAGMENT_SHADER, fragShader);
-
     // Link the two shaders into a program
-    const program = createProgram(this.gl, vertexShader, fragmentShader);
+    const program = createProgramFromSources(this.gl, [vertShader, fragShader]);
+    if (!program) return;
 
     // look up where the vertex data needs to go.
     const positionAttributeLocation = this.gl.getAttribLocation(program, "a_position");
@@ -126,7 +95,7 @@ export class Renderer {
       this.gl.useProgram(program);
 
       // Bind the attribute/buffer set we want.
-      this.gl.bindVertexArray(vao);
+      // this.gl.bindVertexArray(vao);
 
       // draw
       const primitiveType = this.gl.TRIANGLES;
