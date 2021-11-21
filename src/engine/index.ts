@@ -5,5 +5,4 @@ export * from "./game-loop";
 export * from "./game-state";
 export * from "./observable";
 export * from "./profiler";
-export * from "./renderer";
 export * from "./types";
