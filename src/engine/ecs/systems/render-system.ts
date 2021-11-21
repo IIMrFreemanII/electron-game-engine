@@ -1,6 +1,6 @@
 import { sleep } from "frontent/utils";
 import { System } from "../system";
-import { Renderer } from "../../renderer/nick";
+import { Renderer } from "../../renderer/vova";
 
 export const mainRenderer = new Renderer();
 
@@ -11,11 +11,7 @@ export class RenderSystem extends System {
     mainRenderer.start();
   }
 
-  editorTick() {
+  editorTick() {}
 
-  }
-
-  tick() {
-
-  }
+  tick() {}
 }
