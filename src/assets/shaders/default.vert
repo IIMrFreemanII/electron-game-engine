@@ -2,16 +2,21 @@
 
 // an attribute is an input (in) to a vertex shader.
 // It will receive data from a buffer
-in vec2 a_position;
-in vec3 in_rgb;
+in vec4 a_position;
+in vec3 a_normal;
 
-out vec3 out_rgb;
+// A matrix to transform the positions by
+uniform mat4 u_MVPMatrix;
+uniform mat4 u_ModelInverseTransposeMatrix;
+
+// varying to pass the normal to the fragment shader
+out vec3 v_normal;
 
 // all shaders have a main function
 void main() {
 
     // gl_Position is a special variable a vertex shader
     // is responsible for setting
-    gl_Position = vec4(a_position, 0, 1.0);
-    out_rgb = in_rgb;
+    gl_Position = u_MVPMatrix * a_position;
+    v_normal = mat3(u_ModelInverseTransposeMatrix) * a_normal;
 }

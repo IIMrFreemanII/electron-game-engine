@@ -13,7 +13,10 @@ export class Profiler {
     callback();
     const end = performance.now();
     const time = end - start;
+    const result = { name, time };
     this.emitter.emit("profile", { name, time });
+
+    return result;
   }
   public static addListener(callback: (result: ProfileResult) => void) {
     this.emitter.addListener("profile", callback);

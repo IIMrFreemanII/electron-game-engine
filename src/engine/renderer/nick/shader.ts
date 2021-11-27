@@ -4,12 +4,7 @@ export class Shader {
   private readonly gl: WebGL2RenderingContext;
   private readonly program: WebGLProgram;
 
-  constructor(
-    gl: WebGL2RenderingContext,
-    name: string,
-    vertSrc: string,
-    fragScr: string,
-  ) {
+  constructor(gl: WebGL2RenderingContext, name: string, vertSrc: string, fragScr: string) {
     this.gl = gl;
     this.name = name;
 
@@ -72,6 +67,10 @@ export class Shader {
 
   public getAttribLocation(name: string) {
     return this.gl.getAttribLocation(this.program, name);
+  }
+
+  public getUniformLocation(name: string) {
+    return this.gl.getUniformLocation(this.program, name);
   }
 
   public bind() {
