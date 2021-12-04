@@ -1,4 +1,8 @@
+export * from "./classes";
+
 export * from "./average-value.utils";
+export * from "./calc-aspect-ratio";
+export * from "./calc-gcd";
 export * from "./clamp.utils";
 export * from "./clamp-to-closest.utils";
 export * from "./get-random-number";

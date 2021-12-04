@@ -1,5 +1,3 @@
-import React from "react";
-
 export type ElementRect = Omit<DOMRect, "toJSON">;
 
 export const initialElementRect: ElementRect = {

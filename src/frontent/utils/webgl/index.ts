@@ -1,3 +1,5 @@
+export * from "./shapes";
+
 export * from "./add-line-numbers-with-error";
 export * from "./create-program";
 export * from "./create-program-from-sources";

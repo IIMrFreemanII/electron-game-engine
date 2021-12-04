@@ -1,5 +1,5 @@
-export const loadImage = (src: string, crossOrigin = false) => {
-  return new Promise((resolve, reject) => {
+export const loadImage = (src: string, crossOrigin = false): Promise<HTMLImageElement> => {
+  return new Promise<HTMLImageElement>((resolve, reject) => {
     const image = new Image();
     if (crossOrigin) image.crossOrigin = "*";
     image.onload = () => resolve(image);
