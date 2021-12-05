@@ -1,10 +1,11 @@
 import { Vector2 } from "three";
 import { glMatrix, mat4, vec3 } from "gl-matrix";
-
+import { normals, positions } from "./cube-data";
 import { Shader } from "./shader";
 
 import vertShader from "assets/shaders/default.vert";
 import fragShader from "assets/shaders/default.frag";
+import { Mesh } from "./mesh";
 
 glMatrix.setMatrixArrayType(Array);
 
@@ -38,13 +39,15 @@ export class Renderer {
     return new Vector2(this.canvas.width, this.canvas.height);
   }
 
+  submit(mesh, shader, modelMatrix, camera) {}
+
   start() {
     // create GLSL shaders, upload the GLSL source, compile the shaders
     const shader = new Shader(this.gl, "default", vertShader, fragShader);
 
     // look up where the vertex data needs to go.
-    const positionAttributeLocation = shader.getAttribLocation("a_position");
-    const normalAttributeLocation = shader.getAttribLocation("a_normal");
+    // const positionAttributeLocation = shader.getAttribLocation("a_position");
+    // const normalAttributeLocation = shader.getAttribLocation("a_normal");
     // look up uniform locations
     const mvpMatrixLocation = shader.getUniformLocation("u_MVPMatrix");
     const modelInverseTransposeMatrixLocation = shader.getUniformLocation(
@@ -53,205 +56,12 @@ export class Renderer {
     const colorLocation = shader.getUniformLocation("u_color");
     const reverseLightDirectionLocation = shader.getUniformLocation("u_reverseLightDirection");
 
-    // Create a vertex array object (attribute state)
-    // and make it the one we're currently working with
-    const vao = this.gl.createVertexArray();
-    this.gl.bindVertexArray(vao);
+    const mesh = new Mesh(this.gl, { a_position: positions, a_normal: normals });
 
-    // Create a buffer for the positions.
-    const posBuffer = this.gl.createBuffer();
-    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, posBuffer);
-    // counter clockwise front facing triangle
-    const posBufferData = new Float32Array(
-      [
-        // front
-        [
-          [-0.5, -0.5, 0.5],
-          [0.5, 0.5, 0.5],
-          [-0.5, 0.5, 0.5],
-        ],
-        [
-          [-0.5, -0.5, 0.5],
-          [0.5, -0.5, 0.5],
-          [0.5, 0.5, 0.5],
-        ],
-        // back
-        [
-          [-0.5, 0.5, -0.5],
-          [0.5, 0.5, -0.5],
-          [-0.5, -0.5, -0.5],
-        ],
-        [
-          [0.5, 0.5, -0.5],
-          [0.5, -0.5, -0.5],
-          [-0.5, -0.5, -0.5],
-        ],
-        // top
-        [
-          [-0.5, 0.5, 0.5],
-          [0.5, 0.5, -0.5],
-          [-0.5, 0.5, -0.5],
-        ],
-        [
-          [-0.5, 0.5, 0.5],
-          [0.5, 0.5, 0.5],
-          [0.5, 0.5, -0.5],
-        ],
-        // bottom
-        [
-          [-0.5, -0.5, -0.5],
-          [0.5, -0.5, -0.5],
-          [-0.5, -0.5, 0.5],
-        ],
-        [
-          [0.5, -0.5, -0.5],
-          [0.5, -0.5, 0.5],
-          [-0.5, -0.5, 0.5],
-        ],
-        // left
-        [
-          [-0.5, -0.5, -0.5],
-          [-0.5, 0.5, 0.5],
-          [-0.5, 0.5, -0.5],
-        ],
-        [
-          [-0.5, -0.5, -0.5],
-          [-0.5, -0.5, 0.5],
-          [-0.5, 0.5, 0.5],
-        ],
-        // right
-        [
-          [0.5, 0.5, -0.5],
-          [0.5, -0.5, 0.5],
-          [0.5, -0.5, -0.5],
-        ],
-        [
-          [0.5, 0.5, -0.5],
-          [0.5, 0.5, 0.5],
-          [0.5, -0.5, 0.5],
-        ],
-      ].flat(2),
-    );
-
-    this.gl.bufferData(this.gl.ARRAY_BUFFER, posBufferData, this.gl.STATIC_DRAW);
-
-    // tell the position attribute how to pull data out of the current ARRAY_BUFFER
-    this.gl.enableVertexAttribArray(positionAttributeLocation);
-    const posSize = 3;
-    const posType = this.gl.FLOAT;
-    const posNormalize = false;
-    const posStride = 0;
-    const posOffset = 0;
-    this.gl.vertexAttribPointer(
-      positionAttributeLocation,
-      posSize,
-      posType,
-      posNormalize,
-      posStride,
-      posOffset,
-    );
-
-    //
-
-    // Create a buffer for the normals.
-    const normalsBuffer = this.gl.createBuffer();
-    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, normalsBuffer);
-    const normalsBufferData = new Float32Array(
-      [
-        // front
-        [
-          [0, 0, 1],
-          [0, 0, 1],
-          [0, 0, 1],
-        ],
-        [
-          [0, 0, 1],
-          [0, 0, 1],
-          [0, 0, 1],
-        ],
-        // back
-        [
-          [0, 0, -1],
-          [0, 0, -1],
-          [0, 0, -1],
-        ],
-        [
-          [0, 0, -1],
-          [0, 0, -1],
-          [0, 0, -1],
-        ],
-        // top
-        [
-          [0, 1, 0],
-          [0, 1, 0],
-          [0, 1, 0],
-        ],
-        [
-          [0, 1, 0],
-          [0, 1, 0],
-          [0, 1, 0],
-        ],
-        // bottom
-        [
-          [0, -1, 0],
-          [0, -1, 0],
-          [0, -1, 0],
-        ],
-        [
-          [0, -1, 0],
-          [0, -1, 0],
-          [0, -1, 0],
-        ],
-        // left
-        [
-          [-1, 0, 0],
-          [-1, 0, 0],
-          [-1, 0, 0],
-        ],
-        [
-          [-1, 0, 0],
-          [-1, 0, 0],
-          [-1, 0, 0],
-        ],
-        // right
-        [
-          [1, 0, 0],
-          [1, 0, 0],
-          [1, 0, 0],
-        ],
-        [
-          [1, 0, 0],
-          [1, 0, 0],
-          [1, 0, 0],
-        ],
-      ].flat(2),
-    );
-
-    this.gl.bufferData(this.gl.ARRAY_BUFFER, normalsBufferData, this.gl.STATIC_DRAW);
-
-    // tell the position attribute how to pull data out of the current ARRAY_BUFFER
-    this.gl.enableVertexAttribArray(normalAttributeLocation);
-    const normalsSize = 3;
-    const normalsType = this.gl.FLOAT;
-    const normalsNormalize = false;
-    const normalsStride = 0;
-    const normalsOffset = 0;
-    this.gl.vertexAttribPointer(
-      normalAttributeLocation,
-      normalsSize,
-      normalsType,
-      normalsNormalize,
-      normalsStride,
-      normalsOffset,
-    );
-
-    let time = 0;
-
-    const animate = () => {
-      time += 1;
+    const animate = (time: number) => {
+      time *= 0.001;
       // Clear the canvas
       this.clear();
-
       // turn on depth testing
       this.gl.enable(this.gl.DEPTH_TEST);
       // tell webgl to cull faces
@@ -260,12 +70,13 @@ export class Renderer {
       shader.bind();
 
       // Bind the attribute/buffer set we want.
-      this.gl.bindVertexArray(vao);
+      // this.gl.bindVertexArray(vao);
+      mesh.vertexArray.bind();
 
       const near = 0.1;
       const far = 1000;
 
-      const rotation = glMatrix.toRadian(time);
+      const rotation = glMatrix.toRadian(30 * time);
       const model = mat4.create();
       mat4.rotateY(model, model, rotation);
 
@@ -303,15 +114,12 @@ export class Renderer {
       this.gl.uniform3fv(reverseLightDirectionLocation, invertLightDir);
 
       // draw
-      const primitiveType = this.gl.TRIANGLES;
-      const offset = 0;
-      const count = posBufferData.length / posSize;
-      this.gl.drawArrays(primitiveType, offset, count);
+      this.gl.drawArrays(mesh.drawMode, 0, mesh.count);
 
-      requestAnimationFrame(animate);
+      // requestAnimationFrame(animate);
     };
 
-    animate();
+    requestAnimationFrame(animate);
   }
 
   private clear() {
