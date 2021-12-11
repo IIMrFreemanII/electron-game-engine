@@ -21,7 +21,7 @@ export class GameLoop {
   }
 
   public static start() {
-    Time.time = performance.now() / 1000;
+    Time.time = performance.now() * 0.001;
     GameLoop.requestId = requestAnimationFrame(GameLoop.animateLoop);
   }
 
@@ -36,7 +36,7 @@ export class GameLoop {
   }
 
   public static animateLoop() {
-    const timeInSeconds = performance.now() / 1000;
+    const timeInSeconds = performance.now() * 0.001;
     Time.delta = timeInSeconds - Time.time;
     Time.time = timeInSeconds;
 

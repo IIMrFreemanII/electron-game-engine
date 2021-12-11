@@ -1,8 +1,7 @@
-import { Vector2 } from "three";
-
 import { getRandomRgb, createProgramFromSources, arrayOf } from "frontent/utils";
 import vertShader from "assets/shaders/default.vert";
 import fragShader from "assets/shaders/default.frag";
+import { vec2 } from "gl-matrix";
 
 export class Renderer {
   canvas = document.createElement("canvas");
@@ -20,8 +19,8 @@ export class Renderer {
     this.gl.viewport(0, 0, width, height);
   }
 
-  getSize(): Vector2 {
-    return new Vector2(this.canvas.width, this.canvas.height);
+  getSize(): vec2 {
+    return vec2.fromValues(this.canvas.width, this.canvas.height);
   }
 
   start() {

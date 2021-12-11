@@ -5,9 +5,12 @@ import { Editor } from "frontent/pages";
 import { useDidMount } from "frontent/hooks";
 
 import styles from "frontent/assets/styles/app.module.scss";
+import wait from "fork-ts-checker-webpack-plugin/lib/utils/async/wait";
 
 export const App = memo(() => {
-  useDidMount(() => {
+  useDidMount(async () => {
+    await wait(0);
+
     GameLoop.init();
     GameLoop.start();
   });

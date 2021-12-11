@@ -1,5 +1,5 @@
 import { Component } from "../component";
-import { Vector3, Vector4 } from "three";
+import { vec3, vec4 } from "gl-matrix";
 
 export class Player extends Component {
   name = "player";
@@ -15,6 +15,6 @@ export class Player extends Component {
   strings = ["item1", "item2", "item3", "1", "23", "4"];
   objects = [{}, null];
 
-  position = new Vector3();
-  quaternion = new Vector4();
+  position = vec3.create();
+  quaternion = vec4.create();
 }

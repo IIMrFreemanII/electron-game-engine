@@ -1,5 +1,5 @@
-import { Vector2 } from "three";
+import { vec2 } from "gl-matrix";
 
 export class Mouse {
-  static position = new Vector2(0, 0);
+  static position = vec2.create();
 }

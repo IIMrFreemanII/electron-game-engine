@@ -1,6 +1,6 @@
 import { Component } from "../component";
-import { Vector2 } from "three";
+import { vec2 } from "gl-matrix";
 
 export class Size extends Component {
-  value = new Vector2();
+  value = vec2.create();
 }

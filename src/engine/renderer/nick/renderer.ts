@@ -1,5 +1,4 @@
-import { Vector2 } from "three";
-import { glMatrix, mat4, vec3 } from "gl-matrix";
+import { glMatrix, mat4, vec2, vec3 } from "gl-matrix";
 import { normals, positions } from "./cube-data";
 import { Shader } from "./shader";
 
@@ -35,26 +34,36 @@ export class Renderer {
     this.gl.viewport(0, 0, width, height);
   }
 
-  getSize(): Vector2 {
-    return new Vector2(this.canvas.width, this.canvas.height);
+  getSize(): vec2 {
+    return vec2.fromValues(this.canvas.width, this.canvas.height);
   }
 
-  submit(mesh, shader, modelMatrix, camera) {}
+  submit(mesh: Mesh, shader: Shader) {
+    mesh.vertexArray.bind();
+    shader.bind();
+    shader.setUniforms();
+
+    this.drawArrays(mesh);
+  }
+
+  begin() {
+    this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+    // Clear the canvas
+    this.clear();
+    // turn on depth testing
+    this.gl.enable(this.gl.DEPTH_TEST);
+    // tell webgl to cull faces
+    this.gl.enable(this.gl.CULL_FACE);
+  }
+
+  end() {}
 
   start() {
     // create GLSL shaders, upload the GLSL source, compile the shaders
     const shader = new Shader(this.gl, "default", vertShader, fragShader);
-
     // look up where the vertex data needs to go.
     // const positionAttributeLocation = shader.getAttribLocation("a_position");
     // const normalAttributeLocation = shader.getAttribLocation("a_normal");
-    // look up uniform locations
-    const mvpMatrixLocation = shader.getUniformLocation("u_MVPMatrix");
-    const modelInverseTransposeMatrixLocation = shader.getUniformLocation(
-      "u_ModelInverseTransposeMatrix",
-    );
-    const colorLocation = shader.getUniformLocation("u_color");
-    const reverseLightDirectionLocation = shader.getUniformLocation("u_reverseLightDirection");
 
     const mesh = new Mesh(this.gl, { a_position: positions, a_normal: normals });
 
@@ -67,18 +76,12 @@ export class Renderer {
       // tell webgl to cull faces
       this.gl.enable(this.gl.CULL_FACE);
 
-      shader.bind();
-
-      // Bind the attribute/buffer set we want.
-      // this.gl.bindVertexArray(vao);
-      mesh.vertexArray.bind();
-
       const near = 0.1;
       const far = 1000;
 
-      const rotation = glMatrix.toRadian(30 * time);
+      // const rotation = glMatrix.toRadian(30 * time);
       const model = mat4.create();
-      mat4.rotateY(model, model, rotation);
+      // mat4.rotateY(model, model, rotation);
 
       const modelInverseTranspose = mat4.create();
       mat4.invert(modelInverseTranspose, model);
@@ -90,36 +93,38 @@ export class Renderer {
       const camUp = vec3.fromValues(0, 1, 0);
       mat4.lookAt(view, camPos, camFront, camUp);
 
-      const mvpMatrix = mat4.create();
+      const perspective = mat4.create();
       mat4.perspective(
-        mvpMatrix,
+        perspective,
         glMatrix.toRadian(60),
         this.canvas.width / this.canvas.height,
         near,
         far,
       );
-      mat4.multiply(mvpMatrix, mvpMatrix, view);
-      mat4.multiply(mvpMatrix, mvpMatrix, model);
-
-      this.gl.uniformMatrix4fv(mvpMatrixLocation, false, mvpMatrix);
-      this.gl.uniformMatrix4fv(modelInverseTransposeMatrixLocation, false, modelInverseTranspose);
-
-      // Set the color to use
-      this.gl.uniform4fv(colorLocation, [0.2, 1, 0.2, 1]); // green
 
       const invertLightDir = vec3.fromValues(0.5, 0.7, 1);
       vec3.normalize(invertLightDir, invertLightDir);
 
-      // set the light direction.
-      this.gl.uniform3fv(reverseLightDirectionLocation, invertLightDir);
+      mesh.vertexArray.bind();
 
-      // draw
-      this.gl.drawArrays(mesh.drawMode, 0, mesh.count);
+      shader.bind();
+      shader.uniforms.u_modelMatrix.value = model;
+      shader.uniforms.u_viewMatrix.value = view;
+      shader.uniforms.u_projectionMatrix.value = perspective;
+      shader.uniforms.u_modelInverseTransposeMatrix.value = modelInverseTranspose;
+      shader.uniforms.u_color.value = [0.2, 1, 0.2, 1];
+      shader.uniforms.u_reverseLightDirection.value = invertLightDir;
+      shader.setUniforms();
 
+      this.drawArrays(mesh);
       // requestAnimationFrame(animate);
     };
 
     requestAnimationFrame(animate);
+  }
+
+  drawArrays(mesh: Mesh) {
+    this.gl.drawArrays(mesh.drawMode, 0, mesh.count);
   }
 
   private clear() {

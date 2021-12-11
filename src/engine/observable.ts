@@ -1,10 +1,9 @@
 import { ObjectType } from "../frontent/models";
 import { Component } from "./ecs";
-import { Vector2, Vector3, Vector4 } from "three";
 
 const handlers = Symbol("handlers");
 
-const typesToObserve = [Component, Vector2, Vector3, Vector4];
+const typesToObserve = [Component, Array];
 const observableType = (value: any): boolean => {
   for (const type of typesToObserve) {
     if (value instanceof type) {

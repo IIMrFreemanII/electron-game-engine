@@ -27,5 +27,7 @@
  */
 
 import "./index.tsx";
+// import { test } from "./benchmark/utils";
 
+// test();
 console.log('👋 This message is being logged by "renderer.js", included via webpack');

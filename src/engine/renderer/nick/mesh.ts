@@ -8,9 +8,9 @@ export type VertexData = {
   a_texcoord?: number[];
 };
 export const VERTEX_NAMES_TO_SHADER_DATA_TYPE: Record<string, ShaderDataType> = {
-  a_position: "float3",
-  a_normal: "float3",
-  a_texcoord: "float2",
+  a_position: "vec3",
+  a_normal: "vec3",
+  a_texcoord: "vec2",
 };
 
 export class Mesh {
@@ -25,7 +25,7 @@ export class Mesh {
     this.gl = gl;
     this.vertexData = vertexData;
     this.indices = indices;
-    this.count = vertexData["a_position"].length / 3;
+    this.count = indices ? indices.length : vertexData["a_position"].length / 3;
     this.drawMode = gl.TRIANGLES;
 
     const vertexBuffers = Object.entries(vertexData).map(([key, value]) => {

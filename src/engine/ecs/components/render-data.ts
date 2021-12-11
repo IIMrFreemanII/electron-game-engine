@@ -1,7 +1,8 @@
-import { BoxGeometry, BufferGeometry, Material, MeshStandardMaterial } from "three";
 import { Component } from "../component";
+import { Mesh } from "../../renderer/nick/mesh";
+import { Shader } from "../../renderer/nick";
 
 export class RenderData extends Component {
-  material: Material = new MeshStandardMaterial({ color: 0xffffff });
-  geometry: BufferGeometry = new BoxGeometry();
+  shader: Shader;
+  mesh: Mesh;
 }

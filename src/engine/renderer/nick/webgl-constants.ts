@@ -1,3 +1,5 @@
+import { vec2, vec3, vec4, mat3, mat4 } from "gl-matrix";
+
 export const STATIC_DRAW = 0x88e4;
 export const ARRAY_BUFFER = 0x8892;
 export const ELEMENT_ARRAY_BUFFER = 0x8893;
@@ -14,55 +16,69 @@ export const BOOL = 0x8b56;
 
 export const SHADER_DATA_TYPE_TO_WEBGL_BASE_TYPE: Record<ShaderDataType, number> = {
   float: FLOAT,
-  float2: FLOAT,
-  float3: FLOAT,
-  float4: FLOAT,
+  vec2: FLOAT,
+  vec3: FLOAT,
+  vec4: FLOAT,
   mat3: FLOAT,
   mat4: FLOAT,
   int: INT,
-  int2: INT,
-  int3: INT,
-  int4: INT,
+  ivec2: INT,
+  ivec3: INT,
+  ivec4: INT,
   bool: BOOL,
+};
+
+export const SHADER_DATA_TYPE_TO_DEFAULT_VALUE: Record<ShaderDataType, any> = {
+  float: 0,
+  vec2: vec2.create(),
+  vec3: vec3.create(),
+  vec4: vec4.fromValues(0, 0, 0, 1),
+  mat3: mat3.create(),
+  mat4: mat4.create(),
+  int: 0,
+  ivec2: vec2.create(),
+  ivec3: vec3.create(),
+  ivec4: vec4.fromValues(0, 0, 0, 1),
+  bool: false,
 };
 
 export type ShaderDataType =
   | "float"
-  | "float2"
-  | "float3"
-  | "float4"
+  | "vec2"
+  | "vec3"
+  | "vec4"
   | "mat3"
   | "mat4"
   | "int"
-  | "int2"
-  | "int3"
-  | "int4"
+  | "ivec2"
+  | "ivec3"
+  | "ivec4"
   | "bool";
 
 export const SHADER_DATA_TYPE_SIZE: Record<ShaderDataType, number> = {
   float: 4,
-  float2: 4 * 2,
-  float3: 4 * 3,
-  float4: 4 * 4,
+  vec2: 4 * 2,
+  vec3: 4 * 3,
+  vec4: 4 * 4,
   mat3: 4 * 3 * 3,
   mat4: 4 * 4 * 4,
   int: 4,
-  int2: 4 * 2,
-  int3: 4 * 3,
-  int4: 4 * 4,
+  ivec2: 4 * 2,
+  ivec3: 4 * 3,
+  ivec4: 4 * 4,
   bool: 1,
 };
 
 export const SHADER_DATA_TYPE_COUNT = {
   float: 1,
-  float2: 2,
-  float3: 3,
-  float4: 4,
+  vec2: 2,
+  vec3: 3,
+  vec4: 4,
   mat3: 3 * 3,
   mat4: 4 * 4,
   int: 1,
-  int2: 2,
-  int3: 3,
-  int4: 4,
+  ivec2: 2,
+  ivec3: 3,
+  ivec4: 4,
   bool: 1,
 };
