@@ -6,7 +6,7 @@ import vertShader from "assets/shaders/default.vert";
 import fragShader from "assets/shaders/default.frag";
 import { Mesh } from "./mesh";
 
-glMatrix.setMatrixArrayType(Array);
+glMatrix.setMatrixArrayType(Float32Array);
 
 const fromFlatTo2D = (matrix4: number[]) => {
   const arr: number[][] = [];

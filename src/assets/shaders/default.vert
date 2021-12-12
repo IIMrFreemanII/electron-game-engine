@@ -9,8 +9,6 @@ layout (location = 1) in vec3 a_normal;
 uniform mat4 u_modelMatrix;
 uniform mat4 u_viewMatrix;
 uniform mat4 u_projectionMatrix;
-//uniform mat4 u_mvpMatrix;
-uniform mat4 u_modelInverseTransposeMatrix;
 
 // varying to pass the normal to the fragment shader
 out vec3 v_normal;

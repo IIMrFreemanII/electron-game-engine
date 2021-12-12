@@ -8,17 +8,17 @@ import { normals, positions } from "../../renderer/nick/cube-data";
 import { Shader } from "../../renderer/nick";
 import vertShader from "../../../assets/shaders/default.vert";
 import fragShader from "../../../assets/shaders/default.frag";
-import { vec3 } from "gl-matrix";
+import { vec3, vec4 } from "gl-matrix";
 
 export class MainSystem extends System {
   onCreate() {
     const shader = new Shader(mainRenderer.gl, "default", vertShader, fragShader);
-    shader.uniforms.u_color.value = [0.2, 1, 0.2, 1];
+    shader.uniforms.u_color.value = vec4.fromValues(0.2, 1, 0.2, 1);
     const mesh = new Mesh(mainRenderer.gl, { a_position: positions, a_normal: normals });
 
-    const width = 10;
-    const height = 10;
-    const depth = 10;
+    const width = 20;
+    const height = 20;
+    const depth = 20;
 
     for (let x = 0; x < width; x++) {
       for (let y = 0; y < height; y++) {
@@ -42,7 +42,7 @@ export class MainSystem extends System {
   }
 
   tick() {
-    // this.world.fromAll(Transform, RenderData).forEach(([transform]) => {
+    // this.world.fromAll(Transform).forEach(([transform]) => {
     //   const speed = 20;
     //
     //   transform.rotation[0] += Time.delta * speed;

@@ -12,6 +12,7 @@ export type Uniforms = Record<
 export class Shader {
   public readonly name: string;
   public uniforms: Uniforms;
+  private setters: (() => void)[] = [];
 
   private readonly gl: WebGL2RenderingContext;
   private readonly program: WebGLProgram;
@@ -79,41 +80,30 @@ export class Shader {
   public getAttributes() {}
 
   private extractUniforms(vertSrc: string, fragSrc: string): Uniforms {
-    const vertUniforms = vertSrc.match(/uniform \w+ \w+/g);
-    const vertResult = vertUniforms?.reduce((acc, item) => {
+    const vertUniforms = vertSrc.match(/uniform \w+ \w+/g) || [];
+    const fragUniforms = fragSrc.match(/uniform \w+ \w+/g) || [];
+
+    const uniforms = Array.from(new Set([...vertUniforms, ...fragUniforms]));
+
+    return uniforms.reduce((acc, item) => {
       const [_, type, name] = item.split(" ");
       const location = this.getUniformLocation(name);
       const value = SHADER_DATA_TYPE_TO_DEFAULT_VALUE[type];
-      const setter = this.getUniformSetterByType(type as ShaderDataType)(location);
 
-      return {
+      const uniform = {
+        type,
+        value,
+      } as any;
+      const result = {
         ...acc,
-        [name]: {
-          type,
-          value,
-          setter,
-        },
+        [name]: uniform,
       };
+
+      const setter = this.getUniformSetterByType(type as ShaderDataType)(location, uniform);
+      this.setters.push(setter as any);
+
+      return result;
     }, {});
-
-    const fragUniforms = fragSrc.match(/uniform \w+ \w+/g);
-    const fragResult = fragUniforms?.reduce((acc, item) => {
-      const [_, type, name] = item.split(" ");
-      const location = this.getUniformLocation(name);
-      const value = SHADER_DATA_TYPE_TO_DEFAULT_VALUE[type];
-      const setter = this.getUniformSetterByType(type as ShaderDataType)(location);
-
-      return {
-        ...acc,
-        [name]: {
-          type,
-          value,
-          setter,
-        },
-      };
-    }, {});
-
-    return { ...vertResult, ...fragResult };
   }
 
   public getAttribLocation(name: string) {
@@ -123,23 +113,23 @@ export class Shader {
   private getUniformSetterByType(type: ShaderDataType) {
     switch (type) {
       case "float":
-        return (location: WebGLUniformLocation | null) => (value: any) =>
-          this.gl.uniform1f(location, value);
+        return (location: WebGLUniformLocation | null, obj: any) => () =>
+          this.gl.uniform1f(location, obj.value);
       case "vec2":
-        return (location: WebGLUniformLocation | null) => (value: any) =>
-          this.gl.uniform2fv(location, value);
+        return (location: WebGLUniformLocation | null, obj: any) => () =>
+          this.gl.uniform2fv(location, obj.value);
       case "vec3":
-        return (location: WebGLUniformLocation | null) => (value: any) =>
-          this.gl.uniform3fv(location, value);
+        return (location: WebGLUniformLocation | null, obj: any) => () =>
+          this.gl.uniform3fv(location, obj.value);
       case "vec4":
-        return (location: WebGLUniformLocation | null) => (value: any) =>
-          this.gl.uniform4fv(location, value);
+        return (location: WebGLUniformLocation | null, obj: any) => () =>
+          this.gl.uniform4fv(location, obj.value);
       case "mat3":
-        return (location: WebGLUniformLocation | null) => (value: any) =>
-          this.gl.uniformMatrix3fv(location, false, value);
+        return (location: WebGLUniformLocation | null, obj: any) => () =>
+          this.gl.uniformMatrix3fv(location, false, obj.value);
       case "mat4":
-        return (location: WebGLUniformLocation | null) => (value: any) =>
-          this.gl.uniformMatrix4fv(location, false, value);
+        return (location: WebGLUniformLocation | null, obj: any) => () =>
+          this.gl.uniformMatrix4fv(location, false, obj.value);
       case "int":
         return (location: WebGLUniformLocation | null) => (value: any) =>
           this.gl.uniform1i(location, value);
@@ -168,8 +158,8 @@ export class Shader {
   }
 
   public setUniforms() {
-    for (const uniformsKey in this.uniforms) {
-      this.uniforms[uniformsKey].setter(this.uniforms[uniformsKey].value);
+    for (let i = 0; i < this.setters.length; i++) {
+      this.setters[i]();
     }
   }
 
