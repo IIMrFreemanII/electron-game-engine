@@ -9,8 +9,11 @@ export type Uniforms = Record<
   }
 >;
 
+export type UniformBlock = { name: string; index: number; target: number };
+
 export class Shader {
   public readonly name: string;
+  public uniformBlocks: UniformBlock[];
   public uniforms: Uniforms;
   private setters: (() => void)[] = [];
 
@@ -28,6 +31,7 @@ export class Shader {
     // Link the two shaders into a program
     this.program = this.createProgram(vertexShader, fragmentShader);
     this.uniforms = this.extractUniforms(vertSrc, fragScr);
+    this.uniformBlocks = this.extractUniformBlocks(vertSrc, fragScr);
   }
 
   private compileShader(shaderType, shaderSource: string) {
@@ -78,6 +82,24 @@ export class Shader {
   public getUniforms() {}
 
   public getAttributes() {}
+
+  private extractUniformBlocks(vertSrc: string, fragSrc: string) {
+    const vertUniformBlocks = vertSrc.match(/layout \(std140\) uniform \w+/g) || [];
+    const fragUniformBlocks = fragSrc.match(/layout \(std140\) uniform \w+/g) || [];
+
+    const uniformBlocks = Array.from(new Set([...vertUniformBlocks, ...fragUniformBlocks]));
+    return uniformBlocks.map((item, i) => {
+      const name = item.split(" ").pop() as string;
+      const index = this.gl.getUniformBlockIndex(this.program, name);
+      this.gl.uniformBlockBinding(this.program, index, i);
+
+      return {
+        name,
+        index,
+        target: i,
+      };
+    });
+  }
 
   private extractUniforms(vertSrc: string, fragSrc: string): Uniforms {
     const vertUniforms = vertSrc.match(/uniform \w+ \w+/g) || [];

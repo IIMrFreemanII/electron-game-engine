@@ -5,6 +5,7 @@ import { Shader } from "./shader";
 import vertShader from "assets/shaders/default.vert";
 import fragShader from "assets/shaders/default.frag";
 import { Mesh } from "./mesh";
+import { UniformBuffer, UniformBufferElement, UniformBufferLayout } from "./buffer";
 
 glMatrix.setMatrixArrayType(Float32Array);
 
@@ -18,14 +19,34 @@ const fromFlatTo2D = (matrix4: number[]) => {
   return arr;
 };
 
+export type UniformBufferObjects = Record<string, UniformBuffer>;
+
 export class Renderer {
   canvas = document.createElement("canvas");
   gl: WebGL2RenderingContext;
+  ubos: UniformBufferObjects;
 
   constructor() {
     const context = this.canvas.getContext("webgl2");
     if (!context) throw new Error("webgl2 not available");
     this.gl = context;
+
+    this.ubos = {
+      Matrices: new UniformBuffer(
+        this.gl,
+        new UniformBufferLayout([
+          new UniformBufferElement("perspective", "mat4"),
+          new UniformBufferElement("view", "mat4"),
+          new UniformBufferElement("reverseLightDirection", "vec3"),
+        ]),
+        0,
+      ),
+      Lights: new UniformBuffer(
+        this.gl,
+        new UniformBufferLayout([new UniformBufferElement("reverseLightDirection", "vec3")]),
+        1,
+      ),
+    };
   }
 
   setSize(width: number, height: number) {
@@ -46,7 +67,7 @@ export class Renderer {
     this.drawArrays(mesh);
   }
 
-  begin() {
+  begin(perspective: mat4, view: mat4) {
     this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
     // Clear the canvas
     this.clear();

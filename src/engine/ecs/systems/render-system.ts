@@ -11,7 +11,7 @@ export class RenderSystem extends System {
   invertLightDir = vec3.fromValues(0.5, 0.7, 1);
 
   // camera
-  perspectiveMatrix = mat4.create();
+  perspective = mat4.create();
   near = 0.1;
   far = 1000;
   fov = 60;
@@ -24,13 +24,17 @@ export class RenderSystem extends System {
   onCreate() {
     vec3.normalize(this.invertLightDir, this.invertLightDir);
     mat4.perspective(
-      this.perspectiveMatrix,
+      this.perspective,
       glMatrix.toRadian(this.fov),
       mainRenderer.canvas.width / mainRenderer.canvas.height,
       this.near,
       this.far,
     );
     mat4.lookAt(this.view, this.camPos, this.camFront, this.camUp);
+
+    mainRenderer.ubos.Matrices.set("perspective", this.perspective);
+    mainRenderer.ubos.Matrices.set("view", this.view);
+    mainRenderer.ubos.Lights.set("reverseLightDirection", this.invertLightDir);
   }
 
   editorTick() {
@@ -42,7 +46,7 @@ export class RenderSystem extends System {
   }
 
   render() {
-    mainRenderer.begin();
+    mainRenderer.begin(this.perspective, this.view);
 
     const arr = this.world.fromAll(Transform, RenderData);
     for (let i = 0; i < arr.length; i++) {
@@ -50,10 +54,7 @@ export class RenderSystem extends System {
       const { mesh, shader } = renderData;
       const { uniforms } = shader;
 
-      uniforms.u_modelMatrix.value = transform.modelMatrix;
-      uniforms.u_viewMatrix.value = this.view;
-      uniforms.u_projectionMatrix.value = this.perspectiveMatrix;
-      uniforms.u_reverseLightDirection.value = this.invertLightDir;
+      uniforms.model.value = transform.modelMatrix;
 
       mainRenderer.submit(mesh, shader);
     }

@@ -10,8 +10,12 @@ out vec4 outColor;
 // Passed in and varied from the vertex shader.
 in vec3 v_normal;
 
-uniform vec3 u_reverseLightDirection;
-uniform vec4 u_color;
+layout (std140) uniform Lights
+{
+    vec3 reverseLightDirection;
+};
+
+uniform vec4 color;
 
 void main() {
     // because v_normal is a varying it's interpolated
@@ -21,9 +25,9 @@ void main() {
 
     // compute the light by taking the dot product
     // of the normal to the light's reverse direction
-    float light = dot(normal, u_reverseLightDirection);
+    float light = dot(normal, reverseLightDirection);
 
-    outColor = u_color;
+    outColor = color;
 
     // Just set the output to a constant reddish-purple
     // Lets multiply just the color portion (not the alpha)

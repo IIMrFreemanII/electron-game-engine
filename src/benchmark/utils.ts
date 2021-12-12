@@ -1,6 +1,11 @@
 import Benchmark from "benchmark";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+
+declare global {
+  interface Window {
+    Benchmark: typeof Benchmark;
+  }
+}
+
 window.Benchmark = Benchmark;
 
 class Vec3 {

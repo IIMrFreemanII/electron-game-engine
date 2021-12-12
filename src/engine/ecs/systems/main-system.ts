@@ -13,7 +13,7 @@ import { vec3, vec4 } from "gl-matrix";
 export class MainSystem extends System {
   onCreate() {
     const shader = new Shader(mainRenderer.gl, "default", vertShader, fragShader);
-    shader.uniforms.u_color.value = vec4.fromValues(0.2, 1, 0.2, 1);
+    shader.uniforms.color.value = vec4.fromValues(0.2, 1, 0.2, 1);
     const mesh = new Mesh(mainRenderer.gl, { a_position: positions, a_normal: normals });
 
     const width = 20;

@@ -85,3 +85,107 @@ export class IndexBuffer {
     this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, null);
   }
 }
+
+export class UniformBufferElement {
+  name: string;
+  type: ShaderDataType;
+  size: number;
+  offset: number;
+
+  constructor(name: string, type: ShaderDataType) {
+    this.name = name;
+    this.type = type;
+    this.size = SHADER_DATA_TYPE_SIZE[type];
+    this.offset = 0;
+  }
+}
+
+export class UniformBufferLayout {
+  elements: UniformBufferElement[];
+  size = 0;
+
+  constructor(elements: UniformBufferElement[]) {
+    this.elements = elements;
+
+    this.calcOffsetAndStride();
+  }
+
+  getElement(name: string) {
+    return this.elements.find((elem) => elem.name === name);
+  }
+
+  private calcOffsetAndStride() {
+    let offset = 0;
+
+    this.elements.forEach((elem) => {
+      elem.offset = offset;
+      const padding = this.getPaddingForType(elem.type);
+      offset += elem.size + padding;
+      this.size += elem.size + padding;
+    });
+  }
+
+  private getPaddingForType(type: ShaderDataType) {
+    switch (type) {
+      case "float":
+        return 0;
+      case "vec2":
+        return 0;
+      case "vec3":
+        return 4;
+      case "vec4":
+        return 0;
+      case "mat3":
+        return 0;
+      case "mat4":
+        return 0;
+      case "int":
+        return 0;
+      case "ivec2":
+        return 0;
+      case "ivec3":
+        return 4;
+      case "ivec4":
+        return 0;
+      case "bool":
+        return 0;
+    }
+  }
+}
+
+export class UniformBuffer {
+  gl: WebGL2RenderingContext;
+  buffer: WebGLBuffer;
+  layout: UniformBufferLayout;
+  target = 0;
+
+  constructor(gl: WebGL2RenderingContext, layout: UniformBufferLayout, target: number) {
+    this.gl = gl;
+    this.layout = layout;
+    this.target = target;
+
+    this.buffer = this.gl.createBuffer() as WebGLBuffer;
+    this.bind();
+    this.gl.bufferData(this.gl.UNIFORM_BUFFER, this.layout.size, gl.STATIC_DRAW);
+    this.unbind();
+
+    this.gl.bindBufferBase(this.gl.UNIFORM_BUFFER, this.target, this.buffer);
+  }
+
+  set(name: string, value: any) {
+    this.bind();
+
+    const offset = this.layout.getElement(name)?.offset || 0;
+    this.gl.bufferSubData(this.gl.UNIFORM_BUFFER, offset, value);
+
+    this.unbind();
+  }
+
+  bind() {
+    this.gl.bindBuffer(this.gl.UNIFORM_BUFFER, this.buffer);
+  }
+
+  unbind() {
+    this.gl.bindBuffer(this.gl.UNIFORM_BUFFER, null);
+  }
+}
