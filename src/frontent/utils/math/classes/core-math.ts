@@ -1,4 +1,4 @@
-import { isNumber, toRadians, toDegrees } from "frontent/utils";
+import { toRadians, toDegrees } from "frontent/utils";
 
 export class CoreMath {
   private _value: number;
@@ -10,8 +10,12 @@ export class CoreMath {
     this._value = value;
   }
 
-  constructor(value: number | CoreMath) {
-    this._value = isNumber(value) ? value : value.value;
+  constructor(value: number) {
+    this._value = value;
+  }
+
+  public clone() {
+    return new CoreMath(this.value);
   }
 
   // Trigonometry ↓

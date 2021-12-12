@@ -14,7 +14,7 @@ export * from "./is-positive";
 export * from "./is-within-range";
 export * from "./lerp.utils";
 export * from "./lerp-rounded.utils";
-export * from "./negative-condition";
+export * from "./negation";
 export * from "./normalize.utils";
 export * from "./normalize-clamped.utils";
 export * from "./round.utils";

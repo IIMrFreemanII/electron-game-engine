@@ -1,7 +1,5 @@
 import { CoreMath } from "./core-math";
 
-type Num = number | CoreMath;
-
 export class CoreVector2 {
   private _x: CoreMath;
   private _width: CoreMath;
@@ -13,7 +11,7 @@ export class CoreVector2 {
     return this._x.value;
   }
 
-  public set x(value: Num) {
+  public set x(value: number) {
     this.setX(value);
   }
 
@@ -21,7 +19,7 @@ export class CoreVector2 {
     return this._width.value;
   }
 
-  public set width(value: Num) {
+  public set width(value: number) {
     this.setX(value);
   }
 
@@ -29,7 +27,7 @@ export class CoreVector2 {
     return this._y.value;
   }
 
-  public set y(value: Num) {
+  public set y(value: number) {
     this.setY(value);
   }
 
@@ -37,15 +35,19 @@ export class CoreVector2 {
     return this._height.value;
   }
 
-  public set height(value: Num) {
+  public set height(value: number) {
     this.setY(value);
   }
 
-  constructor(x: Num, y: Num) {
+  constructor(x: number, y: number) {
     this.set(x, y);
   }
 
-  public setX(x: Num) {
+  public clone() {
+    return new CoreVector2(this.x, this.y);
+  }
+
+  public setX(x: number) {
     const value = new CoreMath(x);
 
     this._x = value;
@@ -54,7 +56,7 @@ export class CoreVector2 {
     return this;
   }
 
-  public setY(y: Num) {
+  public setY(y: number) {
     const value = new CoreMath(y);
 
     this._y = value;
@@ -63,7 +65,7 @@ export class CoreVector2 {
     return this;
   }
 
-  public set(x: Num, y: Num) {
+  public set(x: number, y: number) {
     this.setX(x).setY(y);
     return this;
   }
