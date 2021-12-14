@@ -50,7 +50,9 @@ export class RenderSystem extends System {
 
     const arr = this.world.fromAll(Transform, RenderData);
     for (let i = 0; i < arr.length; i++) {
-      const [transform, renderData] = arr[i];
+      const components = arr[i];
+      const transform = components[0];
+      const renderData = components[1];
       const { mesh, shader } = renderData;
       const { uniforms } = shader;
 

@@ -19,12 +19,7 @@ export class Transform extends Component {
   updateModelMatrix() {
     // model
     quat.fromEuler(this.quaternion, this.rotation[0], this.rotation[1], this.rotation[2]);
-    this.modelMatrix = mat4.fromRotationTranslationScale(
-      this.modelMatrix,
-      this.quaternion,
-      this.position,
-      this.scale,
-    );
+    mat4.fromRotationTranslationScale(this.modelMatrix, this.quaternion, this.position, this.scale);
     // model inverse transpose
     // this.modelInverseTransposeMatrix = mat4.create();
     // mat4.invert(this.modelInverseTransposeMatrix, this.modelMatrix);

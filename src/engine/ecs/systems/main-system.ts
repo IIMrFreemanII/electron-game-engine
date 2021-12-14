@@ -42,7 +42,10 @@ export class MainSystem extends System {
   }
 
   tick() {
-    // this.world.fromAll(Transform).forEach(([transform]) => {
+    // const arr = this.world.fromAll(Transform);
+    // for (let i = 0; i < arr.length; i++) {
+    //   const components = arr[i];
+    //   const transform = components[0];
     //   const speed = 20;
     //
     //   transform.rotation[0] += Time.delta * speed;
@@ -50,6 +53,6 @@ export class MainSystem extends System {
     //   transform.rotation[2] += Time.delta * speed;
     //
     //   transform.updateModelMatrix();
-    // });
+    // }
   }
 }

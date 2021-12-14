@@ -32,7 +32,7 @@ export class World {
   }
 
   fromAll<T extends Component[]>(...types: Constructors<T>): [[...T]] {
-    const typesSignature = JSON.stringify(types.map((type) => type.name));
+    const typesSignature = types.map((type) => type.name).join(" ");
     const cached = this.fromAllCache.get(typesSignature);
 
     if (cached) {
