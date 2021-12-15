@@ -46,7 +46,7 @@ export class RenderSystem extends System {
   }
 
   render() {
-    mainRenderer.begin(this.perspective, this.view);
+    // mainRenderer.begin(this.perspective, this.view);
 
     const arr = this.world.fromAll(Transform, RenderData);
     for (let i = 0; i < arr.length; i++) {
@@ -55,12 +55,12 @@ export class RenderSystem extends System {
       const renderData = components[1];
       const { mesh, shader } = renderData;
       const { uniforms } = shader;
-
-      uniforms.model.value = transform.modelMatrix;
-
-      mainRenderer.submit(mesh, shader);
+      //
+      // uniforms.model.value = transform.modelMatrix;
+      //
+      // mainRenderer.submit(mesh, shader);
     }
 
-    mainRenderer.end();
+    // mainRenderer.end();
   }
 }

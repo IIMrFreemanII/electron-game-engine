@@ -3,6 +3,8 @@ import { System } from "./system";
 import { Component } from "./component";
 import { Constructor, Constructors } from "../types";
 
+type ComponentsCache = Record<string, Component[][]>;
+
 export class World {
   public entities: Entity[] = [];
   public systems: System[] = [];
@@ -25,15 +27,15 @@ export class World {
     this.systems.push(system);
   }
 
-  fromAllCache: Map<string, Component[][]> = new Map<string, Component[][]>();
+  fromAllCache: ComponentsCache = {};
 
   clearCache() {
-    this.fromAllCache.clear();
+    this.fromAllCache = {};
   }
 
   fromAll<T extends Component[]>(...types: Constructors<T>): [[...T]] {
     const typesSignature = types.map((type) => type.name).join(" ");
-    const cached = this.fromAllCache.get(typesSignature);
+    const cached = this.fromAllCache[typesSignature];
 
     if (cached) {
       return cached as any;
@@ -46,7 +48,7 @@ export class World {
       result.push(components);
     });
 
-    this.fromAllCache.set(typesSignature, result);
+    this.fromAllCache[typesSignature] = result;
     return result as any;
   }
 
