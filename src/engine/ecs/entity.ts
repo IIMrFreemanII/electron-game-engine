@@ -37,11 +37,11 @@ export class Entity {
   }
 
   getComponents<T extends Component[]>(...types: Constructors<T>): [...T] | undefined {
-    const components: Component[] = [];
+    const components: Component[] = new Array(types.length);
     for (let i = 0; i < types.length; i++) {
       const component = this.getComponent(types[i]);
       if (!component) return undefined;
-      components.push(component);
+      components[i] = component;
     }
     return components as any;
   }

@@ -19,16 +19,17 @@ function vec3() {
 export const test = () => {
   const suite = new Benchmark.Suite();
 
-  // add tests
+  const obj = { a: 1, b: 2, c: 3 };
+  const map = new Map(Object.entries(obj));
+
   suite
-    .add("Vec3", function () {
-      const vector = new Vec3();
+    .add("object", function () {
+      const item = obj.a + obj.b;
     })
-    .add("Array3", function () {
-      const vector = Array(3);
-    })
-    .add("funcVec3", function () {
-      const vector = vec3();
+    .add("map", function () {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      const item = map.get("a") + map.get("b");
     })
     .on("cycle", function (event) {
       console.log(String(event.target));
