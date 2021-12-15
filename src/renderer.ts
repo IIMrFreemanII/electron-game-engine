@@ -27,6 +27,9 @@
  */
 
 import "./index.tsx";
+import { glMatrix } from "gl-matrix";
+
+glMatrix.setMatrixArrayType(Float32Array);
 // import { test } from "./benchmark/utils";
 
 // test();

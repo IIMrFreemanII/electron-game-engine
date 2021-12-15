@@ -46,21 +46,17 @@ export class RenderSystem extends System {
   }
 
   render() {
-    // mainRenderer.begin(this.perspective, this.view);
+    mainRenderer.begin(this.perspective, this.view);
 
     const arr = this.world.fromAll(Transform, RenderData);
     for (let i = 0; i < arr.length; i++) {
       const components = arr[i];
       const transform = components[0];
       const renderData = components[1];
-      const { mesh, shader } = renderData;
-      const { uniforms } = shader;
-      //
-      // uniforms.model.value = transform.modelMatrix;
-      //
-      // mainRenderer.submit(mesh, shader);
+      renderData.shader.uniforms.model.value = transform.modelMatrix;
+      mainRenderer.submit(renderData.mesh, renderData.shader);
     }
 
-    // mainRenderer.end();
+    mainRenderer.end();
   }
 }

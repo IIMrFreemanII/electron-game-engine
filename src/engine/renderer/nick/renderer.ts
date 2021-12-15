@@ -7,8 +7,6 @@ import fragShader from "assets/shaders/default.frag";
 import { Mesh } from "./mesh";
 import { UniformBuffer, UniformBufferElement, UniformBufferLayout } from "./buffer";
 
-glMatrix.setMatrixArrayType(Float32Array);
-
 const fromFlatTo2D = (matrix4: number[]) => {
   const arr: number[][] = [];
   arr[0] = matrix4.slice(0, 4);

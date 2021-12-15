@@ -15,10 +15,9 @@ export class MainSystem extends System {
     const shader = new Shader(mainRenderer.gl, "default", vertShader, fragShader);
     shader.uniforms.color.value = vec4.fromValues(0.2, 1, 0.2, 1);
     const mesh = new Mesh(mainRenderer.gl, { a_position: positions, a_normal: normals });
-
-    const width = 100;
-    const height = 100;
-    const depth = 100;
+    const width = 20;
+    const height = 20;
+    const depth = 20;
 
     for (let x = 0; x < width; x++) {
       for (let y = 0; y < height; y++) {
