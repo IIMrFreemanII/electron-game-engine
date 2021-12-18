@@ -1,4 +1,5 @@
 import { SHADER_DATA_TYPE_TO_DEFAULT_VALUE, ShaderDataType } from "./webgl-constants";
+import { Renderer } from "./renderer";
 
 export type Uniforms = Record<
   string,
@@ -20,8 +21,8 @@ export class Shader {
   private readonly gl: WebGL2RenderingContext;
   private readonly program: WebGLProgram;
 
-  constructor(gl: WebGL2RenderingContext, name: string, vertSrc: string, fragScr: string) {
-    this.gl = gl;
+  constructor(name: string, vertSrc: string, fragScr: string) {
+    this.gl = Renderer.gl;
     this.name = name;
 
     // create GLSL shaders, upload the GLSL source, compile the shaders

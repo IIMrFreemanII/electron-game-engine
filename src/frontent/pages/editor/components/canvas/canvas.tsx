@@ -1,11 +1,11 @@
 import { useRef } from "react";
 
-import { mainRenderer } from "engine";
 import { useDidMount, useResize, useDebounce } from "frontent/hooks";
 import { ProfilerUi, PlayButton } from "frontent/components";
 import { CANVAS_WRAPPER_ID } from "./canvas.constants";
 
 import styles from "./canvas.module.scss";
+import { Renderer } from "../../../../../engine/renderer/nick";
 
 export const Canvas = () => {
   const { debounce } = useDebounce(50);
@@ -13,15 +13,15 @@ export const Canvas = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useResize(containerRef, ({ width, height }) => {
-    debounce(() => mainRenderer.setSize(width, height));
+    debounce(() => Renderer.setSize(width, height));
   });
 
   useDidMount(() => {
     const { current } = containerRef;
     if (!current) return;
     const { width, height } = current.getBoundingClientRect();
-    mainRenderer.setSize(width, height);
-    current.appendChild(mainRenderer.canvas);
+    Renderer.setSize(width, height);
+    current.appendChild(Renderer.canvas);
   });
 
   return (

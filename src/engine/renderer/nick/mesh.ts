@@ -1,6 +1,7 @@
 import { BufferElement, BufferLayout, IndexBuffer, VertexBuffer } from "./buffer";
 import { ShaderDataType } from "./webgl-constants";
 import { VertexArray } from "./vertex-array";
+import { Renderer } from "./renderer";
 
 export type VertexData = {
   a_position: number[];
@@ -21,22 +22,21 @@ export class Mesh {
   count: number;
   drawMode: number;
 
-  constructor(gl: WebGL2RenderingContext, vertexData: VertexData, indices: number[] | null = null) {
-    this.gl = gl;
+  constructor(vertexData: VertexData, indices: number[] | null = null) {
+    this.gl = Renderer.gl;
     this.vertexData = vertexData;
     this.indices = indices;
     this.count = indices ? indices.length : vertexData["a_position"].length / 3;
-    this.drawMode = gl.TRIANGLES;
+    this.drawMode = this.gl.TRIANGLES;
 
     const vertexBuffers = Object.entries(vertexData).map(([key, value]) => {
       return new VertexBuffer(
-        gl,
         value,
         new BufferLayout([new BufferElement(key, VERTEX_NAMES_TO_SHADER_DATA_TYPE[key])]),
       );
     });
-    const indexBuffer = indices ? new IndexBuffer(gl, indices) : null;
+    const indexBuffer = indices ? new IndexBuffer(indices) : null;
 
-    this.vertexArray = new VertexArray(gl, vertexBuffers, indexBuffer);
+    this.vertexArray = new VertexArray(vertexBuffers, indexBuffer);
   }
 }

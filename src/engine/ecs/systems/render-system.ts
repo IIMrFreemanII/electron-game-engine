@@ -1,10 +1,13 @@
 import { System } from "../system";
-import { Renderer } from "../../renderer/nick";
 import { glMatrix, mat4, vec3 } from "gl-matrix";
 import { Transform } from "../components";
 import { RenderData } from "../components/render-data";
-
-export const mainRenderer = new Renderer();
+import { Renderer } from "../../renderer/nick";
+import {
+  UniformBuffer,
+  UniformBufferElement,
+  UniformBufferLayout,
+} from "../../renderer/nick/buffer";
 
 export class RenderSystem extends System {
   // light
@@ -16,7 +19,7 @@ export class RenderSystem extends System {
   far = 1000;
   fov = 60;
 
-  camPos = vec3.fromValues(0, 55, 55);
+  camPos = vec3.fromValues(0, 3, 3);
   camFront = vec3.fromValues(0, 0, 0);
   camUp = vec3.fromValues(0, 1, 0);
   view = mat4.create();
@@ -26,15 +29,29 @@ export class RenderSystem extends System {
     mat4.perspective(
       this.perspective,
       glMatrix.toRadian(this.fov),
-      mainRenderer.canvas.width / mainRenderer.canvas.height,
+      Renderer.canvas.width / Renderer.canvas.height,
       this.near,
       this.far,
     );
     mat4.lookAt(this.view, this.camPos, this.camFront, this.camUp);
 
-    mainRenderer.ubos.Matrices.set("perspective", this.perspective);
-    mainRenderer.ubos.Matrices.set("view", this.view);
-    mainRenderer.ubos.Lights.set("reverseLightDirection", this.invertLightDir);
+    Renderer.ubos = {
+      Matrices: new UniformBuffer(
+        new UniformBufferLayout([
+          new UniformBufferElement("perspective", "mat4"),
+          new UniformBufferElement("view", "mat4"),
+          new UniformBufferElement("reverseLightDirection", "vec3"),
+        ]),
+        0,
+      ),
+      Lights: new UniformBuffer(
+        new UniformBufferLayout([new UniformBufferElement("reverseLightDirection", "vec3")]),
+        1,
+      ),
+    };
+    Renderer.ubos.Matrices.set("perspective", this.perspective);
+    Renderer.ubos.Matrices.set("view", this.view);
+    Renderer.ubos.Lights.set("reverseLightDirection", this.invertLightDir);
   }
 
   editorTick() {
@@ -46,7 +63,7 @@ export class RenderSystem extends System {
   }
 
   render() {
-    mainRenderer.begin(this.perspective, this.view);
+    Renderer.begin(this.perspective, this.view);
 
     const arr = this.world.fromAll(Transform, RenderData);
     for (let i = 0; i < arr.length; i++) {
@@ -54,9 +71,9 @@ export class RenderSystem extends System {
       const transform = components[0];
       const renderData = components[1];
       renderData.shader.uniforms.model.value = transform.modelMatrix;
-      mainRenderer.submit(renderData.mesh, renderData.shader);
+      Renderer.submit(renderData.mesh, renderData.shader);
     }
 
-    mainRenderer.end();
+    Renderer.end();
   }
 }

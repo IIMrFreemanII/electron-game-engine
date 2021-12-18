@@ -5,7 +5,7 @@ import { Shader } from "./shader";
 import vertShader from "assets/shaders/default.vert";
 import fragShader from "assets/shaders/default.frag";
 import { Mesh } from "./mesh";
-import { UniformBuffer, UniformBufferElement, UniformBufferLayout } from "./buffer";
+import { UniformBuffer } from "./buffer";
 
 const fromFlatTo2D = (matrix4: number[]) => {
   const arr: number[][] = [];
@@ -20,44 +20,21 @@ const fromFlatTo2D = (matrix4: number[]) => {
 export type UniformBufferObjects = Record<string, UniformBuffer>;
 
 export class Renderer {
-  canvas = document.createElement("canvas");
-  gl: WebGL2RenderingContext;
-  ubos: UniformBufferObjects;
+  static canvas = document.createElement("canvas");
+  static gl = this.canvas.getContext("webgl2") as WebGL2RenderingContext;
+  static ubos: UniformBufferObjects;
 
-  constructor() {
-    const context = this.canvas.getContext("webgl2");
-    if (!context) throw new Error("webgl2 not available");
-    this.gl = context;
-
-    this.ubos = {
-      Matrices: new UniformBuffer(
-        this.gl,
-        new UniformBufferLayout([
-          new UniformBufferElement("perspective", "mat4"),
-          new UniformBufferElement("view", "mat4"),
-          new UniformBufferElement("reverseLightDirection", "vec3"),
-        ]),
-        0,
-      ),
-      Lights: new UniformBuffer(
-        this.gl,
-        new UniformBufferLayout([new UniformBufferElement("reverseLightDirection", "vec3")]),
-        1,
-      ),
-    };
-  }
-
-  setSize(width: number, height: number) {
+  static setSize(width: number, height: number) {
     this.canvas.width = width;
     this.canvas.height = height;
     this.gl.viewport(0, 0, width, height);
   }
 
-  getSize(): vec2 {
+  static getSize(): vec2 {
     return vec2.fromValues(this.canvas.width, this.canvas.height);
   }
 
-  submit(mesh: Mesh, shader: Shader) {
+  static submit(mesh: Mesh, shader: Shader) {
     mesh.vertexArray.bind();
     shader.bind();
     shader.setUniforms();
@@ -65,7 +42,7 @@ export class Renderer {
     this.drawArrays(mesh);
   }
 
-  begin(perspective: mat4, view: mat4) {
+  static begin(perspective: mat4, view: mat4) {
     this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
     // Clear the canvas
     this.clear();
@@ -75,16 +52,16 @@ export class Renderer {
     this.gl.enable(this.gl.CULL_FACE);
   }
 
-  end() {}
+  static end() {}
 
-  start() {
+  static start() {
     // create GLSL shaders, upload the GLSL source, compile the shaders
-    const shader = new Shader(this.gl, "default", vertShader, fragShader);
+    const shader = new Shader("default", vertShader, fragShader);
     // look up where the vertex data needs to go.
     // const positionAttributeLocation = shader.getAttribLocation("a_position");
     // const normalAttributeLocation = shader.getAttribLocation("a_normal");
 
-    const mesh = new Mesh(this.gl, { a_position: positions, a_normal: normals });
+    const mesh = new Mesh({ a_position: positions, a_normal: normals });
 
     const animate = (time: number) => {
       time *= 0.001;
@@ -142,11 +119,11 @@ export class Renderer {
     requestAnimationFrame(animate);
   }
 
-  drawArrays(mesh: Mesh) {
+  static drawArrays(mesh: Mesh) {
     this.gl.drawArrays(mesh.drawMode, 0, mesh.count);
   }
 
-  private clear() {
+  private static clear() {
     this.gl.clearColor(0, 0, 0, 0);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
   }

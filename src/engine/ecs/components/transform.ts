@@ -7,13 +7,37 @@ export class Transform extends Component {
   scale = vec3.fromValues(1, 1, 1);
   quaternion = quat.create();
 
-  modelMatrix = mat4.create();
+  static maxCount = 5;
+  static count = 0;
+  static index = 0;
+  static floatsPerMatrix = 16;
+  static bytesPerFloat = 4;
+  static bytesPerMatrix = Transform.floatsPerMatrix * Transform.bytesPerFloat;
+  static models = new Float32Array(Transform.maxCount * Transform.floatsPerMatrix);
+
+  modelMatrix: mat4;
+
   // modelInverseTransposeMatrix = mat4.create();
 
   constructor() {
     super();
 
+    Transform.count++;
+    if (Transform.count === Transform.maxCount) {
+      throw new Error("Max transform count exceeded!");
+    }
+
+    const byteOffsetToMatrix =
+      Transform.index * Transform.floatsPerMatrix * Transform.bytesPerFloat;
+    this.modelMatrix = new Float32Array(
+      Transform.models.buffer,
+      byteOffsetToMatrix,
+      Transform.floatsPerMatrix,
+    );
+    Transform.index++;
+
     this.updateModelMatrix();
+    console.log(Transform.models);
   }
 
   updateModelMatrix() {

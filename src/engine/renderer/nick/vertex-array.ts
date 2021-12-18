@@ -1,5 +1,6 @@
 import { IndexBuffer, VertexBuffer } from "./buffer";
 import { SHADER_DATA_TYPE_COUNT, SHADER_DATA_TYPE_TO_WEBGL_BASE_TYPE } from "./webgl-constants";
+import { Renderer } from "./renderer";
 
 export class VertexArray {
   gl: WebGL2RenderingContext;
@@ -9,24 +10,20 @@ export class VertexArray {
 
   private _vertexBufferIndex = 0;
 
-  constructor(
-    gl: WebGL2RenderingContext,
-    vertexBuffers: VertexBuffer[],
-    indexBuffer: IndexBuffer | null = null,
-  ) {
-    this.gl = gl;
+  constructor(vertexBuffers: VertexBuffer[], indexBuffer: IndexBuffer | null = null) {
+    this.gl = Renderer.gl;
     this.vertexBuffers = vertexBuffers;
     this.indexBuffer = indexBuffer;
 
-    this.vao = gl.createVertexArray() as WebGLVertexArrayObject;
-    gl.bindVertexArray(this.vao);
+    this.vao = this.gl.createVertexArray() as WebGLVertexArrayObject;
+    this.gl.bindVertexArray(this.vao);
 
     vertexBuffers.forEach((vertexBuffer) => {
       vertexBuffer.bind();
 
       vertexBuffer.layout.elements.forEach((elem) => {
-        gl.enableVertexAttribArray(this._vertexBufferIndex);
-        gl.vertexAttribPointer(
+        this.gl.enableVertexAttribArray(this._vertexBufferIndex);
+        this.gl.vertexAttribPointer(
           this._vertexBufferIndex,
           SHADER_DATA_TYPE_COUNT[elem.type],
           SHADER_DATA_TYPE_TO_WEBGL_BASE_TYPE[elem.type],

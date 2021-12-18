@@ -1,4 +1,5 @@
 import { SHADER_DATA_TYPE_SIZE, ShaderDataType } from "./webgl-constants";
+import { Renderer } from "./renderer";
 
 export class BufferElement {
   name: string;
@@ -42,18 +43,17 @@ export class VertexBuffer {
   buffer: WebGLBuffer;
   layout: BufferLayout;
 
-  constructor(
-    gl: WebGL2RenderingContext,
-    array: number[],
-    layout: BufferLayout,
-    drawType: number | null = null,
-  ) {
-    this.gl = gl;
-    this.buffer = gl.createBuffer() as WebGLBuffer;
+  constructor(array: number[], layout: BufferLayout, drawType: number | null = null) {
+    this.gl = Renderer.gl;
+    this.buffer = this.gl.createBuffer() as WebGLBuffer;
     this.layout = layout;
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(array), drawType ? drawType : gl.STATIC_DRAW);
+    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffer);
+    this.gl.bufferData(
+      this.gl.ARRAY_BUFFER,
+      new Float32Array(array),
+      drawType ? drawType : this.gl.STATIC_DRAW,
+    );
   }
 
   bind() {
@@ -69,12 +69,12 @@ export class IndexBuffer {
   gl: WebGL2RenderingContext;
   buffer: WebGLBuffer;
 
-  constructor(gl: WebGL2RenderingContext, array: number[]) {
-    this.gl = gl;
-    this.buffer = gl.createBuffer() as WebGLBuffer;
+  constructor(array: number[]) {
+    this.gl = Renderer.gl;
+    this.buffer = this.gl.createBuffer() as WebGLBuffer;
 
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.buffer);
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(array), gl.STATIC_DRAW);
+    this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.buffer);
+    this.gl.bufferData(this.gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(array), this.gl.STATIC_DRAW);
   }
 
   bind() {
@@ -159,14 +159,14 @@ export class UniformBuffer {
   layout: UniformBufferLayout;
   target = 0;
 
-  constructor(gl: WebGL2RenderingContext, layout: UniformBufferLayout, target: number) {
-    this.gl = gl;
+  constructor(layout: UniformBufferLayout, target: number) {
+    this.gl = Renderer.gl;
     this.layout = layout;
     this.target = target;
 
     this.buffer = this.gl.createBuffer() as WebGLBuffer;
     this.bind();
-    this.gl.bufferData(this.gl.UNIFORM_BUFFER, this.layout.size, gl.STATIC_DRAW);
+    this.gl.bufferData(this.gl.UNIFORM_BUFFER, this.layout.size, this.gl.STATIC_DRAW);
     this.unbind();
 
     this.gl.bindBufferBase(this.gl.UNIFORM_BUFFER, this.target, this.buffer);
